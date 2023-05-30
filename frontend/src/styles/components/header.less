@@ -1,0 +1,20 @@
+// main: ../../styles.less
+
+header {
+  position: relative;
+  // z-index: 1;
+  .row {
+    background-color: var(--header-bg);
+    color: var(--header-color);
+    & > .col, & > [class*="col-"] {
+      line-height: 6rem;
+      max-height: 6rem;
+    }
+  }
+
+  .sidebar-toggle {
+    font-size: 2.6rem;
+    color: var(--main-color);
+    cursor: pointer;
+  }
+}

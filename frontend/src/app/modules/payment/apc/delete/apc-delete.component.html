@@ -1,0 +1,17 @@
+<section [@toggle-modal]="modalState" class="modal">
+  <div class="overlay" (click)="closeModal()"></div>
+  <div class="wrapper wall" style="width: 40rem;">
+    
+      
+      <div class="col-12">
+        <div class="feedback txt-center" *ngIf="apcInfo">
+          <p>{{ 'apc.delete_confirm' | translate}}</p>
+          <p>{{ 'apc.name' | translate}}: {{apcInfo.name }}</p>
+          <p>{{ 'apc.card_number' | translate}}: {{apcInfo.card_number }}</p>
+          <br>
+          <button type="submit" class="btn" (click)="submit()">{{ 'forms.submit' | translate }}</button>
+          <button type="button" class="btn btn-danger" (click)="closeModal()">{{ 'forms.cancel' | translate }}</button>
+        </div>
+      </div>
+  </div>
+</section>

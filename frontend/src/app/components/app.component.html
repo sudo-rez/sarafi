@@ -1,0 +1,20 @@
+<div class="rtl" class="container-fluid no-padding-x h-100">
+  <div class="row flex-nowrap no-gutters h-100">
+    <div id="sidebar-container" class="col-xl-2 col-md-3 h-100" [class.visible]="sidebarVisibility" *ngIf="userService.isLoggedIn()">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="h-100" [ngClass]="userService.isLoggedIn() ? 'col-xl-10 col-md-9 col-sm-12' : 'col-12'">
+      <div class="row no-gutters flex-column h-100">
+        <div class="col-auto">
+          <app-header (sidebarToggle)="sidebarToggle()"></app-header>
+        </div>
+        <main class="col">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <ng-progress color="#4b3a71" [showSpinner]="false" [direction]="progressDirection"></ng-progress> -->
+<simple-notifications [options]="simpleNotificationsOptions"></simple-notifications>

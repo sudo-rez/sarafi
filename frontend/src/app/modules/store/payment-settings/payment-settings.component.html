@@ -1,0 +1,103 @@
+<form class="row wall mb" [formGroup]="form" (ngSubmit)="submit(form)" novalidate>
+  <div class="col-lg-12">
+    <div class="title">{{ 'store.payment-settings.title' | translate }}</div>
+  </div>
+
+  <ng-container formGroupName="methods">
+    <div class="col-lg-6">
+      <div class="row form-group">
+        <label class="col-auto form-label-inline" for="online-payment">{{ 'store.payment-settings.online-payment' | translate }}:</label>
+        <label class="col-auto form-label-inline checkbox-select" for="online-payment">
+          <input type="checkbox" id="online-payment" name="online_payment_is_active" formControlName="online_payment_is_active">
+          <span></span>
+        </label>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="row form-group">
+        <label class="col-auto form-label-inline" for="coordinated">{{ 'store.payment-settings.coordinated' | translate }}:</label>
+        <label class="col-auto form-label-inline checkbox-select" for="coordinated">
+          <input type="checkbox" id="coordinated" name="coordinatad_is_active" formControlName="coordinatad_is_active">
+          <span></span>
+        </label>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!isFree">
+    <div class="col-lg-6">
+      <div class="row">
+        <div class="col-12" formGroupName="saman">
+          <div class="title">{{ 'store.payment-settings.saman' | translate }}</div>
+          <div class="row form-group" [class.has-error]="form.get('saman.merchant_id').invalid">
+            <label class="col-lg-4 form-label-inline" for="saman-merchant-id">{{ 'store.payment-settings.merchant-id' | translate }}:</label>
+            <div class="col-lg-8">
+              <input type="text" id="saman-merchant-id" class="form-control" name="merchant_id" formControlName="merchant_id" placeholder="">
+              <div class="feedback" *ngIf="form.get('saman.merchant_id').hasError('required')">{{ 'forms.feedback.required' | translate }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12" formGroupName="irankish">
+          <div class="title">{{ 'store.payment-settings.irankish' | translate }}</div>
+
+          <div class="row form-group" [class.has-error]="form.get('irankish.merchant_id').invalid">
+            <label class="col-lg-4 form-label-inline" for="irankish-merchant-id">{{ 'store.payment-settings.merchant-id' | translate }}:</label>
+            <div class="col-lg-8">
+              <input type="text" id="irankish-merchant-id" class="form-control" name="merchant_id" formControlName="merchant_id" placeholder="">
+              <div class="feedback" *ngIf="form.get('irankish.merchant_id').hasError('required')">{{ 'forms.feedback.required' | translate }}</div>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <label class="col-lg-4 form-label-inline" for="saman_description">{{ 'store.payment-settings.description' | translate }}:</label>
+            <div class="col-lg-8">
+              <textarea type="text" id="saman_description" class="form-control" name="saman_description" rows="4" formControlName="description" placeholder=""></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6" formGroupName="mellat">
+      <div class="title">{{ 'store.payment-settings.mellat' | translate }}</div>
+
+      <div class="row form-group" [class.has-error]="form.get('mellat.terminal_id').invalid">
+        <label class="col-lg-4 form-label-inline" for="mellat-terminal-id">{{ 'store.payment-settings.terminal-id' | translate }}:</label>
+        <div class="col-lg-8">
+          <input type="text" id="mellat-terminal-id" class="form-control" name="terminal_id" formControlName="terminal_id" placeholder="">
+          <div class="feedback" *ngIf="form.get('mellat.terminal_id').hasError('required')">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="row form-group" [class.has-error]="form.get('mellat.username').invalid">
+        <label class="col-lg-4 form-label-inline" for="mellat-username">{{ 'store.payment-settings.username' | translate }}:</label>
+        <div class="col-lg-8">
+          <input type="text" id="mellat-username" class="form-control" name="username" formControlName="username" placeholder="">
+          <div class="feedback" *ngIf="form.get('mellat.username').hasError('required')">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="row form-group" [class.has-error]="form.get('mellat.password').invalid">
+        <label class="col-lg-4 form-label-inline" for="mellat-password">{{ 'store.payment-settings.password' | translate }}:</label>
+        <div class="col-lg-8">
+          <input type="password" id="mellat-password" class="form-control" name="password" formControlName="password" placeholder="">
+          <div class="feedback" *ngIf="form.get('mellat.password').hasError('required')">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <label class="col-lg-4 form-label-inline" for="mellat_description">{{ 'store.payment-settings.description' | translate }}:</label>
+        <div class="col-lg-8">
+          <textarea type="text" id="mellat_description" class="form-control" name="mellat_description" rows="4" formControlName="description" placeholder=""></textarea>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Submit Button -->
+  <div class="col-lg-12">
+    <div class="row no-indent">
+      <button type="submit" class="col-lg-2 btn" [disabled]="form.invalid">{{ 'forms.save' | translate }}</button>
+    </div>
+  </div>
+</form>

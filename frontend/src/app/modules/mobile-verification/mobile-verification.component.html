@@ -1,0 +1,60 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'verify-mobile.approve-phone-number' | translate }}"></breadcrumb>
+  <div class="row wall">
+    <div class="col-12">
+
+      <ng-template #verify>
+        <form class="row wall">
+          <div class="col">
+            <ng-template [ngIf]="!codeSent" [ngIfElse]="approveCode">
+              <!-- CellPhone -->
+              <div class="col-lg-10" [hidden]="codeSent">
+                <div class="row form-group animated fadeIn">
+                  <label class="col-lg-4 form-label-inline" for="cellphone">{{ 'verify-mobile.phone-number' | translate }} :</label>
+                  <div class="col-lg-8">
+                    <input id="cellphone" #cellphone class="form-control" type="tel" name="cellphone" maxlength="11" placeholder="{{ 'verify-mobile.placeholder.txt-phone-number' | translate }}">
+                    <div class="feedback" *ngIf="false">{{ 'forms.feedback.required' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template #approveCode>
+              <!-- approve-code -->
+              <div class="col-lg-10">
+                <div class="row form-group animated fadeIn">
+                  <label class="col-lg-4 form-label-inline" for="approve-code">{{ 'verify-mobile.verification-code' | translate }}  :</label>
+                  <div class="col-lg-8">
+                    <input id="approve-code" #key class="form-control" type="text" name="approve-code" maxlength="10" placeholder="{{ 'verify-mobile.placeholder.txt-verification-code' | translate }}">
+                    <div class="feedback" *ngIf="false">{{ 'forms.feedback.required' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+            <input type="hidden" #mobile>
+            <!-- Button -->
+            <div class="col-lg-12">
+              <div class="row form-group justify-content-center">
+                <button class="btn" type="submit" [hidden]="codeSent" (click)="sendPhoneNumber()">{{ 'verify-mobile.button.send-code' | translate }}</button>
+                <button class="btn" type="submit" [hidden]="!codeSent" (click)="sendApproveCode()">{{ 'verify-mobile.button.confirm' | translate }}</button>
+                <button class="btn btn-default" (click)="codeSent = false" type="submit" [hidden]="!codeSent">{{ 'verify-mobile.button.wrong-mobile' | translate }}</button>
+              </div>
+            </div>
+          </div>
+<!--          <div class="col-lg-12 text-center">-->
+<!--            <p class="text-danger">{{ 'verify-mobile.tips' | translate }}</p>-->
+<!--          </div>-->
+        </form>
+      </ng-template>
+
+      <ng-template [ngIf]="mobile_verify" [ngIfElse]="verify">
+        <div class="row wall">
+          <div class="col-lg-12 text-center">
+            <h3 class="text-success">{{ 'verify-mobile.msg-success' | translate }}</h3>
+            <h4>{{ 'verify-mobile.timeToNavigate' | translate: {second: timeToNavigate} }}</h4>
+          </div>
+        </div>
+      </ng-template>
+
+    </div>
+  </div>
+</section>

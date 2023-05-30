@@ -1,0 +1,39 @@
+<section [@toggle-modal]="modalState" class="modal">
+  <div class="overlay" (click)="closeModal()"></div>
+  <div class="wrapper wall" style="width: 70rem;">
+
+    <div class="col">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <th class="sort-option" width="5%">{{ 'customer.row' | translate }}
+            <th class="sort-option text-center" width="10%">{{ 'wallet.by' | translate }}</th>            
+            <th class="sort-option" width="10%">{{ 'wallet.type' | translate }}
+            <th class="sort-option" width="10%">{{ 'wallet.currency' | translate }}
+            <th class="sort-option text-center" width="10%">{{ 'wallet.amount' | translate }}</th>
+            <th class="sort-option" width="20%">{{ 'wallet.created_at' | translate }}</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let wallet of histories;let index = index" [ngClass]="wallet.type == 'charge'? 'green':'red'">
+              <th>{{ ( (filters.page-1) * 10) + (index+1) }}</th>
+              <th class="text-center">{{ wallet.by }}</th>
+              <th>{{ wallet.type | translate}}</th>
+              <th>{{ wallet.currency }}</th>
+              <th class="ltr text-left">{{ wallet.amount | numberPipe }}</th>
+              <th>{{ wallet.created_at | jalali:'middle' }}</th>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr [hidden]="histories.length">
+              <td class="text-center" colspan="6">
+                <b>{{ 'list-empty' | translate }}</b>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+        <pagination (callback)="getWalletHistory($event)" [currentPage]="filters.page" [totalPages]="totalPages"></pagination>
+    </div>
+
+  </div>
+</section>

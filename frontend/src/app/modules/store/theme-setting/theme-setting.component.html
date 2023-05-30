@@ -1,0 +1,376 @@
+<section class="container-fluid animated fadeIn">
+  <breadcrumb title="{{ title | translate }}"></breadcrumb>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate (keydown.enter)="$event.preventDefault()">
+
+    <!-- Top Buttons -->
+    <div class="row wall wall-sm mb flex-row-reverse">
+      <div class="col-md-auto">
+        <button class="btn btn-sm btn-warning w-100" type="button" routerLink="main">{{ 'back' | translate }}</button>
+      </div>
+      <div class="col-md-auto">
+        <button class="btn btn-sm btn-danger w-100" type="button" (click)="removeTheme()" *ngIf="themeId">{{ 'store.theme-settings.delete' | translate }}</button>
+      </div>
+      <div class="col-md-auto">
+        <button class="btn btn-sm btn-success w-100" type="submit">{{ 'forms.save' | translate }}</button>
+      </div>
+    </div>
+
+    <div class="row wall tab" [style.direction]="lang == 'fa' ? 'rtl' : 'ltr'">
+      <div class="col-sm-hidden col-md-hidden col-lg">
+        <button class="tablinks active" (click)="selectTab($event, 'store')">{{ 'store.theme-settings.general' | translate }}</button>
+        <button class="tablinks" [ngStyle]="form.get('table').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}" (click)="selectTab($event, 'tablesetting')">{{ 'store.theme-settings.table.~' | translate }}</button>
+        <!-- <button class="tablinks" (click)="selectTab($event, 'export')">{{ 'store.theme-settings.export-import' | translate }}</button> -->
+      </div>
+      <div class="col-lg-hidden">
+        <select #selectTabMenu class="form-control select-tab" (change)="selectTab($event, $event.target.value)">
+          <option class="tablinks" value="store" [ngStyle]="form.get('general').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}">{{ 'store.theme-settings.general' | translate }}</option>
+          <option class="tablinks" value="tablesetting" [ngStyle]="form.get('table').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}">{{ 'store.theme-settings.table.~' | translate }}</option>
+          <!-- <option class="tablinks" value="export">{{ 'store.theme-settings.export-import' | translate }}</option> -->
+        </select>
+      </div>
+    </div>
+    <!-- General -->
+    <div id="store" style="display: block" class="tabcontent">
+      <div class="row">
+        <div class="col-xl-9 col-lg-8 col-md-12" formGroupName="general" [ngStyle]="lang == 'fa' ? {'padding-left': 0} : {'padding-right': 0}">
+          <div class="row wall mb">
+            <!-- Title -->
+            <div class="col-lg-12">
+              <div class="spacebetween">
+                <div class="title">{{ 'store.theme-settings.general' | translate }}</div>
+              </div>
+            </div>
+            <!-- Background Color -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col-lg-12"></label>
+                <label class="col col-lg-12 form-label-inline" for="background_color">{{ 'store.theme-settings.background-color' | translate }} :</label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="background_color" [style.background]="background_color" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+            <!-- Background Image -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col-lg-12"></label>
+                <label class="col col-lg-12 form-label-inline" for="background_image">{{ 'store.theme-settings.background-image' | translate }} :</label>
+                <div class="col-lg-12">
+                  <dropzone-images [multi]="false" [defaults]="defaultImages" (changed)="setImages($event)"></dropzone-images>
+                </div>
+              </div>
+            </div>
+            <!-- Font Family -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col-lg-12"></label>
+                <label class="col col-lg-12 form-label-inline" for="font">{{ 'store.theme-settings.font-family.~' | translate }} :</label>
+                <div class="col-lg-12">
+                  <select id="font_family" formControlName="font_family" name="font_family" class="form-control">
+                    <option value="tanha-fd-wol">{{ 'store.theme-settings.font-family.tanha' | translate }}</option>
+                    <option value="shabnam-light">{{ 'store.theme-settings.font-family.shabnam' | translate }}</option>
+                    <option value="iransans">{{ 'store.theme-settings.font-family.iransans' | translate }}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <!-- Text Colors -->
+            <ng-container formGroupName="text_color">
+              <!-- Title -->
+              <div class="col-lg-12">
+                <div class="spacebetween">
+                  <div class="title">{{ 'store.theme-settings.text-color.~' | translate }}</div>
+                </div>
+              </div>
+              <!-- Title Color -->
+              <div class="col-lg-6">
+                <div class="row form-group">
+                  <label class="col col-lg-12 form-label-inline" for="title">{{ 'store.theme-settings.text-color.title' | translate }} : </label>
+                  <div class="col-lg-12">
+                    <input [(colorPicker)]="title_color" [style.background]="title_color"  [cpPosition]="'bottom'" />
+                  </div>
+                </div>
+              </div>
+              <!-- Form Label Color -->
+              <div class="col-lg-6">
+                <div class="row form-group">
+                  <label class="col col-lg-12 form-label-inline" for="title">{{ 'store.theme-settings.text-color.form_label' | translate }} : </label>
+                  <div class="col-lg-12">
+                    <input [(colorPicker)]="form_label_color" [style.background]="form_label_color" [cpPosition]="'bottom'" />
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <!-- Main Color -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col col-lg-12 form-label-inline" for="main_color">{{ 'store.theme-settings.text-color.main' | translate }} : </label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="main_color" [style.background]="main_color" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+            <!-- Danger Color -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col col-lg-12 form-label-inline" for="danger">{{ 'store.theme-settings.text-color.danger' | translate }} : </label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="danger" [style.background]="danger" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+            <!-- Success Color -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col col-lg-12 form-label-inline" for="success">{{ 'store.theme-settings.text-color.success' | translate }} : </label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="success" [style.background]="success" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+            <!-- Info Color -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col col-lg-12 form-label-inline" for="info">{{ 'store.theme-settings.text-color.info' | translate }} : </label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="info" [style.background]="info" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+            <!-- Warning Color -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col col-lg-12 form-label-inline" for="warning">{{ 'store.theme-settings.text-color.warning' | translate }} : </label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="warning" [style.background]="warning" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-lg-4 col-md-12">
+          <div class="row wall mb" formGroupName="general">
+            <div class="col-lg-12">
+              <div class="spacebetween">
+                <div class="title">{{ 'store.theme-settings.radius.~' | translate }}</div>
+              </div>
+            </div>
+            <!-- Radius -->
+            <ng-container formGroupName="radius">
+              <!-- Card -->
+              <div class="col-lg-12">
+                <div class="row form-group" [ngClass]="{'has-error':form.get('general.radius.card').invalid && formSubmitted}">
+                  <label class="col-lg-6 form-label-inline" for="card">{{ 'store.theme-settings.radius.card' | translate }} :</label>
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <div class="input-group-addon">{{ 'px' | translate }}</div>
+                      <input type="number" dir="ltr" formControlName="card" class="form-control" placeholder="">
+                    </div>
+                    <div class="feedback" *ngIf="form.get('general.radius.card').hasError('numberOnly') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Button -->
+              <div class="col-lg-12">
+                <div class="row form-group" [ngClass]="{'has-error':form.get('general.radius.button').invalid && formSubmitted}">
+                  <label class="col-lg-6 form-label-inline" for="button">{{ 'store.theme-settings.radius.button' | translate }} :</label>
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <div class="input-group-addon">{{ 'px' | translate }}</div>
+                      <input type="number" dir="ltr" formControlName="button" class="form-control" placeholder="">
+                    </div>
+                    <div class="feedback" *ngIf="form.get('general.radius.button').hasError('numberOnly') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Input -->
+              <div class="col-lg-12">
+                <div class="row form-group" [ngClass]="{'has-error':form.get('general.radius.input').invalid && formSubmitted}">
+                  <label class="col-lg-6 form-label-inline" for="input">{{ 'store.theme-settings.radius.input' | translate }} :</label>
+                  <div class="col-lg-6">
+                    <div class="input-group">
+                      <div class="input-group-addon">{{ 'px' | translate }}</div>
+                      <input type="number" dir="ltr" formControlName="input" class="form-control" placeholder="">
+                    </div>
+                    <div class="feedback" *ngIf="form.get('general.radius.button').hasError('numberOnly') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <!-- Sidebar -->
+          <div class="col-xl-3 col-lg-4 col-md-12" formGroupName="sidebar">
+            <div class="row wall mb" >
+              <div class="col-lg-12">
+                <div class="spacebetween">
+                  <div class="title">{{ 'store.theme-settings.sidebar' | translate }}</div>
+                </div>
+              </div>
+              <!-- Background Color -->
+              <div class="col-lg-12">
+                <div class="row form-group">
+                  <label class="col-lg-12"></label>
+                  <label class="col col-lg-12 form-label-inline" for="sidebar_background_color">{{ 'store.theme-settings.background-color' | translate }} :</label>
+                  <div class="col-lg-12">
+                    <input [(colorPicker)]="sidebar_background_color" [style.width]="'100%'" [style.background]="sidebar_background_color" [cpPosition]="'bottom'" />
+                  </div>
+                </div>
+              </div>
+              <!-- Text Color -->
+              <div class="col-lg-12">
+                <div class="row form-group">
+                  <label class="col col-lg-12 form-label-inline" for="title">{{ 'store.theme-settings.text-color.~' | translate }} : </label>
+                  <div class="col-lg-12">
+                    <input [(colorPicker)]="sidebar_color" [style.width]="'100%'" [style.background]="sidebar_color" [cpPosition]="'bottom'" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Header -->
+          <div class="row wall mb" formGroupName="header">
+            <div class="col-lg-12">
+              <div class="spacebetween">
+                <div class="title">{{ 'store.theme-settings.header' | translate }}</div>
+              </div>
+            </div>
+            <!-- Background Color -->
+            <div class="col-lg-12">
+              <div class="row form-group">
+                <label class="col-lg-12"></label>
+                <label class="col col-lg-12 form-label-inline" for="header_background_color">{{ 'store.theme-settings.background-color' | translate }} :</label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="header_background_color" [style.width]="'100%'" [style.background]="header_background_color" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+            <!-- Text Color -->
+            <div class="col-lg-12">
+              <div class="row form-group">
+                <label class="col col-lg-12 form-label-inline" for="title">{{ 'store.theme-settings.text-color.~' | translate }} : </label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="header_color" [style.width]="'100%'" [style.background]="header_color" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Table -->
+    <div id="tablesetting" class="tabcontent">
+      <div class="row">
+        <div class="col-xl-9 col-lg-8 col-md-12" [ngStyle]="lang == 'fa' ? {'padding-left': 0} : {'padding-right': 0}">
+          <div class="row wall mb" formGroupName="table">
+            <div class="col-lg-12">
+              <div class="spacebetween">
+                <div class="title">{{ 'store.theme-settings.table.title' | translate }}</div>
+              </div>
+            </div>
+            <!-- Page Size -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col-lg-12"></label>
+                <label class="col col-lg-12 form-label-inline" for="page_size">{{ 'store.theme-settings.page_size' | translate }} :</label>
+                <div class="col-lg-12">
+                  <input class="form-control" dir="ltr" formControlName="page_size" type="number" name="page_size" placeholder="{{ 'store.theme-settings.page_size' | translate }}">
+                </div>
+              </div>
+            </div>
+            <!-- Header Background Color -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col-lg-12"></label>
+                <label class="col col-lg-12 form-label-inline" for="table_header_background_color">{{ 'store.theme-settings.background-color-table' | translate }} :</label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="table_header_background_color" [style.background]="table_header_background_color" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+            <!-- Odd Color -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col col-lg-12 form-label-inline" for="table_odd_color">{{ 'store.theme-settings.odd-color' | translate }} : </label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="table_odd_color" [style.background]="table_odd_color" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+            <!-- Even Color -->
+            <div class="col-lg-6">
+              <div class="row form-group">
+                <label class="col col-lg-12 form-label-inline" for="danger">{{ 'store.theme-settings.even-color' | translate }} : </label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="table_even_color" [style.background]="table_even_color" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Card -->
+        <div class="col-xl-3 col-lg-4 col-md-12">
+          <!-- Card -->
+          <div class="row wall mb" formGroupName="card">
+            <div class="col-lg-12">
+              <div class="spacebetween">
+                <div class="title">{{ 'store.theme-settings.card' | translate }}</div>
+              </div>
+            </div>
+            <!-- Background Color -->
+            <div class="col-lg-12">
+              <div class="row form-group">
+                <label class="col-lg-12"></label>
+                <label class="col col-lg-12 form-label-inline" for="card_background_color">{{ 'store.theme-settings.background-color' | translate }} :</label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="card_background_color" [style.width]="'100%'" [style.background]="card_background_color" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+            <!-- Text Color -->
+            <div class="col-lg-12">
+              <div class="row form-group">
+                <label class="col col-lg-12 form-label-inline" for="card_color">{{ 'store.theme-settings.text-color.~' | translate }} : </label>
+                <div class="col-lg-12">
+                  <input [(colorPicker)]="card_color" [style.width]="'100%'" [style.background]="card_color" [cpPosition]="'bottom'" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export / Import -->
+    <!-- <div id="export" class="tabcontent">
+      <div class="row wall mb">
+        <div class="col-lg-12" [ngStyle]="lang == 'fa' ? {'padding-left': 0} : {'padding-right': 0}">
+          <div class="spacebetween">
+            <div class="title">{{ 'store.theme-settings.export-import' | translate }}</div>
+          </div>
+        </div>
+        <div class="col-sm-12 col-6">
+          <label class="btn w-100" for="store-logo">{{ 'store.theme-settings.import' | translate }}</label>
+          <input id="import-theme" type="file" accept=".json" (change)="setStoreLogo($event)" hidden>
+        </div>
+        <div class="col-sm-12 col-6">
+          <button id="export-theme" class="btn w-100" type="button" (click)="setStoreFavicon($event)">{{ 'store.theme-settings.export' | translate }}</button>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- Top Buttons -->
+    <div class="row wall wall-sm mb">
+      <div class="col-md-auto">
+        <button class="btn btn-sm btn-success w-100" type="submit">{{ 'forms.save' | translate }}</button>
+      </div>
+      <div class="col-md-auto">
+        <button class="btn btn-sm btn-danger w-100" type="button" (click)="removeTheme()" *ngIf="themeId">{{ 'store.theme-settings.delete' | translate }}</button>
+      </div>
+      <div class="col-md-auto">
+        <button class="btn btn-sm btn-warning w-100" type="button" routerLink="main">{{ 'back' | translate }}</button>
+      </div>
+    </div>
+
+  </form>
+</section>

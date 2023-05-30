@@ -1,0 +1,64 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'banner.list.title' | translate }}"></breadcrumb>
+
+  <div class="row wall wall-sm mb">
+    <div class="col">
+      <a class="btn btn-sm" routerLink="/banner/create">{{ 'banner.create.title' | translate }}</a>
+    </div>
+    <div class="col-md-auto">
+      <input class="search-input small text-center" type="text" [ngModel]="filters.search"
+        (keyup)="search.pass($event, 'bannerList')" placeholder="{{ 'search' | translate }}">
+    </div>
+  </div>
+
+  <div class="row wall mb">
+    <div class="col">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <th>{{ 'banner.list.image' | translate }}</th>
+            <th>{{ 'banner.list.name' | translate }}</th>
+            <th>{{ 'banner.list.created_at' | translate }}</th>
+            <!-- <th>{{ 'banner.list.keyword' | translate }}</th> -->
+            <th class="text-center">{{ 'banner.list.published' | translate }}</th>
+            <th class="text-center">{{ 'operation.edit.title' | translate }}</th>
+            <th class="text-center">{{ 'operation.delete.title' | translate }}</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let banner of banners">
+              <td>
+                <img [src]="banner.image.micro || '/static/images/no_image.svg'">
+              </td>
+              <td>{{ banner.title }}</td>
+              <td>{{ banner.created.Time | jalali:'short' }}</td>
+              <!-- <td>{{ 'banner.create.'+banner.keyword | translate }}</td> -->
+              <td class="text-center">
+                <label *ngIf="banner.published">{{ 'yes' | translate }}</label>
+                <label *ngIf="!banner.published">{{ 'no' | translate }}</label>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-edit tools edit" [routerLink]="['/banner/edit', banner.id]"></div>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-remove tools delete" (click)="deleteBanner(banner.id)"></div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr [hidden]="banners.length">
+              <td colspan="7" class="text-center">
+                <b>{{ 'list-empty' | translate }}</b>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row pb">
+    <div class="col">
+      <pagination (callback)="getBannerList($event)" [currentPage]="filters.page" [totalPages]="totalPages"></pagination>
+    </div>
+  </div>
+
+</section>

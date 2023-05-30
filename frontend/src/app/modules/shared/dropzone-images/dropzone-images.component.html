@@ -1,0 +1,27 @@
+<div class="row selected-images">
+  <div class="col-auto pb" *ngFor="let image of selectedImages">
+    <div class="selected-image-item" title="{{ 'dropzone-images.remove-image' | translate }}" (click)="removeImage(image)">
+      <img class="item-image" [src]="[this.domain + image.original]" [alt]="image.name">
+      <div class="icon icon-times"></div>
+    </div>
+  </div>
+  <div class="col-auto pb" *ngIf="!isFull()">
+    <div class="add-image-button" title="{{ 'dropzone-images.select-image' | translate }}" (click)="openModal()">
+      <div class="icon icon-create"></div>
+    </div>
+  </div>
+</div>
+
+<dropzone-images-modal
+  [@toggle-modal]="modalState"
+  [selectedImages]="selectedImages"
+  [state]="modalState"
+  [multi]="multi"
+  [countLimit]="countLimit"
+  [sizeLimit]="sizeLimit"
+  [types]="types"
+  [apiGroup]="apiGroup"
+  (closed)="closeModal()"
+  (selected)="selectImages($event)"
+  (removed)="removeImage($event)">
+</dropzone-images-modal>

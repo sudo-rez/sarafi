@@ -1,0 +1,179 @@
+<section class="container-fluid animated fadeIn">
+  <breadcrumb title="{{ title  | translate }}"></breadcrumb>
+  <form [formGroup]="customerForm" (ngSubmit)="save()" novalidate>
+    <div class="row wall wall-sm mb" style="flex-direction: row-reverse;">
+      <!-- Top Buttons -->
+      <div class="col-md-auto">
+        <button class="btn btn-sm btn-warning w-100" type="button" routerLink="/customer">{{ 'back' | translate
+          }}</button>
+      </div>
+      <div class="col-md-auto">
+        <button class="btn btn-sm btn-success w-100" [disabled]="!customerForm.get('name').value ||
+             !customerForm.get('national_code').value" type="submit"> {{
+          'forms.save' | translate }} </button>
+      </div>
+    </div>
+    <div id="mainsetting" style="display: block" class="tabcontent">
+      <div class="col-xl-12 col-lg-12 col-md-12">
+        <div class="row wall mb">
+          <!-- Name -->
+          <div class="col-lg-12">
+            <div class="row">
+              <!-- name -->
+              <div class="col-lg-6">
+                <div class="row form-group"
+                  [ngClass]="{'has-error':customerForm.controls['name'].invalid && submitted}">
+                  <div class="col-lg-12">
+                    <label class="form-label-inline" for="name"> 
+                      {{ 'customer.fullname' | translate }} :
+                      <b class="required">*</b>
+                    </label>
+                  </div>
+                  <div class="col-lg-12">
+                    <input id="name" type="text" formControlName="name" minlength="3" maxlength="150" required
+                      class="form-control" name="name" />
+                    <div class="feedback" *ngIf="customerForm.controls['name'].hasError('required') && submitted">{{
+                      'forms.feedback.required' | translate }}</div>
+                    <div class="feedback" *ngIf="customerForm.controls['name'].hasError('minlength') && submitted">{{
+                      'forms.feedback.least' | translate:{least: 3} }}</div>
+                    <div class="feedback" *ngIf="customerForm.controls['name'].hasError('maxlength') && submitted">{{
+                      'forms.feedback.max' | translate:{max: 150} }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- user_code -->
+              <div class="col-lg-6">
+                <div class="row form-group">
+                  <div class="col-lg-12">
+                    <label class="form-label-inline" for="user_code">
+                      {{ 'customer.user_code' | translate }} :
+                    </label>
+                  </div>
+                  <div class="col-lg-12">
+                    <input id="user_code" type="text" formControlName="user_code" maxlength="250" class="form-control"
+                      name="user_code" />
+                      <div class="feedback" *ngIf="customerForm.controls['user_code'].hasError('maxlength') && submitted">{{
+                        'forms.feedback.max' | translate:{max: 250} }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- national_code -->
+              <div class="col-lg-6">
+                <div class="row form-group"
+                  [ngClass]="{'has-error':customerForm.controls['national_code'].invalid && submitted}">
+                  <div class="col-lg-12">
+                    <label class="form-label-inline" for="national_code">
+                      {{ 'customer.national_code' | translate }} :
+                      <b class="required">*</b>
+                    </label>
+                  </div>
+                  <div class="col-lg-12">
+                    <input id="national_code" dir="ltr" type="text" pattern="^[0-9]{10}$" formControlName="national_code" required class="form-control"
+                      name="national_code"required />
+                    <div class="feedback"
+                      *ngIf="customerForm.controls['national_code'].hasError('required') && submitted">{{
+                      'forms.feedback.required' | translate }}</div>
+                      <div class="feedback"
+                      *ngIf="customerForm.controls['national_code'].hasError('pattern') && submitted">
+                     {{ 'forms.feedback.nationalCode-english' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- ----- phone ----- -->
+              <div class="col-lg-6">
+                <div class="row form-group">
+                  <div class="col-lg-12">
+                    <label class="form-label-inline" for="phone">
+                      {{ 'customer.phone' | translate }} :
+                    </label>
+                  </div>
+                  <div class="col-lg-12">
+                    <input id="phone" type="text" dir="ltr" formControlName="phone" class="form-control" name="phone" />
+                  </div>
+                </div>
+              </div>
+              <!-- ---- mobile---- -->
+              <div class="col-lg-6">
+                <div class="row form-group">
+                  <div class="col-lg-12">
+                    <label class="form-label-inline" for="mobile">
+                      {{ 'customer.mobile' | translate }} :
+                    </label>
+                  </div>
+                  <div class="col-lg-12">
+                    <input id="mobile" type="text" dir="ltr" formControlName="mobile" class="form-control" name="mobile" />
+                  </div>
+                </div>
+              </div>
+              <!-- password -->
+              <div class="col-lg-6">
+                <div class="row form-group"
+                  [ngClass]="{'has-error':customerForm.controls['password'].invalid && submitted}">
+                  <div class="col-lg-12">
+                    <label class="form-label-inline" for="password">
+                      {{ 'auth.password' | translate }} :
+                    </label>
+                  </div>
+                  <div class="col-lg-12">
+                    <input id="password" type="text" dir="ltr" formControlName="password" minlength="6" maxlength="12"
+                      class="form-control" name="password" />
+                    <div class="feedback" *ngIf="customerForm.controls['password'].hasError('minlength') && submitted">
+                      {{ 'forms.feedback.least' | translate:{least: 6} }}</div>
+                    <div class="feedback" *ngIf="customerForm.controls['password'].hasError('maxlength') && submitted">
+                      {{ 'forms.feedback.max' | translate:{max: 12} }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- province -->
+              <div class="col-lg-6">
+                <div class="row form-group">
+                  <div class="col-lg-12">
+                    <label class="form-label-inline" for="province">
+                      {{ 'album-orders.address.province' | translate }} :
+                    </label>
+                  </div>
+                  <div class="col-lg-12">
+                    <select formControlName="province" (change)="getCity($event.target.value)" class="form-control" name="province">
+                      <option *ngFor="let province of provinces" [value]="province.id"> {{province.name}} </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- city -->
+              <div class="col-lg-6">
+                <div class="row form-group">
+                  <div class="col-lg-12">
+                    <label class="form-label-inline" for="city">
+                      {{ 'customer.city' | translate }} :
+                    </label>
+                  </div>
+                  <div class="col-lg-12">
+                    <select id="city" type="text" formControlName="city"  class="form-control" name="city">
+                      <option *ngFor="let city of cities"  value= {{city.id}}> {{ city.name }} </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- address -->
+              <div class="col-lg-6">
+                <div class="row form-group">
+                  <div class="col-lg-12">
+                    <label class="form-label-inline" for="address">
+                      {{ 'customer.address' | translate }} :
+                    </label>
+                  </div>
+                  <div class="col-lg-12">
+                    <textarea id="address" type="text" formControlName="address" maxlength="250" class="form-control" name="address" cols="10" rows="2"></textarea>
+                    <div class="feedback" *ngIf="customerForm.controls['address'].hasError('maxlength') && submitted">
+                      {{ 'forms.feedback.max' | translate:{max: 250} }}</div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</section>

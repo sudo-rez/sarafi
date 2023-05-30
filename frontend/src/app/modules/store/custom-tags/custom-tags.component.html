@@ -1,0 +1,61 @@
+<div class="row wall mb">
+  <div class="col-12 pb">
+    <div class="title">{{ 'store.custom-tags.~' | translate }}</div>
+    <div class="table-wrapper" dir="ltr">
+      <table class="table">
+        <thead>
+          <th>#</th>
+          <th></th>
+          <th class="text-center no-padding-x" width="30%">{{ 'store.custom-tags.name' | translate }}</th>
+          <th></th>
+          <th class="great text-center no-padding-x">{{ 'store.custom-tags.content' | translate }}</th>
+          <th></th>
+          <th class="text-center"></th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let customTag of customTagsFormArray.controls; let index = index;">
+            <td>{{ index+1 }}</td>
+            <td>&lt;meta name="</td>
+            <td class="no-padding-x text-center selectable">{{ customTag.controls['name'].value }}</td>
+            <td>" content="</td>
+            <td class="no-padding-x text-center selectable wrap">{{ customTag.controls['content'].value }}</td>
+            <td>"&gt;</td>
+            <td class="text-center">
+              <div class="icon icon-edit tools" (click)="editCustomTag(customTag, index)"></div>
+            </td>
+            <!-- <td class="text-center">
+              <div class="icon icon-times tools delete" (click)="removeCustomTag(index)"></div>
+            </td> -->
+          </tr>
+        </tbody>
+        <tfoot [formGroup]="newCustomTag">
+          <tr>
+            <td>#</td>
+            <td>&lt;meta name="</td>
+            <td class="no-padding-x">
+              <div class="form-group no-padding-b" [ngClass]="{'has-error':newCustomTag.controls['name'].invalid && newCustomTag.dirty}">
+                <input class="form-control" type="text" name="name" maxlength="50" formControlName="name" placeholder>
+              </div>
+            </td>
+            <td>" content="</td>
+            <td class="no-padding-x">
+              <div class="form-group no-padding-b" [ngClass]="{'has-error':newCustomTag.controls['content'].invalid && newCustomTag.dirty}">
+                <textarea class="form-control" type="text" name="content" rows="3" formControlName="content" placeholder></textarea>
+              </div>
+            </td>
+            <td>"&gt;</td>
+            <td class="text-center">
+              <div class="icon icon-times tools delete" (click)="newCustomTag.reset()"></div>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <!-- Submit Button -->
+  <div class="col-12">
+    <div class="row no-indent">
+      <button class="col-lg-2 btn" type="submit" (click)="preSubmit($event)">{{ 'forms.save' | translate }}</button>
+    </div>
+  </div>
+</div>

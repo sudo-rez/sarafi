@@ -1,0 +1,65 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'sidebar.settings' | translate }}"></breadcrumb>
+  <div class="row wall mb">
+    <div class="col">
+      <form class="row" novalidate>
+        <div class="col-12">
+          <h4>{{'setting.gateway' | translate}}</h4>
+          <br><br>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label class="form-label" for="gateway.blocked_banks">{{ 'setting.blocked_banks' | translate }}:</label>
+            <ul class="setting">
+              <li *ngFor="let bank of setting?.gateway?.blocked_banks">
+                <span title="{{'operation.delete.title' | translate}}" class="icon icon-times setting"
+                  (click)="removeBank(bank)"></span>
+                {{bank | bank}} {{bank}}
+
+              </li>
+              <select id="martial" class="form-control bank-select" name="martial"
+                (change)="addBank($event.target.value)">
+                <option>{{'setting.addbank'|translate}}</option>
+                <option *ngFor="let bank of banks | keyvalue" value="{{bank.key}}">{{ bank.key | bank}} {{bank.key}}
+                </option>
+              </select>
+            </ul>
+          </div>
+
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label class="form-label" for="gateway.messages">{{ 'setting.messages' | translate }}:</label>
+            <ckeditor [config]="editorConfig" [(ngModel)]="setting.gateway.messages" [editor]="Editor" name="messages">
+            </ckeditor>
+          </div>
+        </div>
+        <div class="col-12">
+          <br>
+         <hr class="sep-2">
+         <br>
+        </div>
+        
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-label" for="gatewayOpenTime">{{ 'setting.open_time' | translate }}:</label>
+            <input type="number" id="gatewayOpenTime" class="form-control" name="gatewayOpenTime"
+              [(ngModel)]="setting.gateway.open_time" placeholder="">
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label class="form-label" for="gatewayAlgDuration">{{ 'setting.alg_duration' | translate }}:</label>
+            <input type="number" id="gatewayAlgDuration" class="form-control" name="gatewayAlgDuration"
+              [(ngModel)]="setting.gateway.alg_duration" placeholder="">
+          </div>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-success" (click)="submit()">{{ 'forms.save' | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+</section>

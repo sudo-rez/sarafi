@@ -1,0 +1,12 @@
+<ng-container *ngFor="let item of items; let index = index">
+  <input-item label="{{ !translate ? item.name : (translate + item.id | translate) }}" [index]="index" [disabled]="disabled" (itemRemoved)="removeItem($event)"></input-item>
+</ng-container>
+
+<input autocomplete="off" class="input-field" type="text" [id]="inputid" [placeholder]="placeholder" [(ngModel)]="inputValue" (paste)="inputChanged($event)" (keypress)="keyPress($event)" (keyup)="keyUp($event)" (keydown)="keyDown($event)" (blur)="blured($event)" (focus)="focused($event)" [disabled]="disabled || inputDisabled" #selectInputRef>
+
+<ul class="select-list" *ngIf="inputFocused && !inputDisabled && (!forceSearch || forceSearch <= inputValue.length)">
+  <ng-container *ngFor="let item of filteredList; let index = index">
+    <li class="select-option" [ngClass]="{ 'item-navigator': index == selectedItemIndex, 'selected': isExist(item) }" innerHTML="{{ !translate ? item.name : (translate + item.id | translate) }}" (click)="addItem(item)"></li>
+  </ng-container>
+  <li class="select-option text-center" *ngIf="!filteredList.length">{{ 'list-empty' | translate }}</li>
+</ul>

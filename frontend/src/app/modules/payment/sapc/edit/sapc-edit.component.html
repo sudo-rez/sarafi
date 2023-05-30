@@ -1,0 +1,32 @@
+<section [@toggle-modal]="modalState" class="modal">
+  <div class="overlay" (click)="closeModal()"></div>
+  <div class="wrapper wall" style="width: 70rem;">
+    
+    <form class="row" [formGroup]="form" (ngSubmit)="submit(form)" novalidate>
+      <div class="col-12">
+        <h4 class="txt-center">{{ 'sapc.create' | translate }}</h4>
+        <br><br>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['name'].invalid && formSubmited}">
+          <label class="form-label" for="name">{{ 'sapc.name' | translate }}:</label>
+          <input type="string" id="name" class="form-control" name="name" formControlName="name" placeholder="">
+          <div class="feedback" *ngIf="form.controls['name'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['card_number'].invalid && formSubmited}">
+          <label class="form-label" for="card_number">{{ 'sapc.card_number' | translate }}:</label>
+          <input type="string" id="card_number" class="form-control" name="card_number"  formControlName="card_number" placeholder="">
+          <div class="feedback" *ngIf="form.controls['card_number'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+          <div class="feedback" *ngIf="form.controls['card_number'].hasError('wrongCard') && formSubmited">{{ 'forms.feedback.wrong-card' | translate }}</div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn" [disabled]="form.invalid && formSubmited">{{ 'forms.submit' | translate }}</button>
+        <button type="button" class="btn btn-danger" (click)="closeModal()">{{ 'forms.cancel' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</section>

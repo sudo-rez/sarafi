@@ -1,0 +1,43 @@
+<div class="wall animated fadeIn">
+  <div class="title row justify-content-center pt">
+    <a href="">
+      <img src="/static/images/logo.png" style="height: 170px;width: 170px;">
+    </a>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="submit(form.value)" novalidate>
+
+    <div class="row form-group" [ngClass]="{'has-error':!form.controls['username'].valid && form.controls['username'].touched}">
+      <label class="col-lg-12 form-label-inline" for="login-email">{{ 'auth.username' | translate }}:</label>
+      <div class="col-lg-12">
+        <input type="text" value="" dir="ltr" id="login-email" class="form-control" name="login-email" [formControl]="form.controls['username']" placeholder="">
+        <div class="feedback" *ngIf="form.controls['username'].hasError('required') && form.controls['username'].touched">{{ 'forms.feedback.required' | translate }}</div>
+        <div class="feedback" *ngIf="form.controls['username'].hasError('pattern') && form.controls['username'].touched">{{ 'forms.feedback.pattern' | translate }}</div>
+        <div class="feedback" *ngIf="form.controls['username'].hasError('minlength') && form.controls['username'].touched">{{ 'forms.feedback.value-min' | translate:{min:11} }}</div>
+      </div>
+    </div>
+    <div class="row form-group" [ngClass]="{'has-error':!form.controls['password'].valid && form.controls['password'].touched}">
+      <label class="col-lg-12 form-label-inline" for="login-password">{{ 'auth.password' | translate }}:</label>
+      <div class="col-lg-12">
+        <input type="password" id="login-password" dir="ltr" class="form-control" name="login-password" minlength="4" maxlength="12" [formControl]="form.controls['password']" placeholder="">
+        <div class="feedback" *ngIf="form.controls['password'].hasError('required') && form.controls['password'].touched">{{ 'forms.feedback.required' | translate }}</div>
+        <div class="feedback" *ngIf="form.controls['password'].hasError('minlength') && form.controls['password'].touched">{{ 'forms.feedback.least' | translate:{least: 4} }}</div>
+        <div class="feedback" *ngIf="form.controls['password'].hasError('maxlength') && form.controls['password'].touched">{{ 'forms.feedback.max' | translate:{max: 12} }}</div>
+      </div>
+    </div>
+    <div class="row form-group" [ngClass]="{'has-error':!form.controls['usercode'].valid && form.controls['usercode'].touched}">
+      <label class="col-lg-12 form-label-inline" for="login-usercode">{{ 'auth.usercode' | translate }}:</label>
+      <div class="col-lg-12">
+        <input type="password" id="login-usercode" dir="ltr" class="form-control" name="login-usercode" minlength="4" maxlength="12" [formControl]="form.controls['usercode']" placeholder="">
+        <div class="feedback" *ngIf="form.controls['usercode'].hasError('required') && form.controls['usercode'].touched">{{ 'forms.feedback.required' | translate }}</div>
+        <div class="feedback" *ngIf="form.controls['usercode'].hasError('minlength') && form.controls['usercode'].touched">{{ 'forms.feedback.least' | translate:{least: 6} }}</div>
+        <div class="feedback" *ngIf="form.controls['usercode'].hasError('maxlength') && form.controls['usercode'].touched">{{ 'forms.feedback.max' | translate:{max: 12} }}</div>
+      </div>
+    </div>
+    <div class="row pt justify-content-center">
+      <div class="col-lg-6">
+        <button type="submit" class="btn btn-blueviolet w-100 h-100" [disabled]="!form.valid">{{ 'auth.login' | translate }}</button>
+      </div>
+    </div>
+
+  </form>
+</div>

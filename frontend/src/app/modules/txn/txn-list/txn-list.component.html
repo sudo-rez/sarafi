@@ -1,0 +1,173 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'transactions' | translate }}"></breadcrumb>
+
+  <div class="row wall wall-sm mb">
+    <div class="col-md-auto">
+      <!-- <input class="search-input small text-center" type="text" [ngModel]="filters.search" (keyup)="search.pass($event, 'adminUserList')" placeholder="{{ 'search' | translate }}"> -->
+    </div>
+    <div class="col-md">
+    </div>
+    <div class="col-md-auto">
+      <button type="button" class="btn btn-sm" (click)="toggleAdvanceSearch()"><span class="advance-search"> {{openAdvanceSearch == false ?"+":"-"}}</span> {{ 'advance-search' | translate }} </button>
+    </div>
+  </div>
+  <div *ngIf="openAdvanceSearch" class="row wall mb">
+    <div class="col-12">
+      <div class="title">
+      {{ 'advance-search' | translate }}
+      </div>
+      <hr>
+    </div>
+    <div class="col">
+
+    <form class="row" [formGroup]="form" (ngSubmit)="submit(form)" novalidate>
+
+    <div class="col-lg-3">
+      <div class="form-group" [ngClass]="{'has-error':form.controls['account'].invalid && formSubmited}">
+        <label class="form-label" for="account"> {{ 'txn.account' | translate }}: </label>
+        <input type="account" id="account" class="form-control" name="account" formControlName="account" placeholder="">
+        <div class="feedback" *ngIf="form.controls['account'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-group" [ngClass]="{'has-error':form.controls['request_id'].invalid && formSubmited}">
+        <label class="form-label" for="request_id"> {{ 'txn.request_id' | translate }}: </label>
+        <input type="request_id" id="request_id" class="form-control" name="request_id" formControlName="request_id" placeholder="">
+        <div class="feedback" *ngIf="form.controls['request_id'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-group" [ngClass]="{'has-error':form.controls['source'].invalid && formSubmited}">
+        <label class="form-label" for="source"> {{ 'txn.source' | translate }}: </label>
+        <input type="source" id="source" class="form-control" name="source" formControlName="source" placeholder="">
+        <div class="feedback" *ngIf="form.controls['source'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-group" [ngClass]="{'has-error':form.controls['destination'].invalid && formSubmited}">
+        <label class="form-label" for="destination"> {{ 'txn.destination' | translate }}: </label>
+        <input type="destination" id="destination" class="form-control" name="destination" formControlName="destination" placeholder="">
+        <div class="feedback" *ngIf="form.controls['destination'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-group" [ngClass]="{'has-error':form.controls['amount_s'].invalid && formSubmited}">
+        <label class="form-label" for="amount_s"> {{ 'txn.amount' | translate }} {{'start'|translate}}: </label>
+        <input type="number" id="amount_s-1" class="form-control" name="amount_s" formControlName="amount_s" placeholder="">
+        <div class="feedback" *ngIf="form.controls['amount_s'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-group" [ngClass]="{'has-error':form.controls['amount_e'].invalid && formSubmited}">
+        <label class="form-label" for="amount_e"> {{ 'txn.amount' | translate }} {{'end'|translate}}: </label>
+        <input type="number" id="amount_e-1" class="form-control" name="amount_e" formControlName="amount_e" placeholder="">
+        <div class="feedback" *ngIf="form.controls['amount_e'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+
+      <div class="form-group " [ngClass]="{'has-error':form.controls['created_at_s'].invalid && formSubmited}">
+        <label class="form-label" for="created_at_s"> {{ 'txn.created_at' | translate }} {{'start'|translate}}: </label>
+        <dp-date-picker
+        [config]="datePickerConfig"
+        onGoToCurrent
+        id="open_time"
+        name="open_time"
+        dir="rtl"
+        formControlName="created_at_s"
+        class="ltr"
+        theme="dp-material"
+        mode="daytime" placeholder=""></dp-date-picker>
+        <!-- <input type="created_at_s" id="created_at_s" class="form-control" name="created_at_s" formControlName="created_at_s" placeholder=""> -->
+        <div class="feedback" *ngIf="form.controls['created_at_s'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-group" [ngClass]="{'has-error':form.controls['created_at_e'].invalid && formSubmited}">
+        <label class="form-label" for="created_at_e"> {{ 'txn.created_at' | translate }} {{'end'|translate}}: </label>
+        <dp-date-picker
+        onGoToCurrent
+        [config]="datePickerConfig"
+        id="open_time2"
+        name="open_time2"
+        dir="rtl"
+        class="ltr"
+        formControlName="created_at_e"
+        theme="dp-material"
+        mode="daytime" placeholder=""></dp-date-picker>
+        <div class="feedback" *ngIf="form.controls['created_at_e'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="form-group" [ngClass]="{'has-error':form.controls['message'].invalid && formSubmited}">
+        <label class="form-label" for="message"> {{ 'txn.message' | translate }} : </label>
+        <input type="message" id="message" class="form-control" name="message" formControlName="message" placeholder="">
+        <div class="feedback" *ngIf="form.controls['message'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+      </div>
+    </div>
+    <div *ngIf="userService.isAdmin()" class="col-lg-3">
+      <div class="form-group" [ngClass]="{'has-error':form.controls['brand'].invalid && formSubmited}">
+        <label class="form-label" for="brand"> {{ 'txn.brand' | translate }}: </label>
+        <select formControlName="brand" class="form-control" name="brand">
+          <option *ngFor="let brand of brands" [value]="brand._id"> {{brand.name}} </option>
+        </select>
+        <div class="feedback" *ngIf="form.controls['brand'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+      </div>
+    </div>
+    <div class="col-lg-3"></div>
+    <div class="col-lg-3">
+      <button type="submit" class="btn search-form" [disabled]="form.invalid && formSubmited">{{ 'search' | translate }}</button>
+      <button type="button" class="btn btn-danger " (click)="toggleAdvanceSearch()">{{ 'forms.cancel' | translate }}</button>
+    </div>
+    </form>
+    </div>
+  </div>
+  <div class="row wall mb">
+    <div class="col">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <th class="sort-option" width="5%">{{ 'customer.row' | translate }}
+            <th class="sort-option" width="10%">{{ 'txn.account' | translate }}
+            <th class="sort-option" width="10%">{{ 'txn.amount' | translate }}
+            <th *ngIf="userService.isAdmin()" class="sort-option" width="10%">{{ 'txn.brand_name' | translate }}</th>
+            <th class="sort-option" width="20%">{{ 'txn.client_ip' | translate }}</th>
+            <th class="sort-option" width="60%">{{ 'txn.created_at' | translate }}</th>
+            <th class="sort-option" width="10%">{{ 'txn.source' | translate }}</th>
+            <th class="sort-option" width="10%">{{ 'txn.destination' | translate }}</th>
+            <th class="sort-option" width="10%">{{ 'txn.request_id' | translate }}</th>
+            <th class="sort-option" width="10%">{{ 'txn.message' | translate }}</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let txn of txns;let index = index">
+              <th>{{ ( (filters.page-1) * 10) + (index+1) }}</th>
+              <th>{{ txn.account }}</th>
+              <th class="text-left">{{ txn.amount |numberPipe }}</th>
+              <th *ngIf="userService.isAdmin()" >{{ txn.brand_name }}</th>
+              <th class="text-left">{{ txn.client_ip }}</th>
+              <th>{{ txn.created_at | jalali:'middle' }}</th>
+              <th class="text-left">{{ txn.source }}</th>
+              <th class="text-left">{{ txn.destination }}</th>
+              <th class="text-left">{{ txn.request_id }}</th>
+              <th>{{ txn.message }}</th>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr [hidden]="txns.length">
+              <td class="text-center" colspan="6">
+                <b>{{ 'list-empty' | translate }}</b>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pb">
+    <div class="col">
+      <pagination (callback)="getTxns($event)" [currentPage]="filters.page" [totalPages]="totalPages"></pagination>
+    </div>
+  </div>
+
+</section>

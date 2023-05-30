@@ -1,0 +1,78 @@
+// main: ../../styles.less
+
+.accordion-custom {
+	background-color: var(--main-color);
+	font-weight     : bold;
+	font-size       : 17.5px;
+	color           : #fff;
+	display         : flex;
+	justify-content : space-between;
+	padding         : 10px 15px;
+	cursor          : pointer;
+	transition      : 0.5s;
+
+	&:after {
+		content    : '+';
+		color      : #fff;
+		margin-left: 5px;
+	}
+}
+
+.accordion_special,
+.accordion,
+.accordion_specialize,
+.accordion_specializeForm {
+	//border: 1px solid @base-blue;
+	border-radius   : var(--card-radius);
+	background-color: var(--card-bg);
+	font-weight     : bold;
+	font-size       : 17.5px;
+	color           : var(--title-text-color);
+	margin          : 15px 1px 0 0;
+	padding         : 10px 15px;
+	cursor          : pointer;
+	transition      : 0.5s;
+	box-shadow      : 0 4px 5px 0 @shadow;
+
+	&:after {
+		content     : '';
+		color       : #474747;
+		margin-left : 5px;
+		margin-top  : 7px;
+		border      : solid var(--main-color);
+		float       : left;
+		border-width: 0 3px 3px 0;
+		display     : inline-block;
+		padding     : 3px;
+		transition  : 0.5s;
+		transform   : rotate(45deg);
+	}
+}
+
+.active {
+	border-radius: 9px 9px 0px 0px;
+
+	&:after {
+		transform: rotate(-135deg);
+	}
+}
+
+.panel {
+	max-height: 0;
+	opacity   : 0;
+	overflow  : hidden;
+	transition: opacity 0.5s ease-out, max-height 0.5s ease-out;
+
+	.panel-row {
+		background-color: white;
+		margin          : 1px 0;
+		padding         : 10px 15px;
+		box-shadow      : 0 4px 5px 0 @shadow;
+	}
+}
+
+.opend-panel {
+	max-height: 100%;
+	opacity   : 1;
+	overflow  : visible;
+}

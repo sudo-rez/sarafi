@@ -1,0 +1,141 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'customer.view.title' | translate }}"></breadcrumb>
+  <form [formGroup]="form">
+    <div id="mainsetting" style="display: block" class="tabcontent">
+      <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12">
+          <div class="row wall mb">
+            <div class="col-lg-12">
+              <div class="row">
+                <!-- ===== Name ==== -->
+                <div class="col-lg-6">
+                  <div class="row form-group">
+                    <div class="col-lg-12">
+                      <label class="form-label-inline" for="name">
+                        {{ 'customer.fullname' | translate }} :
+                      </label>
+                    </div>
+                    <div class="col-lg-12">
+                      <input id="name" type="text" formControlName="name" required class="form-control" name="name" />
+                    </div>
+                  </div>
+                </div>
+                <!-- user_code -->
+                <div class="col-lg-6">
+                  <div class="row form-group">
+                    <div class="col-lg-12">
+                      <label class="form-label-inline" for="user_code">
+                        {{ 'customer.user_code' | translate }} :
+                      </label>
+                    </div>
+                    <div class="col-lg-12">
+                      <input id="user_code" type="text" formControlName="user_code" required class="form-control"
+                        name="user_code" />
+                    </div>
+                  </div>
+                </div>
+                <!-- national_code -->
+                <div class="col-lg-6">
+                  <div class="row form-group">
+                    <div class="col-lg-12">
+                      <label class="form-label-inline" for="national_code">
+                        {{ 'customer.national_code' | translate }} :
+                      </label>
+                    </div>
+                    <div class="col-lg-12">
+                      <input id="national_code" type="text" dir="ltr" formControlName="national_code" required
+                        class="form-control" name="national_code" />
+                    </div>
+                  </div>
+                </div>
+                <!-- ----- phone ----- -->
+                <div class="col-lg-6">
+                  <div class="row form-group">
+                    <div class="col-lg-12">
+                      <label class="form-label-inline" for="phone">
+                        {{ 'customer.phone' | translate }} :
+                      </label>
+                    </div>
+                    <div class="col-lg-12">
+                      <input id="phone" type="text" dir="ltr" formControlName="phone" required class="form-control"
+                        name="phone" />
+                    </div>
+                  </div>
+                </div>
+                <!-- ---- province---- -->
+                <div class="col-lg-6">
+                  <div class="row form-group">
+                    <div class="col-lg-12">
+                      <label class="form-label-inline" for="province">
+                        {{ 'album-orders.address.province' | translate }} :
+                      </label>
+                    </div>
+                    <div class="col-lg-12">
+                      <select formControlName="province" [disabled] (change)="getCity($event.target.value)" class="form-control" name="province">
+                        <option *ngFor="let province of provinces"  [value]="province.id"> {{province.name}} </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+               
+                <!-- city -->
+                 <div class="col-lg-6">
+                  <div class="row form-group">
+                    <div class="col-lg-12">
+                      <label class="form-label-inline" for="city">
+                        {{ 'customer.city' | translate }} :
+                      </label>
+                    </div>
+                    <div class="col-lg-12">
+                      <select id="city" type="text" [disabled] formControlName="city" required class="form-control" name="city">
+                        <option *ngFor="let city of cities"  value= {{city.id}}> {{ city.name }} </option>
+                      </select>                    
+                    </div>
+                  </div>
+                </div>
+                <!-- mobile -->
+                <div class="col-lg-6">
+                  <div class="row form-group">
+                    <div class="col-lg-12">
+                      <label class="form-label-inline" for="mobile">
+                        {{ 'customer.mobile' | translate }} :
+                      </label>
+                    </div>
+                    <div class="col-lg-12">
+                      <input id="mobile" type="text" dir="ltr" formControlName="mobile" required class="form-control"
+                        name="mobile" />
+                    </div>
+                  </div>
+                </div>
+
+                
+                <!-- address -->
+                <div class="col-lg-6">
+                  <div class="row form-group">
+                    <div class="col-lg-12">
+                      <label class="form-label-inline" for="address">
+                        {{ 'customer.address' | translate }} :
+                      </label>
+                    </div>
+                    <div class="col-lg-12">
+                      <textarea id="address" type="text" formControlName="address" required class="form-control"
+                      name="address" cols="10" rows="2"></textarea>
+                      
+                    </div>
+                  </div>
+                </div>
+               
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="row wall mb">
+    <div class="col">
+      <button class="btn btn-danger" [routerLink]="['/customer']" [queryParams]="query.params()">{{ 'back' | translate
+        }}</button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,65 @@
+<section [@toggle-modal]="modalState" class="modal">
+  <div class="overlay" (click)="closeModal()"></div>
+  <div class="wrapper wall" style="width: 70rem;">
+    
+    <form class="row" [formGroup]="form" (ngSubmit)="submit(form)" novalidate>
+      <div class="col-12">
+        <h4 class="txt-center">{{ 'brand.createnew' | translate }}</h4>
+        <br><br>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['name'].invalid && formSubmited}">
+          <label class="form-label" for="name">{{ 'brand.name' | translate }}:</label>
+          <input type="name" id="name" class="form-control" name="name" formControlName="name" placeholder="">
+          <div class="feedback" *ngIf="form.controls['name'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['wage'].invalid && formSubmited}">
+          <label class="form-label" for="wage">{{ 'brand.wage' | translate }}:</label>
+          <input type="number" id="wage" class="form-control" name="wage"  formControlName="wage" placeholder="">
+          <div class="feedback" *ngIf="form.controls['wage'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['adminuser'].invalid && formSubmited}">
+          <label class="form-label" for="adminuser">{{ 'brand.adminuser' | translate }}:</label>
+          <ng-select #userSelect [virtualScroll]="true" [trackByFn]="trackByUserFn" [typeahead]="inputUser$"
+          (search)="onSearchUsers($event.term)" (open)="openUsers()" (scrollToEnd)="onScrollToEndUser()"
+          [items]="users" [multiple]="false" [addTag]="true" addTagText="{{'user.createnew' | translate }}"
+          bindLabel="username" bindValue="username" name="users" formControlName="adminuser">
+          </ng-select>
+          <!-- <input type="adminuser" id="adminuser" class="form-control" name="adminuser" formControlName="adminuser" placeholder=""> -->
+          <!-- <div class="feedback" *ngIf="form.controls['adminuser'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div> -->
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['adminpassword'].invalid && formSubmited}">
+          <label class="form-label" for="adminpassword">{{ 'brand.adminpassword' | translate }}:</label>
+          <input type="password" id="adminpassword" class="form-control" name="adminpassword" minlength="6" maxlength="12" formControlName="adminpassword" placeholder="">
+          <div class="feedback" *ngIf="form.controls['adminpassword'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+          <div class="feedback" *ngIf="form.controls['adminpassword'].hasError('minlength') && formSubmited">{{ 'forms.feedback.least' | translate:{least: 6} }}</div>
+          <div class="feedback" *ngIf="form.controls['adminpassword'].hasError('maxlength') && formSubmited">{{ 'forms.feedback.max' | translate:{max: 12} }}</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['key'].invalid && formSubmited}">
+          <label class="form-label" for="key">{{ 'brand.key' | translate }}:</label>
+          <input type="key" id="key" class="form-control" name="key" formControlName="key" placeholder="">
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['logo'].invalid && formSubmited}">
+          <label class="form-label" for="logo">{{ 'brand.logo' | translate }}:</label>
+          <input type="file" (change)="onFileSelected($event)" id="logo" class="form-control" name="logo"  placeholder="">
+        </div>
+      </div>
+
+
+      <div class="col-12">
+        <button type="submit" class="btn" [disabled]="form.invalid && formSubmited">{{ 'forms.submit' | translate }}</button>
+        <button type="button" class="btn btn-danger" (click)="closeModal()">{{ 'forms.cancel' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</section>

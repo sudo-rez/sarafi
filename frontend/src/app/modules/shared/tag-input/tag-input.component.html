@@ -1,0 +1,5 @@
+<ng-container *ngFor="let item of items; let index = index">
+  <input-item [label]="item" [index]="index" [disabled]="disabled" (itemRemoved)="removeItem($event)"></input-item>
+</ng-container>
+<input [id]="inputid" type="text" class="input-field" [placeholder]="placeholder" [(ngModel)]="inputValue" (paste)="inputPaste($event)" (keypress)="keyPress($event)" (keydown)="keyDown($event)" (blur)="blured($event)" (focus)="focused($event)"
+  [disabled]="disabled" #tagInputRef>

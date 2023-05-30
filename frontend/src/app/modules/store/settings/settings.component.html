@@ -1,0 +1,1132 @@
+<section class="container-fluid animated fadeIn">
+  <breadcrumb title="{{ title | translate }}"></breadcrumb>
+
+  <form [formGroup]="form" (ngSubmit)="submit(form)" novalidate (keydown.enter)="$event.preventDefault()">
+
+      <div class="row wall wall-sm mb" style="flex-direction: row-reverse;">
+        <!-- Top Buttons -->
+        <div class="col-md-auto">
+          <button class="btn btn-sm btn-warning w-100" type="button" routerLink="main">{{ 'back' | translate }}</button>
+        </div>
+        <div class="col-md-auto">
+          <button class="btn btn-sm btn-success w-100" type="submit">{{ 'forms.save' | translate }}</button>
+        </div>
+      </div>
+
+      <div class="row wall tab" [style.direction]="lang == 'fa' ? 'rtl' : 'ltr'">
+      <div class="col-sm-hidden col-md-hidden col-lg" >
+        <button class="tablinks active" [ngStyle]="form.get('store').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}" (click)="selectTab($event, 'store')">{{ 'store.store' | translate }}</button>
+        <button class="tablinks" [ngStyle]="form.get('sendandpay').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}" (click)="selectTab($event, 'sendandpay');statusinput(null, 'sendandpay')">{{ 'store.payandsend' | translate }}</button>
+<!--        <button class="tablinks" [ngStyle]="form.get('addressandsocial').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}" (click)="selectTab($event, 'addressandsocial');statusinput(null, 'addressandsocial')">{{ 'store.address' | translate }}</button>-->
+<!--        <button class="tablinks" [ngStyle]="form.get('seoanddomine').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}" (click)="selectTab($event, 'seoanddomine')">{{ 'store.seoanddomain' | translate }}</button>-->
+<!--        <button class="tablinks" [ngStyle]="form.get('social').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}" (click)="selectTab($event, 'social')">{{ 'store.social' | translate }}</button>-->
+      </div>
+      <div class="col-lg-hidden">
+        <select #selectTabMenu class="form-control select-tab" (change)="selectTab($event, $event.target.value)">
+          <option class="tablinks" value="store" [ngStyle]="form.get('store').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}">{{ 'store.store' | translate }}</option>
+          <option class="tablinks" value="sendandpay" [ngStyle]="form.get('sendandpay').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}">{{ 'store.payandsend' | translate }}</option>
+<!--          <option class="tablinks" value="addressandsocial" [ngStyle]="form.get('addressandsocial').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}">{{ 'store.address' | translate }}</option>-->
+<!--          <option class="tablinks" value="seoanddomine" [ngStyle]="form.get('seoanddomine').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}">{{ 'store.seoanddomain' | translate }}</option>-->
+<!--          <option class="tablinks" value="social" [ngStyle]="form.get('social').invalid && formSubmitted ? {'border-bottom': '3px solid red'} : {}">{{ 'store.social' | translate }}</option>-->
+        </select>
+      </div>
+    </div>
+
+      <div id="store" style="display: block" class="tabcontent">
+        <div class="row" formGroupName="store">
+          <div class="col-xl-9 col-lg-8 col-md-12" [ngStyle]="lang == 'fa' ? {'padding-left': 0} : {'padding-right': 0}">
+            <div class="row wall mb">
+
+              <div class="col-lg-12">
+                <div class="spacebetween">
+                  <div class="title">{{ 'store.informations' | translate }}
+                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_send').open();"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Name Store -->
+              <div class="col-lg-6">
+                <div class="row form-group" [ngClass]="{'has-error':form.get('store.name').invalid && formSubmitted}">
+                  <label class="col col-lg-12 form-label-inline" for="namestore">{{ 'store.name' | translate }} :</label>
+                  <div class="col-lg-12">
+                    <input id="namestore" class="form-control" formControlName="name" type="text" name="namestore" placeholder="{{ 'product.placeholder.setting.storename' | translate }}">
+                    <div class="feedback" *ngIf="form.get('store.name').hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+                    <div class="feedback" *ngIf="form.get('store.name').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.max' | translate: {max:100} }}</div>
+                    <div class="feedback" *ngIf="form.get('store.name').hasError('minlength') && formSubmitted">{{ 'forms.feedback.least' | translate: {least:3} }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- E-mail -->
+              <div class="col-lg-6">
+                <div class="row form-group" [ngClass]="{'has-error':form.get('store.email').invalid && formSubmitted}">
+                  <label class="col col-lg-12 form-label-inline" for="email">{{ 'store.email' | translate }} :</label>
+                  <div class="col-lg-12">
+                    <input id="email" class="form-control" formControlName="email" type="email" name="email" placeholder="{{ 'product.placeholder.setting.email' | translate }}">
+                    <div class="feedback" *ngIf="form.get('store.email').hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+                    <div class="feedback" *ngIf="form.get('store.email').hasError('pattern') && formSubmitted">{{ 'forms.feedback.pattern' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+              <!-- Main PAGE -->
+<!--              <div class="col-lg-6">-->
+<!--                <div class="row form-group" id="parent-mainPageSelect2">-->
+<!--                  <label class="col col-lg-12 form-label-inline" for="main-page">{{ 'store.main-page' | translate }} : </label>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <select id="main-page" name="state" class="form-control" formControlName="home_page">-->
+<!--                    </select>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+              <!-- Currency -->
+              <div class="col-lg-6" *ngIf="!form.get('store.is_mastershop').value">
+                <div class="row form-group" id="currency-select2">
+                  <label class="col col-lg-12 form-label-inline" for="currency">{{ 'store.currency' | translate }} : </label>
+                  <div class="col-lg-12">
+                    <select id="currency" name="currency" class="form-control" [value]="activeCurrency" (change)="setCurrency($event)">
+                      <option value="rial">{{ 'rial' | translate }}</option>
+                      <option value="toman">{{ 'toman' | translate }}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- info store -->
+              <div class="col-lg-12">
+                <div class="row form-group" [ngClass]="{'has-error':form.get('store.description').invalid && formSubmitted}">
+                  <div class="col-lg-12">
+                    <label class="form-label-inline" for="description">{{ 'store.description' | translate }} :</label>
+                  </div>
+                  <div class="col-lg-12">
+                    <ckeditor editorUrl="/static/vendor/ckeditor/ckeditor.js" formControlName="description"></ckeditor>
+                    <div class="feedback" *ngIf="form.get('store.description').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.max' | translate:{max:15000} }}</div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="col-xl-3 col-lg-4 col-md-12">
+
+            <div class="row wall mb" >
+              <div class="col-lg-12">
+                <div class="spacebetween">
+                  <div class="title">{{ 'store.store_setting' | translate }}
+                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_pay').open();"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Activity Store -->
+              <div class="col-lg-12">
+                <div class="form-group spacebetween" style="line-height: 0;">
+                  <label class="form-label-inline" for="activestore">{{ 'store.active_store' | translate }} :</label>
+                  <label class="col-auto form-label-inline switch" for="activestore">
+                    <input id="activestore" type="checkbox" name="activestore" formControlName="freeze">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="col-lg-12">
+                <div class="form-group spacebetween" style="line-height: 0;" >
+                <label class="form-label-inline" for="sub_not_required">{{ 'store.not_subscription_required' | translate }} :</label>
+                <label class="col-auto form-label-inline switch" for="sub_not_required">
+                  <input id="sub_not_required" type="checkbox" name="sub_not_required" formControlName="sub_not_required">
+                  <span class="slider round"></span>
+                </label>
+                </div>
+              </div>
+
+              
+<!--              &lt;!&ndash; Is Mastershop &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="form-group spacebetween">-->
+<!--                  <label class="form-label-inline" for="activestore">{{ 'store.is_mastershop' | translate }} :</label>-->
+<!--                  <label class="col-auto form-label-inline switch" for="index_in_mastershop">-->
+<!--                    <input id="index_in_mastershop" type="checkbox" name="index_in_mastershop" formControlName="index_in_mastershop">-->
+<!--                    <span class="slider round"></span>-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Stop Sale &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="form-group spacebetween">-->
+<!--                  <label class="form-label-inline" for="stopsale">{{ 'store.active_cell' | translate }} :</label>-->
+<!--                  <label class="col-auto form-label-inline switch" for="stopsale">-->
+<!--                    <input id="stopsale" type="checkbox" name="stopsale" formControlName="ordering_freeze">-->
+<!--                    <span class="slider round"></span>-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; approve customer &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="form-group spacebetween">-->
+<!--                  <label class="form-label-inline" for="approvecustomer">{{ 'store.approve_customer' | translate }} :</label>-->
+<!--                  <label class="col-auto form-label-inline switch" for="approvecustomer">-->
+<!--                    <input id="approvecustomer" type="checkbox" name="approvecustomer" formControlName="must_verify_customer">-->
+<!--                    <span class="slider round"></span>-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="row upgrade" *ngIf="_userService.avtivePlan == 'free'" (click)="alertForPlan()">-->
+<!--                  <button type="button">{{ 'upgrade-plan' | translate }}</button>-->
+<!--                </div>-->
+<!--                <div class="form-group spacebetween">-->
+<!--                  <label class="form-label-inline" for="display_bab_copyright">{{ 'store.display_bab_copyright' | translate }} :</label>-->
+<!--                  <label class="col-auto form-label-inline switch" for="display_bab_copyright">-->
+<!--                    <input id="display_bab_copyright" type="checkbox" name="display_bab_copyright" formControlName="display_bab_copyright">-->
+<!--                    <span class="slider round"></span>-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--              </div>-->
+            </div>
+
+            <!-- <div class="col-xl-3 col-lg-4 col-md-12">
+
+              <div class="row wall mb" >
+                <div class="col-lg-12">
+                  <div class="spacebetween">
+                    <div class="title">{{ 'store.store_setting' | translate }}
+                     
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="form-group spacebetween" style="line-height: 0;" >
+                  <label class="form-label-inline" for="sub_not_required">{{ 'store.not_subscription_required' | translate }} :</label>
+                  <label class="col-auto form-label-inline switch" for="sub_not_required">
+                    <input id="sub_not_required" type="checkbox" name="sub_not_required" formControlName="sub_not_required">
+                    <span class="slider round"></span>
+                  </label>
+                  </div>
+                </div>
+                </div>
+              </div> -->
+            
+<!--            <div class="row wall mb" >-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="spacebetween">-->
+<!--                  <div class="title">{{ 'store.req_hours' | translate }}-->
+<!--                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_pay').open();"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; unlimited_time_ordering &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="form-group spacebetween">-->
+<!--                  <label class="form-label-inline" for="unlimited_time_ordering">{{ 'store.unlimited' | translate }} :</label>-->
+<!--                  <label class="col-auto form-label-inline switch" for="unlimited_time_ordering">-->
+<!--                    <input id="unlimited_time_ordering" type="checkbox" name="unlimited_time_ordering" formControlName="unlimited_time_ordering" (change)="statusinput(null, 'unlimited_time_ordering')">-->
+<!--                    <span class="slider round"></span>-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Hours of activity  &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="form-group">-->
+<!--                  <label class="form-label-inline">{{ 'store.customize' | translate }} :</label>-->
+<!--                  <div class="row">-->
+<!--                    <div class="col-md-6">-->
+<!--                      <label class="form-label-inline">{{ 'store.from_hours' | translate }} :</label>-->
+<!--                      <dp-date-picker-->
+<!--                        class="form-control"-->
+<!--                        onGoToCurrent-->
+<!--                        id="open_time"-->
+<!--                        name="open_time"-->
+<!--                        dir="rtl"-->
+<!--                        formControlName="open_time"-->
+<!--                        mode="time" theme="timepicker" placeholder="{{ 'store.from_hours' | translate }}"></dp-date-picker>-->
+<!--                    </div>-->
+<!--                    <div class="col-md-6">-->
+<!--                      <label class="form-label-inline">{{ 'store.until_hours' | translate }} :</label>-->
+<!--                      <dp-date-picker-->
+<!--                        class="form-control"-->
+<!--                        onGoToCurrent-->
+<!--                        id="close_time"-->
+<!--                        name="close_time"-->
+<!--                        dir="rtl"-->
+<!--                        formControlName="close_time"-->
+<!--                        mode="time" theme="timepicker" placeholder="{{ 'store.until_hours' | translate }}"></dp-date-picker>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="row wall mb">-->
+
+<!--              <div class="col-lg-12">-->
+<!--                <div class="spacebetween">-->
+<!--                  <div class="title">{{ 'store.customize-text' | translate }}-->
+<!--                    <div class="icon icon-info-circle tools"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              &lt;!&ndash; Copy Right Text &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="form-group">-->
+<!--                  <label class="form-label-inline">{{ 'store.text-copyright' | translate }}</label>-->
+<!--                  <textarea class="form-control" rows="4" formControlName="copyright"></textarea>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              &lt;!&ndash; customize SMS  &ndash;&gt;-->
+<!--              <div class="col-lg-12" *ngIf="form.get('store.customize_sms_footer').value">-->
+<!--                <div class="form-group">-->
+<!--                  <label class="form-label-inline">{{ 'store.customize-text-sms' | translate }}</label>-->
+<!--                  <textarea class="form-control" rows="3" formControlName="sms_footer"></textarea>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--            </div>-->
+
+          </div>
+        </div>
+      </div>
+
+<!--      <div id="seoanddomine" class="tabcontent">-->
+<!--        <div class="row" formGroupName="seoanddomine">-->
+<!--          <div class="col-xl-9 col-lg-8 col-md-12" [ngStyle]="lang == 'fa' ? {'padding-left': 0} : {'padding-right': 0}">-->
+<!--            &lt;!&ndash; Custom Meta Tags &ndash;&gt;-->
+<!--            <store-custom-tags id="custom-tags-part" [form]="form" [customTags]="storeCustomTags"></store-custom-tags>-->
+<!--            <div class="row wall mb">-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="spacebetween">-->
+<!--                  <div class="title">{{ 'store.domain-settings.title' | translate }}-->
+<!--                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_seo').open();"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Add Domaon &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <form class="row wall" (ngSubmit)="addDomain()" novalidate>-->
+<!--                  <div class="col">-->
+<!--                    <div class="table-wrapper">-->
+<!--                      <table class="table">-->
+<!--                        <thead>-->
+<!--                        <th>#</th>-->
+<!--                        <th class="great">{{ 'store.domain-settings.name' | translate }}</th>-->
+<!--                        <th class="wrap text-center">{{ 'store.domain-settings.set-default' | translate }}</th>-->
+<!--                        <th>{{ 'operation.delete.title' | translate }}</th>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <tr *ngFor="let domain of domains; let index = index">-->
+<!--                          <td>{{ index+1 }}</td>-->
+<!--                          <td class="limit">{{ domain.name }}</td>-->
+<!--                          <td class="text-center">-->
+<!--                            <div class="icon icon-check tools select" *ngIf="domain.is_default"></div>-->
+<!--                            <div class="icon icon-uncheck tools select" *ngIf="!domain.is_default" (click)="setAsDefault(domain)"></div>-->
+<!--                          </td>-->
+<!--                          <td class="text-center">-->
+<!--                            <div class="icon icon-remove tools delete" [class.disabled]="!domain.can_delete || domain.is_default" (click)="deleteDomain(domain)"></div>-->
+<!--                          </td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                        <tfoot>-->
+<!--                        <tr>-->
+<!--                          <td>#</td>-->
+<!--                          <td>-->
+<!--                            <div class="form-group no-padding-b" [class.has-error]="newDomainName.invalid && newDomainName.dirty">-->
+<!--                              <input class="form-control" type="text" [formControl]="newDomainName" placeholder="{{ 'store.domain-settings.new-name' | translate }}">-->
+<!--                            </div>-->
+<!--                          </td>-->
+<!--                          <td colspan="2">-->
+<!--                            <button class="btn w-100" type="submit" [disabled]="newDomainName.invalid">{{ 'store.domain-settings.add-new' | translate }}</button>-->
+<!--                          </td>-->
+<!--                        </tr>-->
+<!--                        </tfoot>-->
+<!--                      </table>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </form>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-xl-3 col-lg-4 col-md-12">-->
+<!--            <div class="row wall mb">-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="spacebetween">-->
+<!--                  <div class="title">{{ 'store.meta_description' | translate }}-->
+<!--                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_seo').open();"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Meta data &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="row form-group" [class.has-error]="form.get('seoanddomine.meta_description').invalid && formSubmitted">-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <label class="form-label-inline" for="meta_desc">{{ 'product.seo.seo_description' | translate }} :</label>-->
+<!--                  </div>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <textarea id="meta_desc" class="form-control" type="text" formControlName="meta_description" name="meta_desc" rows="8" placeholder="{{ 'product.placeholder.setting.sepdescription' | translate }}"></textarea>-->
+<!--                    <div class="feedback" *ngIf="form.get('seoanddomine.meta_description').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:200} }}</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="row wall mb">-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="spacebetween">-->
+<!--                  <div class="title">{{ 'store.special-tags' | translate }}-->
+<!--                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_seo').open();"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Enamad Tag &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="row form-group" [class.has-error]="form.get('seoanddomine.enamad_tag').invalid && formSubmitted">-->
+<!--                  <label class="col-lg-12 form-label-inline" for="enamad_tag">{{ 'store.enamad_tag' | translate }}:</label>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <input id="enamad_tag" class="form-control" type="text" name="enamad_tag" formControlName="enamad_tag" placeholder="{{ 'product.placeholder.setting.enamad' | translate }}">-->
+<!--                    <div class="feedback" *ngIf="form.get('seoanddomine.enamad_tag').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:1500} }}</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Enamad Meta ID &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="row form-group" [class.has-error]="form.get('seoanddomine.enamad_meta_id').invalid && formSubmitted">-->
+<!--                  <label class="col-lg-12 form-label-inline" for="enamad_meta_id">{{ 'store.enamad_meta_id' | translate }}:</label>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <input id="enamad_meta_id" type="number" class="form-control" name="enamad_meta_id" formControlName="enamad_meta_id" placeholder="{{ 'product.placeholder.setting.enamad-metaid' | translate }}">-->
+<!--                    <div class="feedback" *ngIf="form.get('seoanddomine.enamad_meta_id').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:50} }}</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Samandehi &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="row form-group" [class.has-error]="form.get('seoanddomine.samandehi').invalid && formSubmitted">-->
+<!--                  <label class="col-lg-12 form-label-inline" for="samandehi">{{ 'store.samandehi' | translate }}:</label>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <input id="samandehi" class="form-control" type="text" name="samandehi" formControlName="samandehi" placeholder="{{ 'product.placeholder.setting.samandehi' | translate }}">-->
+<!--                    <div class="feedback" *ngIf="form.get('seoanddomine.samandehi').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:50} }}</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Google Analytics &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="row form-group" [class.has-error]="form.get('seoanddomine.google_analytics').invalid && formSubmitted">-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <label class="form-label-inline" for="meta_desc">{{ 'store.google_analytics' | translate }} :</label>-->
+<!--                  </div>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <input id="googleanalytics" class="form-control" type="text" formControlName="google_analytics" name="googleanalytics" placeholder="{{ 'product.placeholder.setting.googleanalitycs' | translate }}">-->
+<!--                    <div class="feedback" *ngIf="form.get('seoanddomine.google_analytics').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:50} }}</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Crisp ID &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="row upgrade" *ngIf="_userService.avtivePlan == 'free'" (click)="alertForPlan()">-->
+<!--                  <button type="button">{{ 'upgrade-plan' | translate }}</button>-->
+<!--                </div>-->
+
+<!--                <div class="row form-group">-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <label class="form-label-inline" for="crisp">{{ 'product.seo.crisp.title' | translate }} (<small><a style="color: blue !important;" href="http://crisp.chat" rel="nofollow" target="_blank">{{ 'product.seo.crisp.message' | translate }}</a></small>) :</label><br>-->
+<!--                  </div>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <textarea id="crisp" class="form-control" type="text" formControlName="crisp" name="crisp_id" rows="4" placeholder="{{ 'product.seo.crisp.placeholder' | translate }}"></textarea>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div id="addressandsocial" class="tabcontent">-->
+<!--        <div class="row" formGroupName="addressandsocial">-->
+<!--          <div class="col-xl-9 col-lg-8 col-md-12" [ngStyle]="lang == 'fa' ? {'padding-left': 0} : {'padding-right': 0}">-->
+<!--            <div class="row wall mb" >-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="spacebetween">-->
+<!--                  <div class="title">{{ 'store.info-address-store' | translate }}-->
+<!--                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_send').open();"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Info Address Store &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                  <div id="parent" class="row">-->
+
+<!--                    &lt;!&ndash; Province &ndash;&gt;-->
+<!--                    <div class="col-lg-6">-->
+<!--                      <div class="row form-group">-->
+<!--                        <label class="col col-lg-12 form-label-inline" for="province">{{ 'store.state' | translate }} : </label>-->
+<!--                        <div class="col-lg-12">-->
+<!--                          <select id="province" name="state" class="form-control" formControlName="province">-->
+<!--                          </select>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; City &ndash;&gt;-->
+<!--                    <div class="col-lg-6">-->
+<!--                      <div class="row form-group">-->
+<!--                        <label class="col col-lg-12 form-label-inline" for="city">{{ 'store.city' | translate }} :</label>-->
+<!--                        <div class="col-lg-12">-->
+<!--                          <select id="city" name="city" class="form-control" formControlName="city">-->
+<!--                          </select>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; Area &ndash;&gt;-->
+<!--                    <div class="col-lg-6">-->
+<!--                      <div class="row form-group">-->
+<!--                        <label class="col col-lg-12 form-label-inline" for="district">{{ 'store.district' | translate }} :</label>-->
+<!--                        <div class="col-lg-12">-->
+<!--                          <select id="district" name="area" formControlName="district" class="form-control">-->
+<!--                          </select>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; Postal Code &ndash;&gt;-->
+<!--                    <div class="col-lg-6">-->
+<!--                      <div class="row form-group" [class.has-error]="form.get('addressandsocial.postal').invalid && formSubmitted">-->
+<!--                        <label class="col col-lg-12 form-label-inline" for="postal">{{ 'store.postal' | translate }} :</label>-->
+<!--                        <div class="col-lg-12">-->
+<!--                          <input id="postal" class="form-control" type="text" formControlName="postal" name="postal" placeholder="{{ 'product.placeholder.setting.postalcode' | translate }}">-->
+<!--                          <div class="feedback" *ngIf="form.get('addressandsocial.postal').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:10} }}</div>-->
+<!--                          <div class="feedback" *ngIf="form.get('addressandsocial.postal').hasError('minlength') && formSubmitted">{{ 'forms.feedback.value-min' | translate:{min:10} }}</div>-->
+<!--                          <div class="feedback" *ngIf="form.get('addressandsocial.postal').hasError('pattern') && formSubmitted">{{ 'forms.feedback.pattern' | translate }}</div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; Adress Store &ndash;&gt;-->
+<!--                    <div class="col-lg-12">-->
+<!--                      <div class="row form-group" [class.has-error]="form.get('addressandsocial.address').invalid && formSubmitted">-->
+<!--                        <label class="col col-lg-12 form-label-inline" for="address">{{ 'store.address' | translate }}</label>-->
+<!--                        <div class="col-lg-12">-->
+<!--                          <textarea class="form-control" rows="4" id="address" formControlName="address"></textarea>-->
+<!--                          <div class="feedback" *ngIf="form.get('addressandsocial.address').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.max' | translate:{max:500} }}</div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                    &lt;!&ndash; Map Address &ndash;&gt;-->
+<!--                    <div class="col-lg-12">-->
+<!--                      <div class="row form-group">-->
+<!--                        <div id="map" class="col-lg-12 map">-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                  </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="col-xl-3 col-lg-4 col-md-12">-->
+<!--            <div class="row wall mb" >-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="spacebetween">-->
+<!--                  <div class="title">{{ 'store.info-call' | translate }}-->
+<!--                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_send').open();"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Info Call &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+
+<!--                &lt;!&ndash; Phone &ndash;&gt;-->
+<!--                <div class="row form-group" [class.has-error]="form.get('addressandsocial.phone').invalid && formSubmitted">-->
+<!--                  <label class="col col-lg-12 form-label-inline" for="phone">{{ 'store.phone' | translate }} :</label>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <input id="phone" class="form-control" type="tel" formControlName="phone" name="phone" placeholder="{{ 'product.placeholder.setting.phone' | translate }}">-->
+<!--                    <div class="feedback" *ngIf="form.get('addressandsocial.phone').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:11} }}</div>-->
+<!--                    <div class="feedback" *ngIf="form.get('addressandsocial.phone').hasError('pattern') && formSubmitted">{{ 'forms.feedback.pattern' | translate }}</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Mobile Phone &ndash;&gt;-->
+<!--                <div class="row form-group"  [class.has-error]="form.get('addressandsocial.cellphone').invalid && formSubmitted">-->
+<!--                  <label class="col col-lg-12 form-label-inline" for="cellphone">{{ 'store.cellphone' | translate }}  :</label>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <input id="cellphone" class="form-control" type="tel" formControlName="cellphone" name="cellphone" placeholder="{{ 'product.placeholder.setting.cellphone' | translate }}">-->
+<!--                    <div class="feedback" *ngIf="form.get('addressandsocial.cellphone').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:11} }}</div>-->
+<!--                    <div class="feedback" *ngIf="form.get('addressandsocial.cellphone').hasError('pattern') && formSubmitted">{{ 'forms.feedback.pattern' | translate }}</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; Fax &ndash;&gt;-->
+<!--                <div class="row form-group"  [class.has-error]="form.get('addressandsocial.fax').invalid && formSubmitted">-->
+<!--                  <label class="col col-lg-12 form-label-inline" for="fax">{{ 'store.fax' | translate }}   :</label>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <input id="fax" class="form-control" type="tel" name="fax" formControlName="fax" placeholder="{{ 'product.placeholder.setting.fax' | translate }}">-->
+<!--                    <div class="feedback" *ngIf="form.get('addressandsocial.fax').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:11} }}</div>-->
+<!--                    <div class="feedback" *ngIf="form.get('addressandsocial.fax').hasError('pattern') && formSubmitted">{{ 'forms.feedback.pattern' | translate }}</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+      <div id="sendandpay" class="tabcontent">
+        <div class="row" formGroupName="sendandpay">
+          <div class="col-12">
+<!--            <div style="z-index: 9" class="row wall mb">-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="spacebetween">-->
+<!--                  <div class="title">{{ 'product.delivery.~' | translate }}-->
+<!--                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_send').open();"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Send &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+
+<!--                <ng-container>-->
+<!--                  &lt;!&ndash; delivery with inperson &ndash;&gt;-->
+<!--                  <div class="form-group spacebetween">-->
+<!--                    <label class="form-label-inline" for="inperson">{{ 'product.delivery.inperson' | translate }} :</label>-->
+<!--                    <label class="col-auto form-label-inline switch" for="inperson">-->
+<!--                      <input id="inperson" type="checkbox" name="inperson" formControlName="inperson">-->
+<!--                      <span class="slider round"></span>-->
+<!--                    </label>-->
+<!--                  </div>-->
+<!--                </ng-container>-->
+
+<!--                <ng-container>-->
+<!--                  &lt;!&ndash; delivery free &ndash;&gt;-->
+<!--                  <div class="form-group spacebetween">-->
+<!--                    <label class="form-label-inline" for="free_shiping">{{ 'product.delivery.free' | translate }} :</label>-->
+<!--                    <label class="col-auto form-label-inline switch" for="free_shiping">-->
+<!--                      <input id="free_shiping" type="checkbox" name="free_shiping"  formControlName="free_shiping">-->
+<!--                      <span class="slider round"></span>-->
+<!--                    </label>-->
+<!--                  </div>-->
+
+<!--                  &lt;!&ndash; Minimum for free shiping &ndash;&gt;-->
+<!--                  <div class="row form-group animated fadeIn" *ngIf="form.get('sendandpay.free_shiping').value" [ngClass]="{'has-error':form.get('sendandpay.free_for_price').invalid && formSubmitted}">-->
+<!--                    <label class="col-lg-6 form-label-inline" for="minimum">{{ 'store.delivery.free_for_price' | translate }} :</label>-->
+<!--                    <div class="col-lg-6">-->
+<!--                      <div class="input-group">-->
+<!--                        <input id="minimum" type="number" formControlName="free_for_price" (change)="statusinput(null, 'free_shiping')" class="form-control" placeholder="">-->
+<!--                        <div class="input-group-addon">{{ 'rial' | translate }}</div>-->
+<!--                      </div>-->
+<!--                      <div class="feedback" *ngIf="form.get('sendandpay.free_for_price').hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </ng-container>-->
+
+<!--                <ng-container>-->
+<!--                  &lt;!&ndash; delivery with courier &ndash;&gt;-->
+<!--                  <div class="form-group spacebetween">-->
+<!--                    <label class="form-label-inline" for="courier">{{ 'product.delivery.courier' | translate }} :</label>-->
+<!--                    <label class="col-auto form-label-inline switch" for="courier">-->
+<!--                      <input id="courier" type="checkbox" name="courier" formControlName="courier">-->
+<!--                      <span class="slider round"></span>-->
+<!--                    </label>-->
+<!--                  </div>-->
+
+<!--                  <div class="animated fadeIn" [hidden]="!form.get('sendandpay.courier').value">-->
+<!--                    &lt;!&ndash;  courier Price &ndash;&gt;-->
+<!--                    <div class="row form-group" [ngClass]="{'has-error':form.get('sendandpay.default_post_cost').invalid && formSubmitted}">-->
+<!--                      <label class="col-lg-6 form-label-inline" for="courier_cost">{{ 'store.delivery.courier_cost' | translate }} :</label>-->
+<!--                      <div class="col-lg-6">-->
+<!--                        <div class="input-group">-->
+<!--                          <input id="courier_cost" type="number" formControlName="courier_cost" class="form-control" placeholder="">-->
+<!--                          <div class="input-group-addon">{{ 'rial' | translate }}</div>-->
+<!--                        </div>-->
+<!--                        <div class="feedback" *ngIf="form.get('sendandpay.courier_cost').hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </ng-container>-->
+
+<!--                <ng-container>-->
+<!--                  &lt;!&ndash; delivery with post &ndash;&gt;-->
+<!--                  <div class="form-group spacebetween">-->
+<!--                    <label class="form-label-inline" for="post">{{ 'product.delivery.post' | translate }} :</label>-->
+<!--                    <label class="col-auto form-label-inline switch" for="post">-->
+<!--                      <input id="post" type="checkbox" name="post" (change)="statusinput(null, 'sendandpay')" formControlName="post">-->
+<!--                      <span class="slider round"></span>-->
+<!--                    </label>-->
+<!--                  </div>-->
+
+<!--                  <div class="animated fadeIn" [hidden]="!form.get('sendandpay.post').value">-->
+<!--                    &lt;!&ndash; default Post Price &ndash;&gt;-->
+<!--                    <div class="row form-group" [ngClass]="{'has-error':form.get('sendandpay.default_post_cost').invalid && formSubmitted}">-->
+<!--                      <label class="col-lg-6 form-label-inline" for="defaultPostPrice">{{ 'store.delivery.default_post_cost' | translate }} :</label>-->
+<!--                      <div class="col-lg-6">-->
+<!--                        <div class="input-group">-->
+<!--                          <input id="defaultPostPrice" type="number" formControlName="default_post_cost" class="form-control" placeholder="">-->
+<!--                          <div class="input-group-addon">{{ 'rial' | translate }}</div>-->
+<!--                        </div>-->
+<!--                        <div class="feedback" *ngIf="form.get('sendandpay.default_post_cost').hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="row form-group">-->
+<!--                      <label class="col-lg-12 form-label-inline">{{ 'store.delivery.post_cost_province' | translate }} :</label>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                      <div formArrayName="post_cost">-->
+<!--                        <div class="col">-->
+<!--                          <div class="col-12 pb">-->
+<!--                            <div class="table-wrapper">-->
+<!--                              <table class="table">-->
+<!--                                <thead>-->
+<!--                                <th>#</th>-->
+<!--                                <th width="50%">{{ 'store.delivery.province' | translate }}</th>-->
+<!--                                <th>{{ 'store.delivery.post_cost' | translate }}</th>-->
+<!--                                <th>{{ 'product.option.delete' | translate }}</th>-->
+<!--                                </thead>-->
+<!--                                <tbody>-->
+<!--                                <tr>-->
+
+<!--                                </tr>-->
+<!--                                <tr *ngFor="let post of form.get('sendandpay.post_cost')['controls']; let index = index">-->
+<!--                                  <ng-container [formGroupName]="index">-->
+<!--                                    <td>{{ index+1 }}</td>-->
+<!--                                    <td>-->
+<!--                                      <div class="form-group" formGroupName="province">-->
+<!--                                        {{ form.get('sendandpay.post_cost')['controls'][index]['controls']['province']['controls']['name']['value'] }}-->
+<!--                                      </div>-->
+<!--                                    </td>-->
+<!--                                    <td>-->
+<!--                                      <div class="form-group">-->
+<!--                                        <input class="form-control" type="number" formControlName="price" placeholder>-->
+<!--                                      </div>-->
+<!--                                    </td>-->
+<!--                                    <td class="text-center">-->
+<!--                                      <div class="icon icon-times tools delete" (click)="removePricePost(index)"></div>-->
+<!--                                    </td>-->
+<!--                                  </ng-container>-->
+<!--                                </tr>-->
+<!--                                </tbody>-->
+<!--                                <tfoot>-->
+<!--                                <tr [hidden]="form.get('sendandpay.post_cost').value.length > 0">-->
+<!--                                  <td class="text-center" colspan="4">-->
+<!--                                    <b>{{ 'list-empty' | translate }}</b>-->
+<!--                                  </td>-->
+<!--                                </tr>-->
+<!--                                </tfoot>-->
+<!--                              </table>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                      <div class="row">-->
+
+<!--                        <div class="col-lg-5 form-group parent4">-->
+<!--                          <select id="provinceforPost" class="form-control" #postProvince>-->
+<!--                          </select>-->
+<!--                        </div>-->
+
+<!--                        <div class="col-lg-5 form-group">-->
+<!--                          <div class="input-group">-->
+<!--                            <input type="number" class="form-control" #postPrice placeholder="{{ 'store.delivery.post_cost' | translate }}">-->
+<!--                            <div class="input-group-addon">{{ 'rial' | translate }}</div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="col-lg-2 form-group">-->
+<!--                          <button class="btn" type="button" (click)="addPricePost(postPrice.value)">-->
+<!--                            {{ 'product.option.add' | translate }}-->
+<!--                          </button>-->
+<!--                        </div>-->
+
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                </ng-container>-->
+
+
+<!--              </div>-->
+<!--            </div>-->
+            <div class="row wall mb">
+              <div class="col-lg-12">
+                <div class="spacebetween">
+                  <div class="title">{{ 'product.pay.~' | translate }}
+                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_pay').open();"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- Pay -->
+              <div class="col-lg-12">
+                <!-- ravanpardakht -->
+                <div class="form-group spacebetween">
+                  <label class="form-label-inline" for="ravanpardakht">{{ 'product.pay.ravanpardakht' | translate }} :</label>
+                  <label class="col-auto form-label-inline switch" for="ravanpardakht">
+                    <input id="ravanpardakht" type="checkbox" formControlName="ravanpardakht" (change)="statusinput(null, 'ravanpardakht')" name="ravanpardakht">
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+                <ng-container>
+                  <div class="row form-group setting-online-pay animated fadeIn" *ngIf="form.get('sendandpay.ravanpardakht').value" formGroupName="payment_facility">
+                    <div class="col-lg-6">
+                      <div class="row form-group" [class.has-error]="form.get('sendandpay.payment_facility.api_key').invalid && formSubmitted">
+                        <label class="col-lg-4 form-label-inline" for="api_key_ravanpardakht">{{ 'store.payment-settings.api_key' | translate }}:</label>
+                        <div class="col-lg-8">
+                          <input type="text" id="api_key_ravanpardakht" class="form-control" name="api_key_ravanpardakht" formControlName="api_key">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="row form-group" [class.has-error]="form.get('sendandpay.payment_facility.terminal_id').invalid && formSubmitted">
+                        <label class="col-lg-4 form-label-inline" for="terminal_id_ravanpardakht">{{ 'store.payment-settings.terminal-id' | translate }}:</label>
+                        <div class="col-lg-8">
+                          <input type="text" id="terminal_id_ravanpardakht" class="form-control" name="terminal_id_ravanpardakht" formControlName="terminal_id">
+                          <div class="feedback" *ngIf="form.get('sendandpay.payment_facility.terminal_id').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.least' | translate:{least:30} }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="row form-group" [class.has-error]="form.get('sendandpay.payment_facility.merchant_number').invalid && formSubmitted">
+                        <label class="col-lg-4 form-label-inline" for="merchant_number">{{ 'store.payment-settings.merchant-id' | translate }}:</label>
+                        <div class="col-lg-8">
+                          <input type="number" id="merchant_number" class="form-control" name="merchant_number" formControlName="merchant_number">
+                          <div class="feedback" *ngIf="form.get('sendandpay.payment_facility.merchant_number').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.least' | translate:{least:30} }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="row form-group" [class.has-error]="form.get('sendandpay.payment_facility.internet_terminal_password').invalid && formSubmitted">
+                        <label class="col-lg-4 form-label-inline" for="internet_terminal_password">{{ 'store.payment-settings.internet-terminal-password' | translate }}:</label>
+                        <div class="col-lg-8">
+                          <input type="text" id="internet_terminal_password" class="form-control" name="internet_terminal_password" formControlName="internet_terminal_password">
+                          <div class="feedback" *ngIf="form.get('sendandpay.payment_facility.internet_terminal_password').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.least' | translate:{least:30} }}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+<!--                &lt;!&ndash; Tax &ndash;&gt;-->
+<!--                <div class="row form-group" [ngClass]="{'has-error':form.get('sendandpay.tax').invalid && formSubmitted}">-->
+<!--                  <label class="col col-lg-12 form-label-inline" for="tax">{{ 'store.tax' | translate }} :</label>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <div class="input-group">-->
+<!--                      <input id="tax" class="form-control" type="number" formControlName="tax" name="tax" placeholder="{{ 'product.placeholder.setting.tax' | translate }}">-->
+<!--                      <span class="input-group-addon">{{ 'percent' | translate }}</span>-->
+<!--                    </div>-->
+<!--                    <div class="feedback" *ngIf="form.get('sendandpay.tax').hasError('min') && formSubmitted">{{ 'forms.feedback.value-min' | translate:{min:0} }}</div>-->
+<!--                    <div class="feedback" *ngIf="form.get('sendandpay.tax').hasError('max') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:100} }}</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; pay inperson &ndash;&gt;-->
+<!--                <div class="form-group spacebetween">-->
+<!--                  <label class="form-label-inline" for="pay_inperson">{{ 'product.pay.inperson' | translate }} :</label>-->
+<!--                  <label class="col-auto form-label-inline switch" for="pay_inperson">-->
+<!--                    <input id="pay_inperson" type="checkbox" formControlName="pay_inperson" (change)="statusinput(null, 'pay_inperson')"   name="pay_inperson">-->
+<!--                    <span class="slider round"></span>-->
+<!--                  </label>-->
+<!--                </div>-->
+
+<!--                &lt;!&ndash; pay card &ndash;&gt;-->
+<!--                <div class="form-group spacebetween">-->
+<!--                  <label class="form-label-inline" for="CardTransfer">{{ 'product.pay.card' | translate }} :</label>-->
+<!--                  <label class="col-auto form-label-inline switch" for="CardTransfer">-->
+<!--                    <input id="CardTransfer" type="checkbox" formControlName="CardTransfer" (change)="statusinput(null, 'CardTransfer')"  name="CardTransfer">-->
+<!--                    <span class="slider round"></span>-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--                <ng-container>-->
+<!--                <div class="row form-group animated fadeIn" *ngIf="form.get('sendandpay.CardTransfer').value" [ngClass]="{'has-error':form.get('sendandpay.card_number').invalid && formSubmitted}">-->
+<!--                        <label class="col-lg-12 form-label-inline" for="cardNumber">{{ 'product.placeholder.setting.card-number' | translate }} :</label>-->
+<!--                        <div class="col-lg-12">-->
+<!--                          <input id="cardNumber" class="form-control" type="text" name="" formControlName="card_number" placeholder="{{ 'product.placeholder.setting.card-number' | translate }}">-->
+<!--                          <div class="feedback" *ngIf="form.get('sendandpay.card_number').hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>-->
+<!--                        </div>-->
+<!--                </div>-->
+<!--                </ng-container>-->
+
+
+<!--                &lt;!&ndash; pay online &ndash;&gt;-->
+<!--                <div class="form-group spacebetween">-->
+<!--                  <label class="form-label-inline" for="online_payment_is_active">{{ 'product.pay.payonline' | translate }} :</label>-->
+<!--                  <label class="col-auto form-label-inline switch" for="online_payment_is_active">-->
+<!--                    <input id="online_payment_is_active" type="checkbox" formControlName="online_payment_is_active" (change)="statusinput(null, 'online_payment_is_active')"   name="online_payment_is_active">-->
+<!--                    <span class="slider round"></span>-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--                <ng-container >-->
+
+<!--                <div class="row form-group setting-online-pay animated fadeIn" *ngIf="form.get('sendandpay.online_payment_is_active').value">-->
+<!--                  <div class="col">-->
+<!--                    <div class="row upgrade" *ngIf="_userService.avtivePlan == 'free'" (click)="alertForPlan()">-->
+<!--                      <button type="button">{{ 'upgrade-plan' | translate }}</button>-->
+<!--                    </div>-->
+<!--                    <div class="row">-->
+<!--                      <div class="col-lg-6">-->
+<!--                        <div class="row">-->
+<!--                          <div class="col-12" formGroupName="saman">-->
+<!--                            <div class="title">{{ 'store.payment-settings.saman' | translate }}</div>-->
+<!--                            <div class="row form-group" [class.has-error]="form.get('sendandpay.saman.merchant_id').invalid && formSubmitted">-->
+<!--                              <label class="col-lg-4 form-label-inline" for="saman-merchant-id">{{ 'store.payment-settings.merchant-id' | translate }}:</label>-->
+<!--                              <div class="col-lg-8">-->
+<!--                                <input type="text" id="saman-merchant-id" class="form-control" name="merchant_id" formControlName="merchant_id" placeholder="{{ 'product.placeholder.setting.saman-merchantid' | translate }}">-->
+<!--                                <div class="feedback" *ngIf="form.get('sendandpay.saman.merchant_id').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.least' | translate:{least:30} }}</div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                          <div class="col-12" formGroupName="irankish">-->
+<!--                            <div class="title">{{ 'store.payment-settings.irankish' | translate }}</div>-->
+
+<!--                            <div class="row form-group" [class.has-error]="form.get('sendandpay.irankish.merchant_id').invalid && formSubmitted">-->
+<!--                              <label class="col-lg-4 form-label-inline" for="irankish-merchant-id">{{ 'store.payment-settings.merchant-id' | translate }}:</label>-->
+<!--                              <div class="col-lg-8">-->
+<!--                                <input type="text" id="irankish-merchant-id" class="form-control" name="merchant_id" formControlName="merchant_id" placeholder="{{ 'product.placeholder.setting.irankish-merchantid' | translate }}">-->
+<!--                                <div class="feedback" *ngIf="form.get('sendandpay.irankish.merchant_id').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.least' | translate:{least:30} }}</div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+
+<!--                            <div class="row form-group" [class.has-error]="form.get('sendandpay.irankish.description').invalid && formSubmitted">-->
+<!--                              <label class="col-lg-4 form-label-inline" for="saman_description">{{ 'store.payment-settings.description' | translate }}:</label>-->
+<!--                              <div class="col-lg-8">-->
+<!--                                <textarea type="text" id="saman_description" class="form-control" name="saman_description" rows="4" formControlName="description" placeholder="{{ 'product.placeholder.setting.description' | translate }}"></textarea>-->
+<!--                                <div class="feedback" *ngIf="form.get('sendandpay.irankish.description').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.least' | translate:{least:200} }}</div>-->
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                      <div class="col-lg-6" formGroupName="mellat">-->
+<!--                        <div class="title">{{ 'store.payment-settings.mellat' | translate }}</div>-->
+
+<!--                        <div class="row form-group" [class.has-error]="form.get('sendandpay.mellat.terminal_id').invalid && formSubmitted">-->
+<!--                          <label class="col-lg-4 form-label-inline" for="mellat-terminal-id">{{ 'store.payment-settings.terminal-id' | translate }}:</label>-->
+<!--                          <div class="col-lg-8">-->
+<!--                            <input type="text" id="mellat-terminal-id" class="form-control" name="terminal_id" formControlName="terminal_id" placeholder="{{ 'product.placeholder.setting.mellat-terminalid' | translate }}">-->
+<!--                            <div class="feedback" *ngIf="form.get('sendandpay.mellat.terminal_id').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.least' | translate:{least:30} }}</div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="row form-group" [class.has-error]="form.get('sendandpay.mellat.username').invalid && formSubmitted">-->
+<!--                          <label class="col-lg-4 form-label-inline" for="mellat-username">{{ 'store.payment-settings.username' | translate }}:</label>-->
+<!--                          <div class="col-lg-8">-->
+<!--                            <input type="text" id="mellat-username" class="form-control" name="username" formControlName="username" placeholder="{{ 'product.placeholder.setting.mellat-username' | translate }}">-->
+<!--                            <div class="feedback" *ngIf="form.get('sendandpay.mellat.username').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.least' | translate:{least:50} }}</div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="row form-group" [class.has-error]="form.get('sendandpay.mellat.password').invalid && formSubmitted">-->
+<!--                          <label class="col-lg-4 form-label-inline" for="mellat-password">{{ 'store.payment-settings.password' | translate }}:</label>-->
+<!--                          <div class="col-lg-8">-->
+<!--                            <input type="password" id="mellat-password" class="form-control" name="password" formControlName="password" placeholder="{{ 'product.placeholder.setting.mellat-password' | translate }}">-->
+<!--                            <div class="feedback" *ngIf="form.get('sendandpay.mellat.password').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.least' | translate:{least:50} }}</div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="row form-group" [class.has-error]="form.get('sendandpay.mellat.description').invalid && formSubmitted">-->
+<!--                          <label class="col-lg-4 form-label-inline" for="mellat_description">{{ 'store.payment-settings.description' | translate }}:</label>-->
+<!--                          <div class="col-lg-8">-->
+<!--                            <textarea type="text" id="mellat_description" class="form-control" name="mellat_description" rows="4" formControlName="description" placeholder="{{ 'product.placeholder.setting.description' | translate }}"></textarea>-->
+<!--                            <div class="feedback" *ngIf="form.get('sendandpay.mellat.description').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.least' | translate:{least:200} }}</div>-->
+<!--                          </div>-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                </ng-container>-->
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!--      <div id="social" class="tabcontent" formGroupName="social">-->
+<!--        <div class="row">-->
+<!--          <div class="col-lg-12">-->
+<!--            <div class="row wall mb">-->
+<!--              <div class="col-12">-->
+<!--                <div class="spacebetween">-->
+<!--                  <div class="title">-->
+<!--                    {{ 'store.socials.title' | translate }}-->
+<!--                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_mainoption').open();"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              &lt;!&ndash; Social &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+
+<!--                <div class="row">-->
+
+<!--                  &lt;!&ndash; Telegram Support &ndash;&gt;-->
+<!--                  <div class="col-lg-6">-->
+<!--                    <div class="row form-group" [class.has-error]="form.get('social.telegram_support').invalid && formSubmitted">-->
+<!--                      <label class="col col-lg-12 form-label-inline" for="telegram_support">{{ 'store.socials.telegram_support' | translate }} :</label>-->
+<!--                      <div class="col-lg-12">-->
+<!--                        <input id="telegram_support" class="form-control" formControlName="telegram_support" type="text" name="telegram_support" placeholder="{{ 'product.placeholder.setting.telegramsupport' | translate }}">-->
+<!--                        <div class="feedback" *ngIf="form.get('social.telegram_support').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:200} }}</div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                  &lt;!&ndash; Instagram &ndash;&gt;-->
+<!--                  <div class="col-lg-6">-->
+<!--                    <div class="row form-group" [class.has-error]="form.get('social.instagram').invalid && formSubmitted">-->
+<!--                      <label class="col col-lg-12 form-label-inline" for="instagram">{{ 'store.socials.instagram' | translate }} :</label>-->
+<!--                      <div class="col-lg-12">-->
+<!--                        <input id="instagram" class="form-control" formControlName="instagram" type="text" name="instagram" placeholder="{{ 'product.placeholder.setting.instagram' | translate }}">-->
+<!--                        <div class="feedback" *ngIf="form.get('social.instagram').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:200} }}</div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                  &lt;!&ndash; Aparat &ndash;&gt;-->
+<!--                  <div class="col-lg-6">-->
+<!--                    <div class="row form-group"  [class.has-error]="form.get('social.aparat').invalid && formSubmitted">-->
+<!--                      <label class="col col-lg-12 form-label-inline" for="aparat">{{ 'store.socials.aparat' | translate }} :</label>-->
+<!--                      <div class="col-lg-12">-->
+<!--                        <input id="aparat" class="form-control" formControlName="aparat" type="text" name="aparat" placeholder="{{ 'product.placeholder.setting.aparat' | translate }}">-->
+<!--                        <div class="feedback" *ngIf="form.get('social.aparat').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:200} }}</div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                </div>-->
+
+<!--              </div>-->
+
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--        <div class="row">-->
+<!--          <div class="col-lg-12">-->
+<!--            <div class="row upgrade" *ngIf="_userService.avtivePlan == 'free'" (click)="alertForPlan()">-->
+<!--              <button type="button">{{ 'upgrade-plan' | translate }}</button>-->
+<!--            </div>-->
+<!--            <div class="row wall mb">-->
+<!--              <div class="col-12">-->
+<!--                <div class="spacebetween">-->
+<!--                  <div class="title">-->
+<!--                    {{ 'store.socials.setting-social-connect' | translate }}-->
+<!--                    <div class="icon icon-info-circle tools" (click)="ngxSmartModalService.getModal('help_mainoption').open();"></div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              &lt;!&ndash; send_to_socialmedia &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="form-group spacebetween">-->
+<!--                  <label class="form-label-inline" for="send_to_social_medias">{{ 'store.socials.send_to_socialmedia' | translate }} :</label>-->
+<!--                  <label class="col-auto form-label-inline switch" for="send_to_social_medias">-->
+<!--                    <input id="send_to_social_medias" type="checkbox" formControlName="send_to_social_medias"  name="send_to_social_medias">-->
+<!--                    <span class="slider round"></span>-->
+<!--                  </label>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              &lt;!&ndash; Telegram Channel &ndash;&gt;-->
+<!--              <div class="col-lg-12">-->
+<!--                <div class="row form-group" [class.has-error]="form.get('social.telegram_channel').invalid && formSubmitted">-->
+<!--                  <label class="col col-lg-12 form-label-inline" for="telegram_channel">{{ 'store.socials.telegram_channel' | translate }} :</label>-->
+<!--                  <div class="col-lg-12">-->
+<!--                    <input id="telegram_channel" class="form-control" formControlName="telegram_channel" type="text" name="telegram_channel" placeholder="{{ 'product.placeholder.setting.telegramchannel' | translate }}">-->
+<!--                    <div class="feedback" *ngIf="form.get('social.telegram_channel').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:200} }}</div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+<!--              <div class="col-lg-12">-->
+<!--                <div class="row" formGroupName="instagram-auth">-->
+<!--                  <div class="col-lg-6">-->
+<!--                    <div class="row form-group" [class.has-error]="form.get('social.instagram-auth.username').invalid && formSubmitted">-->
+<!--                      <label class="col col-lg-12 form-label-inline" for="username_instagram">{{ 'store.socials.username_instagram' | translate }} :</label>-->
+<!--                      <div class="col-lg-12">-->
+<!--                        <input id="username_instagram" class="form-control" formControlName="username" type="text" name="username_instagram">-->
+<!--                        <div class="feedback" *ngIf="form.get('social.instagram-auth.username').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:200} }}</div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="col-lg-6">-->
+<!--                    <div class="row form-group" [class.has-error]="form.get('social.instagram-auth.password').invalid && formSubmitted">-->
+<!--                      <label class="col col-lg-12 form-label-inline" for="password_instagram">{{ 'store.socials.password_instagram' | translate }} :</label>-->
+<!--                      <div class="col-lg-12">-->
+<!--                        <input id="password_instagram" class="form-control" formControlName="password" type="password" name="password_instagram">-->
+<!--                        <div class="feedback" *ngIf="form.get('social.instagram-auth.password').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:200} }}</div>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+
+
+<!--              &lt;!&ndash; Setting Telegram &ndash;&gt;-->
+<!--              &lt;!&ndash;<div class="col-lg-12">&ndash;&gt;-->
+<!--                &lt;!&ndash;<div class="row">&ndash;&gt;-->
+<!--                  &lt;!&ndash;&lt;!&ndash; Telegram Channel &ndash;&gt;&ndash;&gt;-->
+<!--                  &lt;!&ndash;<div class="col-lg-6">&ndash;&gt;-->
+<!--                    &lt;!&ndash;<div class="row form-group" [class.has-error]="form.get('social.telegram_id').invalid && formSubmitted">&ndash;&gt;-->
+<!--                      &lt;!&ndash;<label class="col col-lg-12 form-label-inline" for="telegramID">{{ 'product.placeholder.setting.id-telegram' | translate }} :</label>&ndash;&gt;-->
+<!--                      &lt;!&ndash;<div class="col-lg-12">&ndash;&gt;-->
+<!--                        &lt;!&ndash;<input id="telegramID" class="form-control" formControlName="telegram_id" type="text" name="telegram_id" placeholder="{{ 'product.placeholder.setting.id-telegram' | translate }}">&ndash;&gt;-->
+<!--                        &lt;!&ndash;&lt;!&ndash;<div class="feedback" *ngIf="form.get('social.telegram_id').hasError('maxlength') && formSubmitted">{{ 'forms.feedback.value-max' | translate:{max:200} }}</div>&ndash;&gt;&ndash;&gt;-->
+<!--                      &lt;!&ndash;</div>&ndash;&gt;-->
+<!--                    &lt;!&ndash;</div>&ndash;&gt;-->
+<!--                  &lt;!&ndash;</div>&ndash;&gt;-->
+<!--                &lt;!&ndash;</div>&ndash;&gt;-->
+<!--              &lt;!&ndash;</div>&ndash;&gt;-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        </div>-->
+
+      <div class="row wall wall-sm mb">
+      <!-- Top Buttons -->
+        <div class="col-md-auto">
+          <button class="btn btn-sm btn-success w-100" type="submit">{{ 'forms.save' | translate }}</button>
+        </div>
+        <div class="col-md-auto">
+        <button class="btn btn-sm btn-warning w-100" type="button" routerLink="main">{{ 'back' | translate }}</button>
+      </div>
+    </div>
+
+  </form>
+</section>
+<input type="hidden" id="latlng">
+
+<ngx-smart-modal [closable]="false" #select_area identifier="select_area">
+  <div class="spacebetween">
+    <label>{{ 'store.geographic_coverage' | translate }}</label>
+    <button aria-label="Close" (click)="ngxSmartModalService.getModal('select_area').close()" class="button-modal__close" type="button"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSIgd2lkdGg9IjE2cHgiIGhlaWdodD0iMTZweCI+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTUwNS45NDMsNi4wNThjLTguMDc3LTguMDc3LTIxLjE3Mi04LjA3Ny0yOS4yNDksMEw2LjA1OCw0NzYuNjkzYy04LjA3Nyw4LjA3Ny04LjA3NywyMS4xNzIsMCwyOS4yNDkgICAgQzEwLjA5Niw1MDkuOTgyLDE1LjM5LDUxMiwyMC42ODMsNTEyYzUuMjkzLDAsMTAuNTg2LTIuMDE5LDE0LjYyNS02LjA1OUw1MDUuOTQzLDM1LjMwNiAgICBDNTE0LjAxOSwyNy4yMyw1MTQuMDE5LDE0LjEzNSw1MDUuOTQzLDYuMDU4eiIgZmlsbD0iIzAwMDAwMCIvPgoJPC9nPgo8L2c+CjxnPgoJPGc+CgkJPHBhdGggZD0iTTUwNS45NDIsNDc2LjY5NEwzNS4zMDYsNi4wNTljLTguMDc2LTguMDc3LTIxLjE3Mi04LjA3Ny0yOS4yNDgsMGMtOC4wNzcsOC4wNzYtOC4wNzcsMjEuMTcxLDAsMjkuMjQ4bDQ3MC42MzYsNDcwLjYzNiAgICBjNC4wMzgsNC4wMzksOS4zMzIsNi4wNTgsMTQuNjI1LDYuMDU4YzUuMjkzLDAsMTAuNTg3LTIuMDE5LDE0LjYyNC02LjA1N0M1MTQuMDE4LDQ5Ny44NjYsNTE0LjAxOCw0ODQuNzcxLDUwNS45NDIsNDc2LjY5NHoiIGZpbGw9IiMwMDAwMDAiLz4KCTwvZz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K"></button>
+  </div>
+
+  <hr>
+
+  <!-- Province -->
+  <div class="row form-group parent1">
+    <label class="col col-lg-12 form-label-inline" for="provincemodal">{{ 'store.state' | translate }} : </label>
+    <div class="col-lg-12">
+      <select id="provincemodal" name="state" class="form-control">
+      </select>
+    </div>
+  </div>
+
+  <!-- City -->
+  <div class="row form-group parent2">
+    <label class="col col-lg-12 form-label-inline" for="citymodal">{{ 'store.city' | translate }} :</label>
+    <div class="col-lg-12">
+      <select id="citymodal" name="city" class="form-control">
+        <option value="">{{ 'store.all_city' | translate }}</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Area -->
+  <div class="row form-group parent3">
+    <label class="col col-lg-12 form-label-inline" for="districtmodal">{{ 'store.district' | translate }} :</label>
+    <div class="col-lg-12">
+      <select id="districtmodal" name="area" class="form-control">
+        <option value="">{{ 'store.all_district' | translate }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="button-modal">
+    <span (click)="ngxSmartModalService.getModal('select_area').close()" class="button-modal__cancel btn">{{ 'close' | translate }}</span>
+    <span (click)="add_selected_area()" class="button-modal__okandclose btn">{{ 'forms.add' | translate }}</span>
+  </div>
+</ngx-smart-modal>

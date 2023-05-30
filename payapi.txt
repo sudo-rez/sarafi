@@ -1,0 +1,53 @@
+JWT Token : 
+eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFwaURpcmVjdCIsImFkbWluIjp0cnVlLCJpYXQiOjk4NzY1MjYzMjJ9.YgBGb9MGuiJGwvtLLEXSD8098h0RYi7_6H6IekEMz5Rdo6506_N8Io5o8F94QUun6rkFhZXxs0Dc4cNJ_UWg7g
+
+----------------
+
+Account Status : 
+
+Request : 
+
+https://paybulk.xyz/accountStatus
+
+{"pan":"5894631534498963","mobile":"09123432334","payment_id":12331,"national_id":"","birthday":""}
+
+Response : 
+
+{"code":1,"msg":"نیازی به ثبت نام نیست"}
+
+{"code":2,"msg":"استفاده از این بانک موقتا غیرفعال شده است"}
+
+{"code":0,"data":{"message":"اطلاعات کاربر با موفقیت ثبت شد...","result":0},"msg":"لطفا کد فعال سازی ارسال شده را وارد نمایید"}
+
+------------------
+
+Account Verify : 
+
+Request :
+
+https://paybulk.xyz/accountVerify
+
+{"pan":"5894631534498963","mobile":"09123432334","payment_id":12331,"verify_code":"13435445"}
+
+Response: 
+
+{"code":-1,"msg":"کد وارد شده صحیح نمی باشد","extra":""}
+
+{"code":0,"msg":"اکانت با موفقبت ثبت گردید","extra":""}
+
+
+----------------
+
+Pay With Api : 
+
+Request :
+https://paybulk.xyz/payWithApi
+
+{"pan":"5894631534498969","pin2":"4434434","amount":"400000","expire_month":"09","expire_year":"05","cvv2":"1234","payment_id":"358739687","pan_des":"5859831222211004"}
+
+Response : 
+
+{"code":0,"msg":"done","data":{"bankReference":null,"sourceCard":"5892101171614882","site_ref":"358739687","amount":"400000"}}
+
+{"code":-3,"msg":"تراکنش ناموفق ٬ لطفا دقایقی دیگر مجددا تلاش نمایید"}
+

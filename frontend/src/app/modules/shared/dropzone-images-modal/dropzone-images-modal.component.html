@@ -1,0 +1,88 @@
+<div class="overlay" (click)="closeModal()"></div>
+<div class="wrapper wall" (dragenter)="dragEnter()" (dragleave)="dragLeave()" (dragover)="dragOver($event)" (drop)="onDrop($event)">
+
+  <div class="row header" #header>
+    <div class="col">
+      <div style="padding: 0.7rem 0; line-height: 2.5rem;">
+        {{ 'dropzone-images.help' | translate }}
+      </div>
+    </div>
+    <div class="col-auto">
+      <label class="btn btn-sm btn-success" for="upload-button">
+        {{ 'dropzone-images.upload-button' | translate }}
+        <input id="upload-button" name="images" type="file" (change)="inputChange($event)" accept="image/jpeg" multiple>
+      </label>
+    </div>
+    <!--<div class="col-md-auto">-->
+      <!--<input class="search-input small text-center" type="text" (keyup)="search.pass($event, 'imagesList')" placeholder="{{ 'search' | translate }}">-->
+    <!--</div>-->
+    <div class="col-auto">
+      <button type="button" class="btn btn-sm btn-danger" (click)="closeModal()">{{ 'close' | translate }}</button>
+    </div>
+    <div class="col-12">
+      <pagination (callback)="getImages($event)" [currentPage]="currentPage" [totalPages]="totalPages"></pagination>
+    </div>
+  </div>
+
+  <div class="row justify-content-center align-items-start align-content-start content" [style.top]="contentTop" [ngClass]="{ 'drag-over': dragOvered, 'illegal-file': illegalFile }">
+    <div class="col-auto pb" *ngFor="let image of images">
+      <div class="dropzone-image-item" [ngClass]="{ 'selected': isSelected(image) }">
+        <span class="item-name" [title]="image.name">{{ image.name }}</span>
+        <img class="item-image" [src]="image.thumb" [alt]="image.name" (click)="toggleSelect(image)">
+        <div class="item-tools">
+          <div class="icon icon-search view-item" title="{{ 'dropzone-images.view-image' | translate }}"></div>
+          <div class="icon icon-remove delete-item" (click)="deleteImage(image)" title="{{ 'dropzone-images.delete-image' | translate }}"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12"></div>
+    <div class="col-lg-12"></div>
+
+    <!-- Image cropper -->
+    <ng-container *ngIf="isShowCropper">
+      <button class="btn btn-sm" type="button" id="image-cropper" (click)="flipHorizontal()" title="{{ 'image-cropper.flip-horizontal' | translate }}">
+        <span class="icon icon-flip"></span>
+      </button>
+      <button class="btn btn-sm" type="button" (click)="flipVertical()" title="{{ 'image-cropper.flip-vertical' | translate }}">
+        <span class="icon icon-flip1"></span>
+      </button>
+      <button class="btn btn-sm" type="button" (click)="resetImage()" title="{{ 'image-cropper.reset' | translate }}">
+        <span class="icon icon-spinner"></span>
+      </button>
+      <button class="btn btn-sm" type="button" (click)="zoomOut()" title="{{ 'image-cropper.zoom-out' | translate }}">
+        <span class="icon icon-zoom-out"></span>
+      </button>
+      <button class="btn btn-sm" type="button" (click)="zoomIn()" title="{{ 'image-cropper.zoom-in' | translate }}">
+        <span class="icon icon-zoom-in"></span>
+      </button>
+      <button class="btn btn-sm btn-success" type="button" (click)="uploadImage()" title="{{ 'image-cropper.save-upload' | translate }}">
+        <span class="icon icon-check-square-o"></span>
+      </button>
+      <button class="btn btn-sm btn-success" type="button" (click)="uploadImageWithoutCrop()" title="{{ 'image-cropper.upload' | translate }}">
+        <span class="icon icon-upload"></span>
+      </button>
+      <div class="col-lg-12"></div>
+
+      <div>
+        <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [containWithinAspectRatio]="containWithinAspectRatio"
+          [aspectRatio]="1 / 1"
+          [onlyScaleDown]="true"
+          [roundCropper]="false"
+          [canvasRotation]="canvasRotation"
+          [transform]="transform"
+          [alignImage]="'center'"
+          [style.display]="showCropper ? null : 'none'"
+          format="png"
+          (imageCropped)="imageCropped($event)"
+          (imageLoaded)="imageLoaded()"
+          (cropperReady)="cropperReady($event)"
+          (loadImageFailed)="loadImageFailed()"
+        ></image-cropper>
+      </div>
+      <img [src]="croppedImage" width="150" height="150" [style.border]="croppedImage ? '1px solid black' : 'none'" />
+    </ng-container>
+  </div>
+</div>

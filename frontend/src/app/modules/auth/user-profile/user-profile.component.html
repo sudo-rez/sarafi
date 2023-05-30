@@ -1,0 +1,79 @@
+<section class="container animated fadeIn">
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <breadcrumb title="{{ 'auth.user-profile' | translate }}"></breadcrumb>
+      <form class="row wall" [formGroup]="form" (ngSubmit)="submit(form)" novalidate>
+
+        <!-- Box Upload Image -->
+        <div class="col-12">
+          <div class="form-group text-center">
+            <label class="cursor-pointer" for="avatarUpload">
+              <img #avatar width="120" height="120" [src]="this.form.get('avatar').value || './static/images/no_image.png'" style="border: 2px dashed #CCCCCC;padding: 15px;border-radius: 50%">
+            </label>
+          </div>
+          <input style="display: none;" id="avatarUpload" type="file" (change)="uploadAvatar($event)">
+        </div>
+
+        <!-- Email -->
+        <div class="col-12">
+          <div class="form-group" [ngClass]="{'has-error':form.controls['email'].invalid && formSubmitted}">
+            <label class="form-label" for="email">{{ 'auth.email' | translate }}:</label>
+            <input type="email" id="email" class="form-control" name="email" formControlName="email" placeholder="">
+            <div class="feedback" *ngIf="form.controls['email'].hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+          </div>
+        </div>
+        <!-- Call -->
+        <div class="col-12">
+          <div class="form-group" [ngClass]="{'has-error':form.controls['cellphone'].invalid && formSubmitted}">
+            <label class="form-label" for="cellphone">{{ 'auth.call' | translate }}:</label>
+            <input type="text" id="cellphone" class="form-control" name="cellphone" formControlName="cellphone">
+            <div class="feedback" *ngIf="form.controls['cellphone'].hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+          </div>
+        </div>
+        <!-- Name -->
+        <div class="col-12">
+          <div class="form-group" [ngClass]="{'has-error':form.controls['fullname'].invalid && formSubmitted}">
+            <label class="form-label" for="fullname">{{ 'auth.fullname' | translate }}:</label>
+            <input type="text" id="fullname" class="form-control" name="fullname" formControlName="fullname" placeholder="">
+            <div class="feedback" *ngIf="form.controls['fullname'].hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+          </div>
+        </div>
+        <!-- Marital -->
+        <div class="col-12">
+          <div class="form-group">
+            <label class="form-label" for="marital">{{ 'auth.marital.~' | translate }}:</label>
+            <select id="martial" class="form-control" name="martial" formControlName="martial">
+              <option value="" selected disabled>---</option>
+              <option value="single">{{ 'auth.marital.single' | translate }}</option>
+              <option value="married">{{ 'auth.marital.married' | translate }}</option>
+            </select>
+          </div>
+        </div>
+        <!-- Gender -->
+        <div class="col-12">
+          <div class="form-group">
+            <label class="form-label" for="gender">{{ 'auth.gender.~' | translate }}:</label>
+            <select id="gender" class="form-control" name="gender" formControlName="sex">
+              <option value="" selected disabled>---</option>
+              <option value="male">{{ 'auth.gender.male' | translate }}</option>
+              <option value="female">{{ 'auth.gender.female' | translate }}</option>
+            </select>
+          </div>
+        </div>
+        <!-- Desc -->
+        <div class="col-12">
+          <div class="form-group">
+            <label class="form-label" for="desc">{{ 'auth.description' | translate }}:</label>
+            <textarea id="desc" rows="6" class="form-control" formControlName="desc"></textarea>
+          </div>
+        </div>
+        <!-- Buttons -->
+        <div class="col-12">
+          <button type="submit" class="btn" [disabled]="form.invalid && formSubmitted">{{ 'forms.save' | translate }}</button>
+          <button type="button" class="btn btn-danger" [routerLink]="['/main']">{{ 'forms.cancel' | translate }}</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,115 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'admin.customer-list' | translate }}"></breadcrumb>
+
+  <div class="row wall wall-sm mb">
+    <div class="col-md"></div>
+    <div class="col-md-auto">
+      <input class="search-input small text-center" type="text" [ngModel]="filters.search"
+        (keyup)="search.pass($event, 'adminUserList')" placeholder="{{ 'search' | translate }}">
+    </div>
+  </div>
+
+  <div class="row wall mb">
+    <div class="col">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <th> {{ 'customer.row' | translate }} </th>
+            <th class="sort-option" width="40%">{{ 'customer.fullname' | translate }} </th>
+            <th class="">{{ 'customer.status-verified' | translate }}</th>
+            <th class="sort-option text-center" width="30%">{{ 'customer.cellphone' | translate }} </th>
+            <th class="text-center"> {{ 'customer.free-subscription' | translate }} </th>
+            <!-- <th class="text-center">{{ 'auth.reset-pass' | translate }}</th> -->
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let customer of users;let index = index">
+              <th>{{ (toCalculateRowInTable * 10) + (index+1) }}</th>
+              <th>{{ customer.fullname }}</th>
+              <th *ngIf="customer.verified_mobile">{{ 'customer.active' | translate }}</th>
+              <th *ngIf="!customer.verified_mobile">{{ 'customer.inactive' | translate }}</th>
+              <td class="text-center" dir="ltr">{{ customer.cellphone }}</td>
+              <td class="text-center">
+                <div class="icon icon-free-sticker-svgrepo-com tools" (click)="selectCustomer(customer)"></div>
+              </td>
+              <!-- <td class="text-center">
+                <div class="icon icon-refresh tools" (click)="resetPass(user)"></div>
+              </td> -->
+            </tr>
+          </tbody>
+
+          <tfoot>
+            <tr [hidden]="users.length">
+              <td class="text-center" colspan="6">
+                <b>{{ 'list-empty' | translate }}</b>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pb">
+    <div class="col">
+      <pagination (callback)="getUsers($event)" [currentPage]="filters.page" [totalPages]="totalPages"></pagination>
+    </div>
+  </div>
+
+</section>
+
+<admin-reset-user-pass [user]="userToResetPass"></admin-reset-user-pass>
+
+<ngx-smart-modal [closable]="false" #freeSubscription identifier="freeSubscription">
+  <div class="spacebetween">
+    <h2> اشتراک رایگان </h2>
+  </div>
+
+  <div class="col-lg-12 pb">
+    <div class="wall">
+      <table class="table">
+        <thead>
+          <th>#</th>
+          <th>{{ 'subscription.name_fa' | translate }}</th>
+          <th>{{ 'subscription.duration' | translate }}</th>
+          <th>{{ 'subscription.price' | translate }} ({{ 'rial' | translate }})</th>
+          <th>{{ 'customer.active-subscription' | translate }}</th>
+          <!-- <th class="text-center">{{ 'actions' | translate }}</th> -->
+        </thead>
+        <tbody>
+          <tr *ngFor="let subscription of subscriptions; let index = index">
+            <th>{{ index + 1 }}</th>
+            <td>{{ subscription.subscription_name_fa }}</td>
+            <td>{{ subscription.subscription_duration }}</td>
+            <td>{{ subscription.subscription_price | number }}</td>
+            <td class="text-center">
+              <label class="checkbox-select">
+                <input id="checkbox" type="checkbox" (click)="selectedSubscription($event, subscription.id)"
+                  [checked]="checkCheckbox[index]">
+                <span></span>
+              </label>
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr [hidden]="subscriptions.length">
+            <td colspan="5" class="text-center">
+              <b>{{ 'list-empty' | translate }}</b>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-10 mt">
+    <div class="row">
+      <div class="col-md-12" style="text-align: end;">
+        <button class="btn btn-warning" type="button"
+          (click)="ngxSmartModalService.getModal('freeSubscription').close() ; emptyCheckbox()">{{ 'close' | translate
+          }}</button>
+        <button class="btn" type="submit" (click)="giveFreeSubscription()">{{ "upload.create.publish" |
+          translate}}</button>
+      </div>
+    </div>
+  </div>
+</ngx-smart-modal>

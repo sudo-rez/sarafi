@@ -1,0 +1,93 @@
+// main: ../../styles.less
+
+tag-input,
+select-input {
+  width: 100%;
+  display: block;
+  position: relative;
+  border: 0.1rem solid @alto;
+  border-radius: 0.5rem;
+  color: @boulder;
+  padding: 0.6rem;
+  font-size: 1.4rem;
+  font-weight: bold;
+  background-color: @white;
+  text-align: left;
+  cursor: text;
+  .transition(0.3s);
+  &.input-focused,
+  &.inputref-focused,
+  &:hover {
+    border-color: var(--main-color);
+  }
+  &.is-empty,
+  &.input-focused,
+  &.inputref-focused {
+    input.input-field {
+      width: auto;
+    }
+  }
+  &.input-disabled {
+    cursor: default;
+    input.input-field {
+      display: none;
+    }
+  }
+  .input-field {
+    display: inline-block;
+    width: 0.2rem;
+    border: 0;
+    padding: 0.6rem;
+    background-color: @white;
+    &:focus, &:hover {
+      border-color: var(--main-color);
+      outline: 0;
+    }
+  }
+  input-item {
+    display: inline-block;
+    background: @gallery;
+    padding: 0.4rem;
+    margin: 0.2rem;
+    border-radius: 0.5rem;
+    .input-item-remove {
+      cursor: pointer;
+      display: inline-block;
+      padding: 0 0.3rem;
+    }
+  }
+}
+
+select-input {
+  .select-list {
+    width: 100%;
+    max-height: 20rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 10;
+    //margin-top: 1rem;
+    margin-top: 2px;
+    background-color: @white;
+    border: 0.1rem solid @alto;
+    border-radius: 0.5rem;
+    list-style: none;
+    padding: 0;
+    .scrollbar();
+    .select-option {
+      padding: 1.2rem;
+      z-index: 100;
+      cursor: pointer;
+      .transition(0.3s);
+      &.selected {
+        background-color: @gallery;
+      }
+      &:hover,
+      &.item-navigator {
+        background-color: @alto;
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "modules": [
+    {
+      "id": "product_list_mod",
+      "fa_name": "لیست محصولات",
+      "en_name": "Product List",
+      "classes": "fa fa-th-list",
+      "init_param": {
+        "display_type": "box",
+        "all_cats": true,
+        "cats": [],
+        "limit": 21
+      }
+    },
+    {
+      "id": "product_special_mod",
+      "fa_name": "محصولات ویژه",
+      "en_name": "Product Special",
+      "classes": "fa fa-th-list",
+      "init_param": {
+        "limit": 10
+      }
+    },
+    {
+      "id": "slider_mod",
+      "fa_name": "اسلایدر",
+      "en_name": "Slider",
+      "classes": "fa fa-th-list",
+      "init_param": {
+        "slider": []
+      }
+    },
+    {
+      "id": "blog_mod",
+      "fa_name": "وبلاگ",
+      "en_name": "Blog",
+      "classes": "fa fa-th-list",
+      "init_param": {
+        "limit": 10
+      }
+    },
+    {
+      "id": "header_mod",
+      "fa_name": "هدر",
+      "en_name": "Header",
+      "classes": "fa fa-th-list",
+      "init_param": {
+      }
+    },
+    {
+      "id": "footer_mod",
+      "fa_name": "فوتر",
+      "en_name": "Footer",
+      "classes": "fa fa-th-list",
+      "init_param": {
+      }
+    }
+  ]
+}

@@ -1,0 +1,290 @@
+<div class="dashboard animated fadeIn">
+  <div class="head">
+    <!-- <div class="welcome">
+      <breadcrumb class="title" title="{{ 'dashboard.title'| translate }}"></breadcrumb>
+    </div> -->
+    <div class="row report">
+      <div *ngIf="!userService.isAdmin()" class="col-xl-3 col-md-3 col-sm-3 box ">
+        <div class="topitem">
+          <div class="topitem_head">
+            <p class="topitem_title">{{ 'wallet.value' | translate }}</p>
+          </div>
+          <div class="topitem_body">
+            <p><span class="icon icon-vallet"></span> {{wallet?.amount | numberPipe}} {{wallet?.currency | translate}}</p>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="userService.isAdmin()" class="col-xl-3 col-md-3 col-sm-3 box ">
+        <div class="topitem">
+          <div class="topitem_head">
+            <p class="topitem_title">{{ 'dayprofit' | translate }}</p>
+          </div>
+          <div class="topitem_body">
+            <p><span class="icon icon-mony"></span> {{base?.todayprofit | numberPipe}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-3 col-sm-3 box">
+        <div class="topitem">
+          <div class="topitem_head">
+            <p class="topitem_title">{{ 'dashboard.statistics.withdraw-remaining' | translate }}</p>
+          </div>
+          <div class="topitem_body">
+            <p><span class="icon icon-mony"></span> {{base?.wd_remaining | numberPipe}} {{wallet?.currency | translate}}</p>
+            
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-3 col-sm-3 box">
+        <div class="topitem">
+          <div class="topitem_head">
+            <p class="topitem_title">{{ 'dashboard.statistics.paid-today' | translate }}</p>
+          </div>
+          <div class="topitem_body">
+            <p><span class="icon icon-mony"></span> {{base?.paidtoday | numberPipe}} {{wallet?.currency | translate}}</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-3 col-md-3 col-sm-3 box">
+        <div class="topitem">
+          <div class="topitem_head">
+            <p class="topitem_title">{{ 'dashboard.statistics.txn-today' | translate }}</p>
+          </div>
+          <div class="topitem_body">
+            <p> {{'count'| translate}}: {{base?.todaytxncount | numberPipe}}</p>
+            <p> {{'amount'| translate}}: {{base?.todaytxn | numberPipe}}</p>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 col-md-12 col-sm-12 box">
+        <div class="item">
+          <div class="item_head">
+            <span class="item_head--title">{{ 'dashboard.statistics.queue' | translate }}</span>
+
+            <div *ngIf="withdrawQueue" class="select-wrapper">
+              <select class="select" name="brandlist" id="wdbrandlist" [(ngModel)]="wdselect">
+                <option *ngFor="let brand of withdrawQueue | keyvalue" [ngValue]="brand.value">{{ brand.key}}</option>
+              </select>
+              <label class="select-label"><i class="icon icon-chevron-down"></i></label>
+            </div>
+          </div>
+          <div class="item_body bodyItem2">
+            <table class="table table-border">
+              <thead>
+                <th class="sort-option">{{ 'txn.account' | translate }}</th>
+                <th class="sort-option">{{ 'txn.card' | translate }}</th>
+                <th class="sort-option">{{ 'txn.amount' | translate }} </th>
+                <th class="sort-option">{{ 'txn.remaining' | translate }}</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let wd of wdselect;let index = index">
+                  <th>{{ wd.WD.account }}</th>
+                  <th>{{ wd.WD.card }}</th>
+                  <th>{{ wd.WD.amount | number }}</th>
+                  <th>{{ wd.WD.remaining | number}}</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-6 col-md-12 col-sm-12 box">
+        <div class="item">
+          <div class="item_head">
+            <span class="item_head--title">{{ 'dashboard.statistics.lasttxns' | translate }}</span>
+            <div *ngIf="brands?.length>0" class="select-wrapper">
+              <select class="select" name="brandlist" id="txnbrandlist" [(ngModel)]="txnselect"
+                (change)="getLastTxns()">
+                <option *ngFor="let brand of brands" [ngValue]="brand._id">{{ brand.name}}</option>
+              </select>
+              <label class="select-label"><i class="icon icon-chevron-down"></i></label>
+            </div>
+          </div>
+          <div class="item_body bodyItem2">
+            <table class="table table-border">
+              <thead>
+                <th class="sort-option">{{ 'txn.source' | translate }}</th>
+                <th class="sort-option">{{ 'txn.destination' | translate }}</th>
+                <th class="sort-option">{{ 'txn.amount' | translate }}</th>
+                <th class="sort-option">{{ 'txn.created_at' | translate }}</th>
+
+                <th class="sort-option">{{ 'txn.message' | translate }}</th>
+              </thead>
+              <tbody>
+                <tr *ngFor="let txn of txns;let index = index">
+                  <th>{{ txn.source }}</th>
+                  <th>{{ txn.destination }}</th>
+                  <th>{{ txn.amount |numberPipe }}</th>
+                  <th>{{ txn.created_at | jalali:'middle' }}</th>
+                  <th>{{ txn.message }}</th>
+                </tr>
+              </tbody>
+            </table>
+            <!-- <div>
+
+              <span class="icon icon-layers"></span>
+              <span class="icon icon-discout"></span>
+              <span class="icon icon-event_available"></span>
+              <span class="icon icon-artist"></span>
+              <span class="icon icon-check-square"></span>
+              <span class="icon icon-file-text-o"></span>
+              <span class="icon icon-cube"></span>
+              <span class="icon icon-certificate"></span>
+              <span class="icon icon-world"></span>
+              <span class="icon icon-sign-out"></span>
+              <span class="icon icon-mail"></span>
+              <span class="icon icon-question-circle"></span>
+              <span class="icon icon-expeditedssl"></span>
+              <span class="icon icon-qrcode1"></span>
+              <span class="icon icon-eye-slash"></span>
+              <span class="icon icon-caret-down"></span>
+              <span class="icon icon-reply"></span>
+              <span class="icon icon-chevron-down"></span>
+              <span class="icon icon-bars"></span>
+              <span class="icon icon-tag"></span>
+              <span class="icon icon-cubes"></span>
+              <span class="icon icon-line-chart"></span>
+              <span class="icon icon-refresh"></span>
+              <span class="icon icon-google"></span>
+              <span class="icon icon-users"></span>
+              <span class="icon icon-info-circle"></span>
+              <span class="icon icon-power-off"></span>
+              <span class="icon icon-toggle-off"></span>
+              <span class="icon icon-toggle-on"></span>
+              <span class="icon icon-clipboard"></span>
+              <span class="icon icon-gift"></span>
+              <span class="icon icon-bulb"></span>
+              <span class="icon icon-check-square-o"></span>
+              <span class="icon icon-external-link-square"></span>
+              <span class="icon icon-dashboard"></span>
+              <span class="icon icon-user"></span>
+              <span class="icon icon-store"></span>
+              <span class="icon icon-order"></span>
+              <span class="icon icon-search"></span>
+              <span class="icon icon-uncheck"></span>
+              <span class="icon icon-eye"></span>
+              <span class="icon icon-caret-up"></span>
+              <span class="icon icon-settings"></span>
+              <span class="icon icon-vallet"></span>
+              <span class="icon icon-pie-chart"></span>
+              <span class="icon icon-create"></span>
+              <span class="icon icon-remove"></span>
+              <span class="icon icon-edit"></span>
+              <span class="icon icon-exchange"></span>
+              <span class="icon icon-paint-bucket-streamline"></span>
+              <span class="icon icon-photo"></span>
+              <span class="icon icon-list"></span>
+              <span class="icon icon-bell-o"></span>
+              <span class="icon icon-check"></span>
+              <span class="icon icon-mony"></span>
+              <span class="icon icon-sign-in"></span>
+              <span class="icon icon-times-circle-o"></span>
+              <span class="icon icon-caret-down-two"></span>
+              <span class="icon icon-times"></span>
+              <span class="icon icon-minus-square-o"></span>
+              <span class="icon icon-free-sticker-svgrepo-com"></span>
+              <span class="icon icon-burger_catalogue_list_menu_icon"></span>
+              <span class="icon icon-book_calendar_date_monthly_icon"></span>
+              <span class="icon icon-classic_guitar_instrument_music_icon"></span>
+              <span class="icon icon-building_buildinglocation_commercial_company_map_icon"></span>
+              <span class="icon icon-music-album-track-svgrepo-com"></span>
+              <span class="icon icon-company_cooperation_organize_partnership_service_icon"></span>
+              <span class="icon icon-contact"></span>
+              <span class="icon icon-drag_icon"></span>
+              <span class="icon icon-placard"></span>
+              <span class="icon icon-bubbles"></span>
+              <span class="icon icon-star-empty"></span>
+              <span class="icon icon-star-full"></span>
+              <span class="icon icon-spam"></span>
+              <span class="icon icon-speaker"></span>
+              <span
+                class="icon icon-discount-label-interface-commercial-symbol-with-percentage-sign-svgrepo-com"></span>
+              <span class="icon icon-flip1"></span>
+              <span class="icon icon-flip"></span>
+              <span class="icon icon-close"></span>
+              <span class="icon icon-singer"></span>
+              <span class="icon icon-orchestra"></span>
+              <span class="icon icon-18879031931588529849"></span>
+              <span class="icon icon-playlist"></span>
+              <span class="icon icon-content"></span>
+              <span class="icon icon-musical-note-music-svgrepo-com"></span>
+              <span class="icon icon-video-player-svgrepo-com"></span>
+              <span class="icon icon-drive"></span>
+              <span class="icon icon-user-tie"></span>
+              <span class="icon icon-spinner"></span>
+              <span class="icon icon-zoom-in"></span>
+              <span class="icon icon-zoom-out"></span>
+              <span class="icon icon-upload"></span>
+              <span class="icon icon-handshake-o"></span>
+              <span class="icon icon-headphones"></span>
+              <span class="icon icon-users1"></span>
+              <span class="icon icon-cog"></span>
+              <span class="icon icon-stats-dots"></span>
+            </div> -->
+          </div>
+        </div>
+        <!-- <div class="item2">
+            <div class="item_head">
+              <p class="item_head--title"></p>
+              <p class="item_head--desc"></p>
+            </div>
+            <div class="item_body"></div>
+          </div> -->
+      </div>
+      <div class="col-xl-4 col-md-12 col-sm-12 box">
+        <div class="item">
+          <div class="item_head">
+            <p class="item_head--title">{{ 'dashboard.statistics.transactions' | translate }}</p>
+          </div>
+          <div class="item_body bodyItem1">
+            <div class="chart-container">
+              <canvas id="TxnChart">{{ chart }}</canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-md-12 col-sm-12 box">
+        <div class="item">
+          <div class="item_head">
+            <p class="item_head--title">{{ 'dashboard.statistics.txn-msg' | translate }}</p>
+          </div>
+          <div class="item_body bodyItem1">
+            <div class="chart-container">
+              <canvas id="TxnMsgChart">{{ chartmsg }}</canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 col-md-12 col-sm-12 box">
+        <div class="item">
+          <div class="item_head">
+            <p class="item_head--title">{{ 'dashboard.statistics.txn-msg' | translate }}</p>
+          </div>
+          <div class="item_body bodyItem1">
+            <div class="chart-container">
+              <canvas id="TxnMsgChart">{{ chartmsg }}</canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row report">
+      <div class="col-xl-8">
+        <div class="item">
+          <div class="item_head">
+            <p class="item_head--title">{{ 'dashboard.statistics.money' | translate }}</p>
+            <p class="item_head--desc">{{ 'dashboard.statistics.money-sub' | translate }}</p>
+          </div>
+          <div class="item_body bodyItem2">
+            <div id="chartEntrance" class="h-100"></div>
+          </div>
+          <div class="item_body reefer-button">
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

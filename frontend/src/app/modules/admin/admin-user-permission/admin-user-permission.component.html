@@ -1,0 +1,33 @@
+<section [@toggle-modal]="modalState" class="modal">
+  <div class="overlay" (click)="closeModal()"></div>
+  <div class="wrapper wall" style="width: 60rem;">
+    
+    <form class="row"  novalidate>
+      <div class="col-12">
+        <h4 class="txt-center">{{ 'user.role' | translate }}</h4>
+        <h5 class="txt-right">{{'user.username' | translate}} : {{userInfo?.username}} <span *ngIf="_userService.isAdmin()"> {{'user.brand' | translate}} : {{userInfo?.brand_name}}</span></h5>
+        <hr class="sep-2">
+
+      </div>
+      <br>
+      <br>
+      <div *ngFor="let feature of features;let index = index" class="col-6 ">
+        <div class="form-group">
+          <label class="checkbox-select" >{{ feature | translate }}
+            <input id="{{feature}}" type="checkbox" (click)="selectFeature(feature)"
+              [checked]="checkCheckbox[feature]">
+              <span></span>
+
+            </label>
+            <span></span>
+
+      </div>
+       </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn" (click)="submit()">{{ 'forms.submit' | translate }}</button>
+        <button type="button" class="btn btn-danger" (click)="closeModal()">{{ 'forms.cancel' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</section>

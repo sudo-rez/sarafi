@@ -1,0 +1,561 @@
+{
+  "header": {
+    "welcome": "{{ userName }} خوش آمدید"
+  },
+  "dashboard": {
+    "title": "گزارشات",
+    "welcome": {
+      "title": "خوش آمدید",
+      "text": "به \"پنل مدیریت\" خوش آمدید"
+    },
+    "statistics": {
+      "transactions": "آمار تراکنشی",
+      "txn-msg":"آمار نتایج تراکنشی",
+      "queue":"صف برداشت",
+      "lasttxns":"آخرین تراکنش ها",
+      "money":"حسابداری",
+      "money-sub":"گزارشات حسابداری در یک نگاه",
+      "success-txn" : "تراکنش های صحیح",
+      "failed-txn" : "تراکنش های ناموفق",
+      "withdraw-remaining":"جمع مانده برداشت",
+      "paid-today":"مبلغ پرداخت شده روز",
+      "txn-today":"تراکنش روز"
+    }
+  },
+  "count":"تعداد",
+  "amount":"مبلغ",
+  "auth": {
+    "username":"نام کاربری",
+    "usercode":"کد کاربری",
+    "login": "ورود به حساب کاربری",
+    "logout": "خروج از حساب کاربری",
+    "register": "ثبت نام",
+    "forget-pass": "فراموشی رمز عبور",
+    "reset-pass": "بازنشانی رمز عبور",
+    "login-with-google": "ورود با حساب کاربری گوگل",
+    "fullname": "نام و نام خانوادگی",
+    "email": "ایمیل",
+    "mobile": "تلفن همراه",
+    "mobile-or-email": "تلفن همراه یا ایمیل",
+    "old-password": "رمز کنونی",
+    "password": "رمز عبور",
+    "new-pass": "رمز عبور جدید",
+    "confirm-pass": "تأیید رمز عبور",
+    "show-pass": "نمایش رمز عبور",
+    "hide-pass": "پنهان کردن رمز عبور",
+    "user-profile": "حساب کاربری",
+    "verify-key": "کد ارسال شده را وارد کنید",
+    "key": "کد تایید",
+    "marital": {
+      "~": "وضعیت تاهل",
+      "single": "مجرد",
+      "married": "متاهل"
+    },
+    "gender": {
+      "~": "جنسیت",
+      "male": "مرد",
+      "female": "زن"
+    },
+    "call": "شماره موبایل",
+    "description": "توضیحات"
+  },
+  "wallet":{
+    "charge":"شارژ کیف پول",
+    "created_at":"تاریخ ایجاد",
+    "currency":"واحد",
+    "amount":"میزان",
+    "history":"تاریخچه",
+    "create":"ساخت کیف پول",
+    "type":"عملیات",
+    "by":"کاربر",
+    "value":"موجودی کیف پول"
+  },
+  "status":"وضعیت",
+  "active":"فعال",
+  "deactive":"غیر فعال",
+  "yes":"بله",
+  "no":"خیر",
+  "in queue":"در صف پرداخت",
+  "in progress":"در حال پرداخت",
+  "complete":"اتمام",
+  "canceled":"کنسل شده",
+  "manual complete":"پرداخت دستی",
+  "rejected":"لغو شده",
+  "actionconfirm":"آیا از انجام این عملیات مطمئن هستید ؟",
+  "dayprofit":"سود امروز",
+  "apc":{
+    "create":"ایجاد حساب اتومات",
+    "name":"نام صاحب کارت",
+    "card_number":"شماره کارت",
+    "bank":"بانک",
+    "active":"وضعیت",
+    "current":"جاری",
+    "amount_all":"مبلغ کل",
+    "amount_day":"مبلغ امروز",
+    "delete_confirm":"آیا مطمئن هستید میخواهید حساب زیر را حذف کنید؟",
+    "blocked":"مسدود",
+    "confirmed":"تاییده شده",
+    "not_confirmed":"در انتظار تایید"
+  },
+  "sapc":{
+    "create":"ایجاد حساب نیمه اتومات",
+    "name":"نام صاحب کارت",
+    "card_number":"شماره کارت",
+    "bank":"بانک",
+    "active":"وضعیت",
+    "current":"جاری",
+    "amount_all":"مبلغ کل",
+    "amount_day":"مبلغ امروز",
+    "delete_confirm":"آیا مطمئن هستید میخواهید حساب زیر را حذف کنید؟",
+    "blocked":"مسدود",
+    "confirmed":"تاییده شده",
+    "not_confirmed":"در انتظار تایید"
+  },
+  "setting":{
+    "gateway":"تنظیمات درگاه",
+    "blocked_banks":"بانک های بلاک شده",
+    "messages":" پیام های درگاه",
+    "addbank":"اضافه کردن بانک جدید",
+    "open_time":"زمان درگاه (دقیقه)",
+    "alg_duration":"زمان الگوریتم پرداخت (دقیقه)"
+  },
+  "IRR":"ریال",
+  "charge":"افزایش",
+  "decharge":"کاهش",
+  "wage":"کارمزد",
+  "brand":{
+    "name":"نام برند",
+    "create":"ایجاد برند",
+    "logo":"لوگو برند",
+    "adminuser":"نام کاربری ادمین ",
+    "adminpassword":"پسورد ادمین",
+    "wage":"کارمزد",
+    "key":"کلید",
+    "createnew":"ایجاد برند جدید",
+    "role":"دسترسی ها",
+    "created_at":"تاریخ عضویت",
+    "delete_confirm":"آیا مطمئن هستید میخواهید برند زیر را حذف کنید؟"
+
+  },
+  "usermanagement":"مدیریت کاربران",
+  "brandmanagement":"مدیریت برند ها",
+  "transactions":"تراکنش ها",
+  "cardverification":"استعلام شماره کارت",
+  "walletmanagement":"مدیریت کیف پول",
+  "apcmanagement":"مدیریت حساب های اتومات",
+  "sapcmanagement":"مدیریت حساب های نیمه اتومات",
+  "withdrawperm":"برداشت ها",
+  "manualpayperm":"پرداخت دستی",
+  "cart-number":"شماره کارت",
+  "cart-bank":"کارت بانکی",
+  "cart-enter":"شماره کارت را وارد نمایید",
+  "txn":{
+    "amount":"مبلغ",
+    "account":"اکانت",
+    "brand_name":"برند",
+    "checkout_ref":"شناسه بانک",
+    "client_ip":"آی پی مشتری",
+    "created_at":"تاریخ ایجاد",
+    "destination":"کارت مقصد",
+    "message":"پیام",
+    "request_id":"شماره درخواست",
+    "site_ref":"شناسه سایت",
+    "source":"کارت مبدا",
+    "card":"شماره کارت",
+    "remaining":"مبلغ باقی مانده",
+    "brand":"برند",
+    "manual":"پرداخت دستی",
+    "reject":"لغو پرداخت"
+  },
+  "start":"شروع",
+  "end":"پایان",
+  "user":{
+    "username":"نام کاربری",
+    "usercode":"کد کاربری",
+    "brand":"برند",
+    "create":"ایجاد کاربر",
+    "createnew":"ایجاد کاربر جدید",
+    "role":"دسترسی ها",
+    "created_at":"تاریخ عضویت",
+    "delete_confirm":"آیا مطمئن هستید میخواهید کاربر زیر را حذف کنید؟"
+
+  },
+  "row":"ردیف",
+  "customer": {
+    "delete": "حذف",
+    "reset-national_code" : "تغییر کد ملی",
+    "user_code": "کد",
+    "national_code": "کد ملی",
+    "avatar": "تصویر نمایه",
+    "showable-name": "نام",
+    "fullname": "نام و نام خانوادگی",
+    "email": "ایمیل",
+    "phone": "تلفن",
+    "address": "آدرس",
+    "province": "استان",
+    "city": "شهر",
+    "mobile": "تلفن همراه",
+    "created_at": "تاریخ عضویت",
+    "gender": "جنسیت",
+    "marital": "وضعیت تأهل",
+    "birthday": "تاریخ تولد",
+    "is-active": "فعالسازی",
+    "status-verified": "وضعیت فعالسازی",
+    "active": "فعال",
+    "inactive": "غیر فعال",
+    "free-subscription": "اشتراک رایگان",
+    "active-subscription": "فعالسازی اشتراک",
+    "status-colleague": "وضعیت همکار",
+    "business-license": "Business license",
+    "row": "ردیف",
+    "list": {
+      "title": "لیست مشتریان"
+    },
+    "view": {
+      "title": "مشاهده مشتری"
+    },
+    "edit": {
+      "title": "ویرایش"
+    },
+    "create": {
+      "title": "ایجاد مشتری"
+    }
+  },
+  "notification": {
+    "Customer": "یک مشتری جدید ثبت شد",
+    "new_order": "یک سفارش جدید ثبت شد",
+    "UncompeleteOrder": "یک سفارش ناتمام",
+    "OutOfStock": "عدم موجودی محصول",
+    "empty": "اعلانی وجود ندارد",
+    "Comment": "یک نظر جدید",
+    "Message": "یک پیغام جدید",
+    "mark-all-as-read": "علامت گذاری همه بعنوان خوانده شده",
+    "read_all": "مشاهده تمامی اعلان ها",
+    "refresh": "بارگذاری مجدد اعلان ها",
+    "required": "پر کردن فیلد های که با رنگ قرمز مشخص شده اند الزامی است",
+    "free-file": {
+      "title": "خطا در فایلها",
+      "desc": "اگر قیمت رایگان است ، تمام پرونده ها باید رایگان باشند"
+    },
+    "list": {
+      "title": "اطلاع رسانی ها"
+    },
+    "view": {
+      "title": "مشاهده اطلاع رسانی"
+    },
+    "setting": {
+      "title": "تنظیمات اعلان ها",
+      "form": {
+        "section": "بخش",
+        "type": "نوع",
+        "customer": "مشتری",
+        "new_order": "سفارش جدید",
+        "UncompeleteOrder": "سفارش ناتمام",
+        "OutOfStock": "عدم موجودی محصول",
+        "Comment": "نظر",
+        "Message": "پیغام",
+        "info": "اطلاع",
+        "warning": "اخطار",
+        "danger": "خطر",
+        "active_email": "ارسال ایمیل",
+        "active_sms": "ارسال پیامک",
+        "block": "عدم ارسال اعلان",
+        "reset": "بازگشت تمامی تنظیمات به حالت پیشفرض"
+      }
+    }
+  },
+  "sidebar": {
+    "settings": "تنظیمات",
+    "management": "مدیریت",
+    "payment":"حساب های درگاه",
+    "apc":"اتومات",
+    "sapc":"نیمه اتومات",
+    "withdraw":"برداشت ها"
+  },
+  "admin": {
+    "wallet-list":"کیف پول",
+    "brand-list": "برند ها",
+    "user-list": "کاربران",
+    "order":"سفارشات",
+    "order-register":" سفارشات خوداظهاری",
+    "ticket": "تیکت ها",
+    "customer-list": "همه مشتریان",
+    "product-list": "همه محصولات",
+    "order-list": "همه سفارش ها",
+    "order-view": "مشاهده سفارش",
+    "contact-list": "همه پیام ها",
+    "support-list": "پیام های پشتیبانی",
+    "view-deleted-supports": "مشاهده پیام های حذف شده",
+    "view-supports": "مشاهده پیام های جاری",
+    "content": {
+      "list": "وبلاگ",
+      "create": "ایجاد مطلب",
+      "edit": "ویرایش مطلب"
+    }
+  },
+  "entity": {
+    "store": "کانال",
+    "sent": "کد تایید",
+    "domain": "دامنه",
+    "theme": "قالب",
+    "slider": "اسلایدر",
+    "product": "محصول",
+    "customer": "مشتری",
+    "selected-products": "محصولات انتخاب شده",
+    "products-bundle": "پکیج محصولات",
+    "order": "سفارش",
+    "comment": "نظر",
+    "category": "دسته بندی",
+    "contact": "پیام",
+    "image": "تصویر",
+    "price-maker": "قیمت ساز",
+    "variable": "متغیر",
+    "selected-variables": "متغیرهای انتخاب شده",
+    "form": "فرم",
+    "menu": "منو",
+    "content": "محتوا",
+    "plan": "اشتراک",
+    "user-profile": "حساب کاربری شما",
+    "manager": "مدیر کانال",
+    "notifications-settings": "تنظیمات اعلان ها",
+    "selected_area": "شهرها و استان ها انتخاب شده",
+    "discount-code": "کد تخفیف",
+    "banner": "بنر",
+    "owner": "شرکت",
+    "access": "دسترسی",
+    "schedul": "زمانبندی",
+    "video": "ویدیو",
+    "question": "سوال",
+    "quiz": "مسابقه",
+    "event": "رویداد",
+    "artist-panel": "پنل هنرمند",
+    "gift-discount": "تخفیف هدیه",
+    "setting": "تنظیمات"
+  },
+  "operation": {
+    "select": {
+      "title": "انتخاب",
+      "message": "انتخاب شد"
+    },
+    "sent": {
+      "title": "ارسال",
+      "message": "ارسال شد"
+    },
+    "edit": {
+      "title": "ویرایش",
+      "message": "ویرایش شد"
+    },
+    "create": {
+      "title": "ایجاد",
+      "message": "ایجاد شد"
+    },
+    "add": {
+      "title": "افزودن",
+      "message": "افزوده شد"
+    },
+    "delete": {
+      "title": "حذف",
+      "message": "حذف شد"
+    },
+    "batch-delete": {
+      "title": "حذف",
+      "message": "حذف شدند"
+    },
+    "remove": {
+      "title": "حذف",
+      "message": "حذف شد"
+    },
+    "swap": {
+      "title": "تبادل",
+      "message": "مبادله شد"
+    },
+    "recalculate": {
+      "title": "محاسبه مجدد",
+      "message": "مجدداً محاسبه شد"
+    },
+    "upload": {
+      "title": "بارگذاری",
+      "message": "بارگذاری شد"
+    },
+    "add-to": {
+      "title": "افزودن به",
+      "message": "افزوده شد"
+    },
+    "confirm": {
+      "title": "تایید",
+      "message": "تایید شد"
+    },
+    "decline": {
+      "title": "رد",
+      "message": "رد شد"
+    }
+  },
+  "confirm": {
+    "message": "آیا اطمینان دارید؟"
+  },
+  "notify": {
+    "setting":{
+      "save":{"title":"ذخیره تنظیمات","message":"ذخیره تنظیمات به موفقیت انجام شد"}
+    },
+    "txn":{
+      "filter":{"title":"فیلتر تراکنش","message":"فیلتر تراکنش با موفقیت انجام شد"}
+    },
+    "apc":{
+      "create":{"title":"ایجاد حساب اتومات","message":"ایجاد درگاه اتومات با موففیت انجام شد"},
+      "delete":{"title":"حذف حساب اتومات","message":"حذف حساب اتومات با موفقیت انجام شد"},
+      "update":{"title":"آپدیت حساب اتومات","message":"آپدیت حساب اتومات با موفقیت انجام شد"}
+    },
+    "sapc":{
+      "create":{"title":"ایجاد حساب  نیمه اتومات","message":"ایجاد درگاه  نیمه اتومات با موففیت انجام شد"},
+      "delete":{"title":"حذف حساب  نیمه اتومات","message":"حذف حساب  نیمه اتومات با موفقیت انجام شد"},
+      "update":{"title":"آپدیت حساب  نیمه اتومات","message":"آپدیت حساب  نیمه اتومات با موفقیت انجام شد"}
+    },
+    "wallet":{
+      "charge":{"title":"شارژ کیف پول","message":"کیف پول با موفقیت سارژ شد"}
+    },
+    "brand":{
+      "update":{"title":"آپدیت برند","message":"آپدیت برند با موفقیت انجام شد"},
+      "create":{"title":"ایجاد برند","message":"ایجاد برند با موفقیت انجام شد"},
+      "delete":{"title":"حذف برند","message":"حذف برند با موفقیت انجام شد"}
+    },
+    "user":{
+      "update":{"title":"آپدیت کاربر","message":"آپدیت کاربر با موفقیت انجام شد"},
+      "create":{"title":"ایجاد کاربر","message":"ایجاد کاربر با موفقیت انجام شد"},
+      "delete":{"title":"حذف کاربر","message":"حذف کاربر با موفقیت انجام شد"}
+    },
+    "success": {
+      "title": "{{ operation.title }} {{ entity }}",
+      "message": "{{ name }} با موفقیت {{ operation.message }}"
+    },
+    "operation-success": {
+      "title": "موفق",
+      "message": "عملیات با موفقیت انجام شد"
+    },
+    "request": {
+      "title": "منتظر بمانید",
+      "message": "درحال برقراری ارتباط"
+    },
+    "select-store": {
+      "title": "انتخاب کانال",
+      "message": "شما باید ابتدا یک کانال انتخاب کنید"
+    },
+    "login-required": {
+      "title": "نیازمند ورود",
+      "message": "شما باید ابتدا وارد حساب کاربریتان بشوید"
+    },
+    "login-error": {
+      "title": "ورود ناموفق",
+      "message": "نام کاربری یا کلمه عبور اشتباه است"
+    },
+    "login-success": {
+      "title": "ورود موفق",
+      "message": "شما با موفقیت وارد شدید"
+    },
+    "register-success": {
+      "title": "ثبت نام موفق",
+      "message": "شما با موفقیت ثبت نام کردید"
+    },
+    "reset-pass-success": {
+      "title": "بازنشانی رمز عبور موفق",
+      "message": "رمز عبور شما با موفقیت تغییر یافت"
+    },
+    "delete-success":{
+      "title":"حذف  موفق",
+      "message":"حذف با موفقیت انجام شد"
+    }
+  },
+  "error-msg":"خطا",
+  "error": {
+    "400": {
+      "title": "درخواست نادرست",
+      "message": "اطلاعات وارد شده صحیح نمی باشد"
+    },
+    "401": {
+      "title": "غیرمجاز",
+      "message": "دسترسی مدیر لازم است"
+    },
+    "404": {
+      "title": "یافت نشد",
+      "message": "مورد یافت نشد"
+    },
+    "500": {
+      "title": "خطای سرور",
+      "message": "خطای سرور. لطفا با ادمین ارتباط برقرار کنید"
+    },
+    "user-exist": {
+      "title": "کاربر تکراری",
+      "message": "کاربر با شماره موبایل مورد نظر قبلا وجود دارد"
+    },
+    "national-code-exist": {
+      "title": "کد ملی تکراری",
+      "message": "کاربر با کد ملی مورد نظر قبلا وجود دارد"
+    },
+    "validation-national-code": {
+      "title": "کد ملی اشتباه",
+      "message": "کد ملی  وارد شده اشتباه است"
+    }
+  },
+  "pagination": {
+    "first": "ابتدا",
+    "previous": "قبلی",
+    "next": "بعدی",
+    "last": "انتها",
+    "go": "برو به"
+  },
+  "forms": {
+    "create": "ایجاد",
+    "add": "افزودن",
+    "submit": "تأیید",
+    "save": "ذخیره",
+    "send": "ارسال",
+    "cancel": "لغو",
+    "back": "برگشت",
+    "calculate":"محاسبه",
+    "feedback": {
+      "required": "این فیلد اجباری است",
+      "pattern": "مقدار وارد شده صحیح نیست",
+      "least": "حداقل {{ least }} حرف مورد نیاز می‌باشد",
+      "max": "حداکثر {{ max }} حرف مجاز است",
+      "value-min": "حد اقل {{ min }} کاراکتر مجاز است",
+      "value-max": "حد اکثر {{ max }} کاراکتر مجاز است",
+      "notmatch": "رمز عبور مطابقت ندارد",
+      "number": "عدد وارد شده صحیح نیست",
+      "product-variant-error": "حداقل یک نوع را باید وارد کنید",
+      "low-number": "حداقل از  عدد {{ num }} مجاز می باشد",
+      "big-number": "حداکثر تا عدد {{ num }} مجاز می باشد",
+      "to-number": "فقط {{ num }} عدد مجاز است",
+      "nationalCode-english": "کد ملی باید 10رقم واعداد انگلیسی باشد",
+      "wrong-card":"شماره کارت وارد شده اشتباه می باشد"
+      
+    }
+  },
+  "visit-store": "مشاهده سایت",
+  "search": "جستجو",
+  "advance-search": "جستجو پیشرفته",
+  "close": "بستن",
+  "save": "ذخیره",
+  "back": "بازگشت",
+  "reset": "انصراف",
+  "created-from": "از تاریخ",
+  "created-to": "تا تاریخ",
+  "list-empty": "چیزی برای نمایش موجود نیست",
+  "clear-selection": "لغو انتخاب ها",
+  "percent": "درصد",
+  "rial": "ریال",
+  "discounted-prices": "قیمت با تخفیف",
+  "toman": "تومان",
+  "weight-unit": "گرم",
+  "millisecond": "میلی ثانیه",
+  "second": "ثانیه",
+  "minutes": "دقیقه",
+  "hour": "ساعت",
+  "month": "ماه",
+  "none": "هیچ کدام",
+  "unknown": "ناشناس",
+  "free": "رایگان",
+  "unlimited": "نامحدود",
+  "upgrade-plan": "ارتقا پلن",
+  "actions": "عملیات",
+  "tax": "به مبلغ وارد شده ۹ در صد مالیات افزوده خواهد شد",
+  "px": "px"
+}

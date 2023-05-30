@@ -1,0 +1,148 @@
+<aside class="row no-gutters flex-column h-100">
+  <div class="col-auto">
+    <a class="row no-gutters justify-content-center align-items-center flex-nowrap brand" href="" target="blank">
+      <div class="logo">
+        <img *ngIf="userService.userBrand?.logo != ''" [src]="userService?.userBrand?.logo">
+        <img *ngIf="userService.userBrand?.logo == ''" src="/static/images/logo.png" >
+        <!-- <img [src]="'./static/images/logo.png'" [alt]="userService.userBrand.name"> -->
+      </div>
+      <span class="name col-9">
+        {{ userService.userBrand.name }}
+        <div *ngIf="wallet" class="preview-hint">
+          <span class="icon icon-vallet"></span> {{wallet?.amount | numberPipe}} {{wallet?.currency | translate}}
+        </div>
+      </span>
+    </a>
+  </div>
+  <nav class="col">
+    <ul class="col-md-hidden pb">
+      <li>
+        <a class="cat-title" [class.active]="activeGroup == 'user-profile'" (click)="toggleGroup('user-profile')">
+          <div class="icon icon-user"></div>{{ userService.getUserName() }}
+        </a>
+        <div class="nav-sub">
+          <ul>
+            <li>
+              <a class="nav-title" routerLink="/auth/user/profile" [routerLinkActive]="['active-route']">
+                <div class="icon icon-user"></div>{{ 'auth.user-profile' | translate }}
+              </a>
+            </li>
+            <li>
+              <a class="nav-title" routerLink="/auth/password/reset" [routerLinkActive]="['active-route']">
+                <div class="icon icon-refresh"></div>{{ 'auth.reset-pass' | translate }}
+              </a>
+            </li>
+            <li>
+              <a class="nav-title" href="#" (click)="logout($event)">
+                <div class="icon icon-power-off"></div>{{ 'auth.logout' | translate }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+    <ul>
+      <!-- Reports -->
+      <li>
+        <ul>
+          <li>
+            <a class="nav-title" routerLink="/main" [routerLinkActive]="['active-route']">
+              <div class="icon icon-dashboard"></div>{{ 'dashboard.title' | translate }}
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li *ngIf="userService.hasPermission('transactions')">
+        <ul>
+          <li>
+            <a class="nav-title" routerLink="/txn" [routerLinkActive]="['active-route']">
+              <div class="icon icon-exchange"></div>{{ 'transactions' | translate }}
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li *ngIf="userService.hasPermission('withdrawperm')">
+        <ul>
+          <li>
+            <a class="nav-title" routerLink="/withdraw" [routerLinkActive]="['active-route']">
+              <div class="icon icon-upload"></div>{{ 'sidebar.withdraw' | translate }}
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li *ngIf="userService.hasPermission('cardverification')">
+        <ul>
+          <li>
+            <a class="nav-title" routerLink="/card/verify" [routerLinkActive]="['active-route']">
+              <div class="icon icon-check-square-o"></div>{{ 'cardverification' | translate }}
+            </a>
+          </li>
+        </ul>
+      </li>
+      <!-- apc -->
+      <ng-container
+        *ngIf="userService.isAdmin()||userService.hasPermission('apcmanagement') ||userService.hasPermission('sapcmanagement') ">
+        <li>
+          <div class="cat-title" [class.active]="activeGroup == 'payment'" (click)="toggleGroup('payment')">
+            <div class="icon icon-mony"></div>{{ 'sidebar.payment' | translate }}
+          </div>
+          <div class="nav-sub">
+            <ul>
+              <li *ngIf="userService.hasPermission('apcmanagement')">
+                <a class="nav-title" routerLink="/payment/apc" [routerLinkActive]="['active-route']">
+                  <div class="icon icon-refresh"></div>{{ 'sidebar.apc' | translate }}
+                </a>
+              </li>
+              <li *ngIf="userService.hasPermission('sapcmanagement')">
+                <a class="nav-title" routerLink="/payment/sapc" [routerLinkActive]="['active-route']">
+                  <div class="icon icon-reply"></div>{{ 'sidebar.sapc' | translate }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ng-container>
+      <!-- user Management -->
+      <ng-container
+        *ngIf="userService.isAdmin()||userService.hasPermission('usermanagement')||userService.hasPermission('brandmanagement')||userService.hasPermission('walletmanagement')">
+        <li>
+          <div class="cat-title" [class.active]="activeGroup == 'management'" (click)="toggleGroup('management')">
+            <div class="icon icon-users"></div>{{ 'sidebar.management' | translate }}
+          </div>
+          <div class="nav-sub">
+            <ul>
+              <li *ngIf="userService.hasPermission('brandmanagement')">
+                <a class="nav-title" routerLink="/management/brand" [routerLinkActive]="['active-route']">
+                  <div class="icon icon-tag"></div>{{ 'admin.brand-list' | translate }}
+                </a>
+              </li>
+              <li *ngIf="userService.hasPermission('usermanagement')">
+                <a class="nav-title" routerLink="/management/user" [routerLinkActive]="['active-route']">
+                  <div class="icon icon-users1"></div>{{ 'admin.user-list' | translate }}
+                </a>
+              </li>
+              <li *ngIf="userService.hasPermission('walletmanagement')">
+                <a class="nav-title" routerLink="/management/wallet" [routerLinkActive]="['active-route']">
+                  <div class="icon icon-vallet"></div>{{ 'admin.wallet-list' | translate }}
+                </a>
+              </li>
+              <!-- <li>
+                <a class="nav-title" routerLink="/customer" [routerLinkActive]="['active-route']">
+                  <div class="icon icon-handshake-o"></div>{{ 'admin.customer-list' | translate }}
+                </a> 
+              </li> -->
+            </ul>
+          </div>
+        </li>
+      </ng-container>
+      <!-- Settings -->
+      <ng-container *ngIf="userService.isAdmin()">
+        <li>
+          <a class="nav-title" routerLink="/setting" [routerLinkActive]="['active-route']">
+            <div class="icon icon-cog"></div>{{ 'sidebar.settings' | translate }}
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </nav>
+</aside>

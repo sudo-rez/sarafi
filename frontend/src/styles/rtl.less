@@ -1,0 +1,111 @@
+// main: ./variables.less, out: null
+
+body.rtl {
+  &, .row {
+    direction: rtl;
+  }
+  font-family: tanha-fd-wol, nunito-sans-light;
+
+  .col , [class*="col-"] {
+    text-align: right;
+    &.btn {
+      text-align: center;
+    }
+  }
+
+  select.form-control:not([dir="ltr"]) {
+    background-position: left center;
+  }
+
+  .dropdown {
+    &-list {
+      left: 0;
+      right: auto;
+    }
+  }
+
+  .notification {
+    &-arrow{
+      right: 10px;
+      top: 3.2rem;
+    }
+    &-container{
+      right: 0;
+    }
+    &-count{
+      right: 0;
+    }
+  }
+
+  #sidebar-container, #themes-list-container aside {
+    .brand .name {
+      text-align: right;
+    }
+    nav ul li {
+      text-align: right;
+      .icon {
+        padding-right: initial;
+        padding-left: 1rem;
+      }
+      [class*="-title"] {
+        &::before {
+          left: initial;
+          right: 0;
+        }
+      }
+      .cat-title {
+        padding-left: 4rem;
+        padding-right: 2rem;
+        &::after {
+          left: 1.5rem;
+          right: inherit;
+          transform: rotate(0deg);
+        }
+      }
+      .nav-sub .nav-title {
+        padding-left: 2rem;
+        padding-right: 3.5rem;
+      }
+    }
+  }
+
+  th, td {
+    text-align: right;
+  }
+
+  .fix-series {
+    padding-left: @gutter;
+    padding-right: 0;
+  }
+
+  .modal .close {
+    right: initial;
+    left: 0.5rem;
+  }
+
+  tag-input,
+  select-input {
+    text-align: right;
+  }
+
+  .simple-notification {
+    .sn-title, .sn-content {
+      padding: 0 0 0 50px;
+      text-align: right;
+    }
+    .icon {
+      right: initial;
+      left: 0;
+    }
+  }
+
+  .ng-progress {
+    direction: ltr;
+  }
+
+  [dir="ltr"] {
+    direction: ltr !important;
+    font-family: nunito-sans-light;
+  }
+
+}

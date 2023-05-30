@@ -1,0 +1,64 @@
+<section class="container animated fadeIn">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <breadcrumb title="{{ title | translate }}"></breadcrumb>
+      <form class="row wall" [formGroup]="form" (ngSubmit)="submit(form)" novalidate>
+        <div class="col">
+          <!-- Title -->
+          <div class="row form-group" [ngClass]="{'has-error':form.controls['titles'].invalid && formSubmitted}">
+            <label class="col-lg-4 form-label-inline" for="titles">{{ 'banner.create.name' | translate }}:</label>
+            <div class="col-lg-8">
+              <input id="title" class="form-control" type="text" name="titles" formControlName="titles" placeholder>
+              <div class="feedback" *ngIf="form.controls['titles'].hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+            </div>
+          </div>
+          <!-- Image -->
+          <div class="row form-group" [ngClass]="{'has-error':form.controls['image_path'].invalid && formSubmitted}">
+            <label class="col-lg-4 form-label-inline" for="image_path">{{ 'banner.create.image' | translate }}:</label>
+            <div class="col-lg-8">
+              <dropzone-images [multi]="false" [returnID]='true' [defaults]="defaultImages" (changed)="setImages($event)"></dropzone-images>
+              <div class="feedback" *ngIf="form.controls['image_path'].hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+            </div>
+          </div>
+          <!-- published -->
+          <div class="row form-group">
+            <label class="col-lg-4 form-label-inline" for="published">{{ 'banner.create.is-published' | translate }}:</label>
+            <label class="col-lg-8 form-label-inline checkbox-select" for="published">
+              <input id="published" type="checkbox" name="published" formControlName="published">
+              <span></span>
+            </label>
+          </div>
+          <!-- link -->
+          <div class="row form-group" [ngClass]="{'has-error':form.controls['links'].invalid && formSubmitted}">
+            <label class="col-lg-4 form-label-inline" for="links">{{ 'banner.create.link' | translate }}:</label>
+            <div class="col-lg-8">
+              <input id="link" class="form-control" type="text" name="link" formControlName="links" placeholder>
+              <div class="feedback" *ngIf="form.controls['links'].hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+            </div>
+          </div>
+
+          <!-- <div class="row form-group" [ngClass]="{'has-error':form.controls['keyword'].invalid && formSubmitted}">
+            <label class="col-lg-4 form-label-inline" for="keyword">{{ 'banner.create.keyword' | translate }}:</label>
+            <div class="col-lg-8">
+              <select id="keyword" class="form-control" name="keyword" formControlName="keyword">
+                <option *ngFor="let key of keywords" [value]="key.id">{{key.name | translate}}</option>
+              </select>
+              <div class="feedback" *ngIf="form.controls['keyword'].hasError('required') && formSubmitted">{{ 'forms.feedback.required' | translate }}</div>
+            </div>
+          </div> -->
+
+          <!-- <div class="row form-group">
+            <label class="col-lg-4 form-label-inline" for="desc">{{ 'banner.create.desc' | translate }}:</label>
+            <div class="col-lg-8"> -->
+              <!-- <input id="keyword" class="form-control" type="text" name="keyword" formControlName="keyword" placeholder> -->
+              <!-- <textarea id="desc" class="form-control" name="desc" formControlName="desc"></textarea>
+            </div>
+          </div> -->
+
+          <button class="btn btn-success" type="submit">{{ 'forms.submit' | translate }}</button>
+          <button class="btn btn-danger" type="button" routerLink="/banner" [queryParams]="query.params()">{{ 'back' | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

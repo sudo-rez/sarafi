@@ -1,0 +1,32 @@
+<section [@toggle-modal]="modalState" class="modal">
+  <div class="overlay" (click)="closeModal()"></div>
+  <div class="wrapper wall" style="width: 40rem;">
+    <form class="row" [formGroup]="form" (ngSubmit)="submit(form)" novalidate>
+
+      <div class="col-12">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['password'].invalid && formSubmited}">
+          <label class="form-label" for="password">{{ 'auth.new-pass' | translate }}:</label>
+          <input type="password" id="password-reset" class="form-control" name="password" minlength="6" maxlength="12" formControlName="password" placeholder="">
+          <div class="feedback" *ngIf="form.controls['password'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+          <div class="feedback" *ngIf="form.controls['password'].hasError('minlength') && formSubmited">{{ 'forms.feedback.least' | translate:{least: 6} }}</div>
+          <div class="feedback" *ngIf="form.controls['password'].hasError('maxlength') && formSubmited">{{ 'forms.feedback.max' | translate:{max: 12} }}</div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['confirm_password'].invalid && formSubmited}">
+          <label class="form-label" for="confirm_password">{{ 'auth.confirm-pass' | translate }}:</label>
+          <input type="password" id="confirm_password" class="form-control" name="confirm_password" minlength="6" maxlength="12" formControlName="confirm_password" placeholder="">
+          <div class="feedback" *ngIf="form.controls['confirm_password'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+          <div class="feedback" *ngIf="form.controls['confirm_password'].hasError('minlength') && formSubmited">{{ 'forms.feedback.least' | translate:{least: 6} }}</div>
+          <div class="feedback" *ngIf="form.controls['confirm_password'].hasError('maxlength') && formSubmited">{{ 'forms.feedback.max' | translate:{max: 12} }}</div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn" [disabled]="form.invalid && formSubmited">{{ 'forms.submit' | translate }}</button>
+        <button type="button" class="btn btn-danger" (click)="closeModal()">{{ 'forms.cancel' | translate }}</button>
+      </div>
+    </form>
+  </div>
+</section>

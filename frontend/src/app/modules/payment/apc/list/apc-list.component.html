@@ -1,0 +1,121 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'apcmanagement' | translate }}"></breadcrumb>
+
+  <div class="row wall wall-sm mb">
+    <div class="col-md-auto">
+      <!-- <input class="search-input small text-center" type="text" [ngModel]="filters.search" (keyup)="search.pass($event, 'adminUserList')" placeholder="{{ 'search' | translate }}"> -->
+    </div>
+    <div class="col-md">
+    </div>
+    <div class="col-md-auto">
+      <button type="button" class="btn btn-sm" (click)="createAPC(true)"> {{ 'apc.create' | translate }} </button>
+    </div>
+  </div>
+  <div class="row wall mb">
+    <div class="col">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <th class="sort-option" width="5%">{{ 'customer.row' | translate }}
+            <th class="sort-option" width="10%">{{ 'apc.name' | translate }}
+            <th class="sort-option text-center" width="10%">{{ 'apc.card_number' | translate }}
+            <th class="sort-option text-center" width="10%">{{ 'apc.bank' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'apc.active' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'apc.current' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'apc.blocked' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'apc.confirmed' | translate }}</th>
+            <th class="sort-option text-left" width="10%">{{ 'apc.amount_day' | translate }}</th>
+            <th class="sort-option text-left" width="10%">{{ 'apc.amount_all' | translate }}</th>
+            <th class="sort-option text-center" width="5%">{{ 'operation.edit.title' | translate }}</th>
+            <th class="sort-option text-center" width="5%"> {{ 'operation.delete.title' | translate }}</th>
+
+          </thead>
+          <tbody>
+            <tr *ngFor="let apc of apcs;let index = index" 
+            [class.bg-success-color]="apc.current"
+            [class.bg-warning-color]="apc.active&&!apc.current"
+            >
+              <th>{{ ( (filters.page-1) * 10) + (index+1) }}</th>
+              <th>{{ apc.name }}</th>
+              <th class="text-left">{{ apc.card_number }}</th>
+              <th class="text-center">{{ apc.bank }}</th>
+              <th class="text-center">
+                <div *ngIf="!apc.blocked && apc.confirmed" class="field-toggle">
+                  <input id="field-toggle{{index}}" class="field-toggle" type="checkbox" [checked]="apc.active"
+                    (change)="toggleActive(apc)">
+                  <label class="toggle" for="field-toggle{{index}}">
+                    <span class="toggle-handler"></span>
+                  </label></div>
+                  <span *ngIf="apc.blocked">{{'apc.blocked'|translate}}</span>
+                  <span *ngIf="apc.blocked&&!apc.confirmed"> <hr> </span>
+                  <span *ngIf="!apc.confirmed">{{'apc.not_confirmed'|translate}}</span>
+              </th>
+              <th class="text-center">
+                <div *ngIf="!apc.blocked && apc.confirmed" class="field-toggle">
+                  <input id="field-toggle2{{index}}" class="field-toggle" type="checkbox" [checked]="apc.current"
+                    (change)="toggleCurrent(apc)">
+                  <label class="toggle" for="field-toggle2{{index}}">
+                    <span class="toggle-handler"></span>
+                  </label></div>
+                  <span *ngIf="apc.blocked">{{'apc.blocked'|translate}}</span>
+                  <span *ngIf="apc.blocked&&!apc.confirmed"> <hr> </span>
+                  <span *ngIf="!apc.confirmed">{{'apc.not_confirmed'|translate}}</span>
+
+              </th>
+              <th class="text-center">
+                <div *ngIf="userService.isAdmin()||userService.isBrandAdmin()" class="field-toggle">
+                  <input id="field-toggle3{{index}}" class="field-toggle" type="checkbox" [checked]="apc.blocked"
+                    (change)="getConfirm(apc,'blocked')">
+                  <label class="toggle" for="field-toggle3{{index}}">
+                    <span class="toggle-handler"></span>
+                  </label></div>
+                <span
+                  *ngIf="!(userService.isAdmin()||userService.isBrandAdmin())&&apc.blocked">{{'yes'|translate}}</span>
+                <span
+                  *ngIf="!(userService.isAdmin()||userService.isBrandAdmin())&&!apc.blocked">{{'no'|translate}}</span>
+              </th>
+              <th class="text-center">
+                <div *ngIf="userService.isAdmin()||userService.isBrandAdmin()" class="field-toggle">
+                  <input id="field-toggle4{{index}}" class="field-toggle" type="checkbox" [checked]="apc.confirmed"
+                    (change)="getConfirm(apc,'confirmed')">
+                  <label class="toggle" for="field-toggle4{{index}}">
+                    <span class="toggle-handler"></span>
+                  </label></div>
+                <span
+                  *ngIf="!(userService.isAdmin()||userService.isBrandAdmin())&&apc.confirmed">{{'yes'|translate}}</span>
+                <span
+                  *ngIf="!(userService.isAdmin()||userService.isBrandAdmin())&&!apc.confirmed">{{'no'|translate}}</span>
+              </th>
+              <th class="text-left">{{ apc.amount_day }}</th>
+              <th class="text-left">{{ apc.amount_all }}</th>
+              <td class="text-center">
+                <div class="icon icon-edit tools edit" (click)="editAPC(apc)"></div>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-times-circle-o tools delete" (click)="deleteAPC(apc)"></div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr [hidden]="apcs.length">
+              <td class="text-center" colspan="6">
+                <b>{{ 'list-empty' | translate }}</b>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pb">
+    <div class="col">
+      <pagination (callback)="getAPCs($event)" [currentPage]="filters.page" [totalPages]="totalPages"></pagination>
+    </div>
+  </div>
+
+</section>
+<apc-create [open]="createAPCFlag" (flag)="createAPC($event)"></apc-create>
+<apc-edit [apc]="apcToEdit" (flag)="editBack($event)"></apc-edit>
+<apc-delete [apc]="apcToDelete" (deleteFlag)="deleteBack($event)"></apc-delete>
+<app-confirm [open]="openConfirm" [data]="apcNameToBlock" (flag)="confirmResult($event)"></app-confirm>

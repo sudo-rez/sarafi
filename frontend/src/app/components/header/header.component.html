@@ -1,0 +1,63 @@
+<header class="container-fluid">
+    <div class="row justify-content-center">
+
+        <!-- Switch Language -->
+        <div class="col-auto">
+            <div class="switch-language-toggle">
+                <input id="s.l.t" class="s.l.t" type="checkbox" [checked]="checked" (change)="toggleLanguage($event)">
+                <label class="toggle" for="s.l.t">
+          <span class="toggle-handler"></span>
+        </label>
+            </div>
+        </div>
+
+        <!-- Empty -->
+        <div class="col"></div>
+
+        <!-- User Profile -->
+        <div class="col-hidden col-md-auto">
+            <div class="dropdown" tabindex="0">
+                <div class="dropdown-label">
+                    <div class="icon icon-user"></div>
+
+                    {{ 'header.welcome' | translate:{userName: userService.getUserName()} }}
+                    <div class="icon icon-caret-down-two"></div>
+                </div>
+                <ul class="dropdown-list">
+                    <ng-container *ngIf="userService.isLoggedIn()">
+                        <!-- <li>
+                            <a routerLink="/auth/user/profile" [routerLinkActive]="['active']">
+                                <div class="icon icon-user"></div>
+                                {{ 'auth.user-profile' | translate }}
+                            </a>
+                        </li> -->
+                        <li>
+                            <a routerLink="/auth/password/reset" [routerLinkActive]="['active']">
+                                <div class="icon icon-refresh"></div>
+                                {{ 'auth.reset-pass' | translate }}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" (click)="logout($event)">
+                                <div class="icon icon-power-off"></div>
+                                {{ 'auth.logout' | translate }}
+                            </a>
+                        </li>
+                    </ng-container>
+                    <li *ngIf="!userService.isLoggedIn()">
+                        <a routerLink="auth">
+                            <div class="icon icon-sign-in"></div>
+                            {{ 'auth.login' | translate }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Sidebar toggle -->
+        <div class="col-sm-auto col-md-hidden">
+            <div class="icon icon-bars sidebar-toggle" (click)="sidebarToggle.emit()"></div>
+        </div>
+
+    </div>
+</header>

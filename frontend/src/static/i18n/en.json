@@ -1,0 +1,1082 @@
+{
+  "header": {
+    "welcome": "Welcome {{ userName }}"
+  },
+  "dashboard": {
+    "title": "Reports",
+    "welcome": {
+      "title": "Welcome",
+      "text": "Welcome to \"Management Panel\""
+    },
+    "statistics": {
+      "transactions": "Transaction statistics",
+      "txn-msg": "Transaction Result Messages",
+      "queue":"Payment Queue",
+      "lasttxns":"Last Transactions",
+      "money":"Financial",
+      "money-sub":"Financial Reports",
+      "success-txn" : "Success Transactions",
+      "failed-txn" : "Failed Transactions",
+      "withdraw-remaining":"Remaining Withdraw",
+      "paid-today":"Day Amount Paid",
+      "txn-today":"Day Transaction"
+    }
+  },
+  "count":"Count",
+  "amount":"Amount",
+  "report": {
+    "order-product-count-report": "Order Product Count Report"
+  },
+  "auth": {
+    "username":"Username",
+    "usercode":"UserCode",
+    "login": "Login",
+    "logout": "Logout",
+    "register": "Register",
+    "forget-pass": "Forget Password",
+    "reset-pass": "Reset Password",
+    "login-with-google": "Login With Google Account",
+    "fullname": "Fullname",
+    "email": "Email",
+    "mobile": "Mobile",
+    "mobile-or-email": "Mobile Or Email",
+    "old-password": "Old Password",
+    "password": "Password",
+    "new-pass": "New Password",
+    "confirm-pass": "Confirm Password",
+    "show-pass": "Show Password",
+    "hide-pass": "Hide Password",
+    "user-profile": "User Profile",
+    "verify-key": "Enter the code sent to your mobile",
+    "key": "Verification code",
+    "marital": {
+      "~": "Title",
+      "single": "Single",
+      "married": "Married"
+    },
+    "gender": {
+      "~": "Title",
+      "male": "Male",
+      "female": "Female"
+    },
+    "call": "Cellphone",
+    "description": "Description"
+  },
+  "wallet":{
+    "charge":"Charge",
+    "created_at":"Created At",
+    "currency":"Currency",
+    "amount":"Amount",
+    "history":"History",
+    "create":"Create Wallet",
+    "type":"Action",
+    "by":"User",
+    "value":"Wallet"
+  },
+  "status":"Status",
+  "active":"Active",
+  "deactive":"Deactive",
+  "yes":"Yes",
+  "no":"No",
+  "in queue":"In Queue",
+  "in progress":"In Progress",
+  "complete":"Complete",
+  "canceled":"Canceled",
+  "manual complete":"Manual Complete",
+  "rejected":"Rejected",
+  "actionconfirm":"Do You Confirm The Action ?",
+  "dayprofit":"Today's profit",
+  "apc":{
+    "create":"Create Automate Account",
+    "name":"Owner Name",
+    "card_number":"Card Number",
+    "bank":"Bank",
+    "active":"Active",
+    "current":"Current",
+    "amount_all":"Amount All",
+    "amount_day":"Amount Day",
+    "delete_confirm":"Are you sure to Delete account below ?",
+    "blocked":"Blocked",
+    "confirmed":"Confirmed",
+    "not_confirmed":"Waiting For Confirmation"
+  },
+  "sapc":{
+    "create":"Create Semi-Automate Account",
+    "name":"Owner Name",
+    "card_number":"Card Number",
+    "bank":"Bank",
+    "active":"Active",
+    "current":"Current",
+    "amount_all":"Amount All",
+    "amount_day":"Amount Day",
+    "delete_confirm":"Are you sure to Delete account below ?",
+    "blocked":"Blocked",
+    "confirmed":"Confirmed",
+    "not_confirmed":"Waiting For Confirmation"
+
+  },
+  "setting":{
+    "gateway":"Gateway Settings",
+    "blocked_banks":"Blocked Banks",
+    "messages":"Gateway Messages",
+    "addbank":"Add Bank",
+    "open_time":"GateWay Open Time",
+    "alg_duration":"Payment Algorithm Duration"
+  },
+  "IRR":"IRR",
+  "charge":"Charge",
+  "decharge":"Decharge",
+  "wage":"Wage",
+  "brand":{
+    "name":"Brand Name",
+    "logo":"Brand Logo",
+    "adminuser":"Brand Admin",
+    "adminpassword":"Password",
+    "wage":"Wage",
+    "key":"Key",
+    "create":"Create Brand",
+    "createnew":"Create New Brand",
+    "role":"Roles",
+    "created_at":"Created At",
+    "delete_confirm":"Are you sure to Delete brand below ?"
+  },
+  "usermanagement":"User Management",
+  "brandmanagement":"Brand Management",
+  "transactions":"Transactions",
+  "cardverification":"Card Verfication",
+  "walletmanagement":"Wallet Management",
+  "withdrawperm":"Withdraw Management",
+  "manualpayperm":"Manual Pay",
+  "apcmanagement":"Automate Accounts",
+  "sapcmanagement":"Semi-Automate Accounts",
+  "cart-number":"Cart Number",
+  "cart-bank":"Credit Card",
+  "cart-enter":"Enter Card Number",
+  "txn":{
+    "amount":"Amount",
+    "account":"Account",
+    "brand_name":"BrandName",
+    "checkout_ref":"CheckoutRef",
+    "client_ip":"Client IP",
+    "created_at":"Created At",
+    "destination":"Destination",
+    "message":"Message",
+    "request_id":"Request ID",
+    "site_ref":"SiteRef",
+    "source":"Source",
+    "card":"Pan",
+    "remaining":"Remaining Amount",
+    "brand":"Brand",
+    "manual":"Manual Payment",
+    "reject":"Rejecy Payment"
+  },
+  "user":{
+    "username":"Username",
+    "usercode":"UserCode",
+    "brand":"Brand",
+    "create":"Create User",
+    "createnew":"Create New User",
+    "role":"Roles",
+    "created_at":"Created At",
+    "delete_confirm":"Are you sure to Delete user below ?"
+  },
+  "row":"Index",
+  "customer": {
+    "avatar": "Avatar",
+    "showable-name": "Name",
+    "fullname": "Fullname",
+    "email": "Email",
+    "phone": "Phone",
+    "cellphone": "Cellphone",
+    "created-at": "Registration date",
+    "gender": "Gender",
+    "marital": "Marital",
+    "birthday": "Birthday",
+    "is-active": "Activation",
+    "status-verified": "Status Verified",
+    "active": "Active",
+    "inactive": "Inactive",
+    "free-subscription": "Free Subscription",
+    "active-subscription": "Active Subscription",
+    "status-colleague": "Status Colleague",
+    "business-license": "Business license",
+    "row": "Row",
+    "list": {
+      "title": "Fans list"
+    },
+    "view": {
+      "title": "View Fan"
+    }
+  },
+  "notification": {
+    "Customer": "Customer",
+    "new_order": "New Order",
+    "UncompeleteOrder": "Uncompleted Order",
+    "OutOfStock": "Out Of Stock",
+    "empty": "There Is No Notification",
+    "Comment": "Comment",
+    "Message": "Message",
+    "mark-all-as-read": "Mark all as read",
+    "read_all": "Read All Notifications",
+    "refresh": "Refresh Notifications",
+    "required": "Filling the fields marked with red is required",
+    "free-file": {
+      "title": "Error in files",
+      "desc": "If the price is free, all files must be free"
+    },
+    "list": {
+      "title": "Notifications"
+    },
+    "view": {
+      "title": "View Notification"
+    },
+    "setting": {
+      "title": "Notification Setting",
+      "form": {
+        "section": "Section",
+        "type": "Type",
+        "customer": "Customer",
+        "new_order": "New Order",
+        "UncompeleteOrder": "Uncompleted Order",
+        "OutOfStock": "Out Of Stock",
+        "Comment": "Comment",
+        "Message": "Message",
+        "info": "Info",
+        "warning": "Warning",
+        "danger": "Danger",
+        "active_email": "Active Email",
+        "active_sms": "Active SMS",
+        "block": "Block",
+        "reset": "Reset"
+      }
+    }
+  },
+  "sidebar":{
+    "management":"Management",
+    "settings": "Settings",
+    "payment":"GateWay Accounts",
+    "apc":"Automatic",
+    "sapc":"Semi-Automatic",
+    "withdraw":"Withdraws"
+  },
+  "admin": {
+    "wallet-list":"Wallet",
+    "brand-list": "Brands",
+    "user-list": "Users",
+    "customer-list": "All Customers",
+    "product-list": "All Products",
+    "order-list": "All Orders",
+    "order-view": "View Order",
+    "contact-list": "All Messages",
+    "support-list": "Support Messages",
+    "view-deleted-supports": "View deleted messages",
+    "view-supports": "View current messages",
+    "content": {
+      "list": "Blog",
+      "create": "Create Post",
+      "edit": "Edit Post"
+    }
+  },
+  "operation": {
+    "select": {
+      "title": "Select",
+      "message": "selected"
+    },
+    "sent": {
+      "title": "Send",
+      "message": "Sent"
+    },
+    "edit": {
+      "title": "Edit",
+      "message": "edited"
+    },
+    "create": {
+      "title": "Create",
+      "message": "created"
+    },
+    "add": {
+      "title": "Add",
+      "message": "added"
+    },
+    "delete": {
+      "title": "Delete",
+      "message": "deleted"
+    },
+    "batch-delete": {
+      "title": "Delete",
+      "message": "deleted"
+    },
+    "remove": {
+      "title": "Remove",
+      "message": "removed"
+    },
+    "swap": {
+      "title": "Swap",
+      "message": "swaped"
+    },
+    "recalculate": {
+      "title": "Recalculate",
+      "message": "Recalculated"
+    },
+    "upload": {
+      "title": "Upload",
+      "message": "uploaded"
+    },
+    "add-to": {
+      "title": "Add to",
+      "message": "Added"
+    },
+    "confirm": {
+      "title": "Confirm",
+      "message": "confirmed"
+    },
+    "decline": {
+      "title": "Decline",
+      "message": "declined"
+    }
+  },
+  "confirm": {
+    "message": "Are you sure?"
+  },
+  "delete-gift": {
+    "message": "By deleting this category, all gift codes in this category will be deleted. Are you sure?"
+  },
+  "notify": {
+    "setting":{
+      "save":{"title":"Setting Save","message":"Setting Saved Successfully"}
+    },
+    "txn":{
+      "filter":{"title":"Transaction Filter","message":"Transaction Filter Successfully"}
+    },
+    "apc":{
+      "create":{"title":"Create APC","message":"Automate Card Created Successfully"},
+      "delete":{"title":"Delete APC","message":"Automate Card Deleted Successfully"},
+      "update":{"title":"Update APC","message":"Automate Card Updated Successfully"}
+    },
+    "sapc":{
+      "create":{"title":"Create SAPC","message":"Semi-Automate Card Created Successfully"},
+      "delete":{"title":"Delete SAPC","message":"Semi-Automate Card Deleted Successfully"},
+      "update":{"title":"Update SAPC","message":"Semi-Automate Card Updated Successfully"}
+    },
+    "wallet":{
+      "charge":{"title":"Wallet Charge","message":"Wallet Charged Successfully"}
+    },
+    "brand":{
+      "update":{"title":"Brand Update","message":"Brand Updated Successfully"},
+      "create":{"title":"Brand Create","message":"Brand Created Successfully"},
+      "delete":{"title":"Brand Delete","message":"Brand Deleted Successfully"}
+    },
+    "user":{
+      "update":{"title":"User Update","message":"User Updated Successfully"},
+      "create":{"title":"User Create","message":"User Created Successfully"},
+      "delete":{"title":"User Delete","message":"Brand Deleted Successfully"}
+    },
+    "success": {
+      "title": "{{ operation.title }} {{ entity }}",
+      "message": "{{ name }} {{ operation.message }} successfully"
+    },
+    "operation-success": {
+      "title": "Success",
+      "message": "Operation successfully completed"
+    },
+    "request": {
+      "title": "Wait",
+      "message": "Requesting"
+    },
+    "login-required": {
+      "title": "Login Required",
+      "message": "You most login first"
+    },
+    "login-error": {
+      "title": "Login failed",
+      "message": "Incorrect username or password"
+    },
+    "login-success": {
+      "title": "Login Success",
+      "message": "You are successfully logged in"
+    },
+    "register-success": {
+      "title": "Register Success",
+      "message": "You are successfully registered"
+    },
+    "reset-pass-success": {
+      "title": "Reset Password Success",
+      "message": "You're password changed successfully"
+    },
+    "delete-success":{
+      "title":"Deleteted Successfully",
+      "message":"Item Deleted Successfully"
+    }
+  },
+  "error-msg":"Error Message",
+  "error": {
+    "400": {
+      "title": "Bad request",
+      "message": "The details entered are not correct"
+    },
+    "401": {
+      "title": "Unauthorized",
+      "message": "Admin access required"
+    },
+    "404": {
+      "title": "Not Found",
+      "message": "Cant find item"
+    },
+    "500": {
+      "title": "Internal Server Error",
+      "message": "Internal Server Error. Contact Administrator For More Info"
+    },
+    "user-exist": {
+      "title": "Duplicate User",
+      "message": "The user already exists"
+    },
+    "national-code-exist": {
+      "title": "Duplicate national-code",
+      "message": "The national-code already exists"
+    },
+    "validation-national-code": {
+      "title": "national_code failed",
+      "message": "Field validation for national_code"
+    }
+  },
+  "dropzone-images": {
+    "alert": "Note that the first photo will be displayed as the default image.",
+    "placeholder": "Drag or select file",
+    "help": "Select your images or Upload those.",
+    "upload-button": "Upload images",
+    "view-image": "View Image",
+    "delete-image": "Delete Image",
+    "select-image": "Select Image",
+    "remove-image": "Remove Image",
+    "crop-button": "Crop Image"
+  },
+  "pagination": {
+    "first": "First",
+    "previous": "Previous",
+    "next": "Next",
+    "last": "Last",
+    "go": "Go to"
+  },
+  "forms": {
+    "create": "Create",
+    "add": "Add",
+    "submit": "Submit",
+    "save": "Save",
+    "send": "Send",
+    "cancel": "Cancel",
+    "back": "Back",
+    "calculate":"Calculate",
+    "feedback": {
+      "required": "This field is required",
+      "pattern": "The entered value is not correct",
+      "least": "Atleast {{ least }} char is required",
+      "max": "Maximum {{ max }} char allowed",
+      "value-min": "Minimum {{ min }} character allowed",
+      "value-max": "Maximum {{ max }} character allowed",
+      "notmatch": "Password does not match",
+      "number": "Entered number is not correct",
+      "product-variant-error": "You must enter at least one type",
+      "low-number": "Must be at least {{ num }}",
+      "big-number": "Must be maximum {{ num }}",
+      "wrong-card":"Card Number is wrong"
+    }
+  },
+  "plan-promotion": {
+    "msg": "Free plan is currently activated for your store",
+    "lnk": "Click to upgrade"
+  },
+  "verify-mobile": {
+    "timeToNavigate": "You will be redirected to the homepage in {{second}} seconds.",
+    "tips": "Users who have not entered their mobile number must verify their mobile number because of an update to the store system.",
+    "approve-phone-number": "Mobile number verification",
+    "phone-number": "Phone Number",
+    "verification-code": "Verification code",
+    "msg-success": "Your mobile number has been assigned.",
+    "invalid-otp": {
+      "wrong-code": "",
+      "send-max-sms": "The verification code is incorrect"
+    },
+    "mobile-is-duplicate": {
+      "title": "",
+      "text": "Phone number already registered."
+    },
+    "otp-limitation-error": {
+      "title": "",
+      "text": "Too many SMS sent. Please try again in 30 minutes"
+    },
+    "key-has-been-expired": {
+      "title": "",
+      "text": "The verification code has expired"
+    },
+    "button": {
+      "send-code": "Send activation code",
+      "wrong-mobile": "I entered the mobile number incorrectly!",
+      "confirm": "Confirm"
+    },
+    "placeholder": {
+      "txt-phone-number": "For example 09120001234",
+      "txt-verification-code": "Enter Auth Code"
+    }
+  },
+  "upload": {
+    "title": "Upload Media",
+    "edit": "Edit",
+    "show": "Show",
+    "delete": "Delete",
+    "alert": "Note You Can Only Edit Title and Description",
+    "create": {
+      "caption": "Caption",
+      "artist": "Artist Name",
+      "musician": "Musician Name",
+      "description": "Description",
+      "start": "Start",
+      "pause": "Pause",
+      "released-date": "Released Date",
+      "uploadPlaceTitle": "Drag and Drop Your Video Here or Just Click This Box",
+      "uploadPlaceDescription": "Only Accepted .mp4 and .mkv Video format",
+      "category": "Category",
+      "company": "Company",
+      "playList": "Playlist",
+      "images": "Preview Image",
+      "publish": "Save",
+      "album-unveiling-video": "Album Unveiling Video",
+      "poem_en": "Poem(EN)",
+      "poem_fa": "Poem(FA)",
+      "challenge_teaser": "Quiz Teaser",
+      "video-preview": {
+        "video-name": "Video Name",
+        "video-format": "Video Format",
+        "video-length": "Video Length",
+        "video-size": "Video Size",
+        "video-quality": "Video Quality"
+      },
+      "chosen-file": {
+        "name": "Selected Video Name",
+        "format": "Selected Video Format",
+        "size": "Selected Video Size"
+      },
+      "validation": {
+        "title": "Unsupported File",
+        "description": "Please Select Video"
+      },
+      "success": {
+        "title": "Uploaded Successfully",
+        "message": "Video Uploaded Successfully"
+      },
+      "error": {
+        "title": "Error",
+        "message": "Video Not Uploaded"
+      },
+      "category-create": {
+        "success": {
+          "title": "Add Category",
+          "message": "Category Added Successfuly"
+        },
+        "error": {
+          "title": "Error",
+          "message": "Can't Add Selected Category"
+        }
+      },
+      "category-remove": {
+        "success": {
+          "title": "Remove Category",
+          "message": "Category Removed Successfuly"
+        },
+        "error": {
+          "title": "Error",
+          "message": "Can't Remove Selected Category"
+        }
+      },
+      "poster-create": {
+        "success": {
+          "title": "Choose Poster",
+          "message": "Poster Added Successfuly"
+        },
+        "error": {
+          "title": "Error",
+          "message": "Can't Add Poster"
+        }
+      },
+      "upload": "Upload",
+      "delete": "Delete",
+      "alert": "Video"
+    },
+    "list": {
+      "title": "Media List",
+      "dragable-title": "Draggable Media List",
+      "change-position": "Change Video Positions",
+      "position": "Order",
+      "video_caption": "Caption",
+      "video_description": "Description",
+      "video_ext": "Extension",
+      "video_size": "Size",
+      "uploaded_at": "Uploaded At",
+      "is_uploaded": "Status",
+      "artist": "Artist",
+      "creator": "Creator",
+      "paidـvideo": "Paid Video",
+      "download": "Download",
+      "publish": "Publish",
+      "newest": "Newest",
+      "blue-tick": "Blue Tick",
+      "view": "View",
+      "copy": {
+        "title": "Copy Download Link",
+        "success": {
+          "title": "Success",
+          "message": "Download Link Copied Successfully"
+        },
+        "error": {
+          "title": "Error",
+          "message": "Facing Issue in coping download link"
+        }
+      },
+      "concert": {
+        "title": "Concert",
+        "name": "Name"
+      },
+      "playlist": {
+        "title": "Playlist",
+        "name": "Name"
+      },
+      "album": {
+        "title": "Album",
+        "name": "Name"
+      },
+      "is_top": "Top",
+      "add": "Add",
+      "edit": "Edit",
+      "delete": "Delete",
+      "uploaded": "Uploaded",
+      "notuploaded": "Not Uploaded",
+      "poster": "Poster"
+    },
+    "video-demo": {
+      "title": "Video Demo"
+    }
+  },
+  "artists": {
+    "list": {
+      "title": "Singer List",
+      "image": "Profile Image",
+      "nameFa": "Name (Farsi)",
+      "nameEn": "Name (English)",
+      "promote": "Promote to Artist",
+      "promote-to": "Create access to the artist dashboard",
+      "edit": "Edit Profile",
+      "teaser": "Event Teaser"
+    },
+    "create": {
+      "title": "Add Singer",
+      "edit": "Edit Singer",
+      "nameFa": "Name (Farsi)",
+      "nameEn": "Name (English)",
+      "bio": "Bio",
+      "band_bio": "Bio",
+      "profile_image": "Profile Image",
+      "desktop_banner": "Banner Image (Desktop)",
+      "mobile_banner": "Banner Image (Mobile)",
+      "desktop_background": "Background Image (Desktop)",
+      "mobile_background": "Background Image (Mobile)",
+      "logo": "Logo"
+    },
+    "mymusics": {
+      "list": "My Musics",
+      "week": "Last week",
+      "month": "Last Month",
+      "year": "Last Year",
+      "image": "Image",
+      "name": "Name",
+      "views": "Views",
+      "release-date": "Release Date",
+      "likes": "Likes",
+      "playtime": "Play Time",
+      "size": "Observed Volume",
+      "show-all": "Show All Songs"
+    },
+    "questions": {
+      "title": "Questions",
+      "quiz": "Quiz Video",
+      "name": "Quiz Name",
+      "length": "Number of questions",
+      "edit": "Edit Question",
+      "result": {
+        "title": "Quiz Results",
+        "fullname": "Participant Fullname",
+        "cellphone": "Participant Cellphone",
+        "score": "Score",
+        "date": "Date",
+        "export": "Export Excel"
+      },
+      "create": {
+        "title": "Add Question",
+        "text": "Keyword",
+        "answers": "Answers",
+        "correct-answer": "Correct Answer",
+        "answer1": "Answer one",
+        "answer2": "Answer Two",
+        "answer3": "Answer Three"
+      },
+      "create-quiz": {
+        "title": "Add Quiz",
+        "edit": "Edit Quiz",
+        "startup-video": "Startup Video"
+      }
+    }
+  },
+  "musician": {
+    "list": {
+      "title": "Musician List",
+      "image": "Profile Image",
+      "nameFa": "Name (Farsi)",
+      "nameEn": "Name (English)",
+      "promote": "Promote to Musician",
+      "promote-to": "Create access to the artist dashboard",
+      "edit": "Edit Profile"
+    },
+    "create": {
+      "title": "Add Musician",
+      "edit": "Edit Musician",
+      "nameFa": "Name (Farsi)",
+      "nameEn": "Name (English)",
+      "bio": "Bio",
+      "band_bio": "Bio",
+      "profile_image": "Profile Image",
+      "desktop_banner": "Banner Image (Desktop)",
+      "mobile_banner": "Banner Image (Mobile)"
+    }
+  },
+  "schedul": {
+    "list": {
+      "title": "Release Video Schedule",
+      "release-date": "Release Date",
+      "name": "Caption",
+      "poster": "Poster",
+      "date": "Date",
+      "hour": "Hour",
+      "banner-title": "Release Banner Schedule"
+    }
+  },
+  "video-category": {
+    "list": {
+      "title": "Categories List",
+      "image": "Logo",
+      "nameFa": "Name (Farsi)",
+      "nameEn": "Name (English)"
+    },
+    "create": {
+      "title": "Add Category",
+      "edit": "Edit Category",
+      "name_fa": "Name (Farsi)",
+      "name_en": "Name(English)",
+      "logo_path": "Logo",
+      "desktop_banner": "Banner Image (Desktop)",
+      "mobile_banner": "Banner Image (Mobile)",
+      "poster": "Poster"
+    }
+  },
+  "image-cropper": {
+    "flip-horizontal": "Horizontal flip",
+    "flip-vertical": "Vertical flip",
+    "reset": "Reset",
+    "zoom-out": "Zoom Out",
+    "zoom-in": "Zoom In",
+    "degree-rotation": "Rotation",
+    "save-upload": "Crop and Upload",
+    "upload": "Upload without cropping"
+  },
+  "band": {
+    "list": {
+      "title": "Bands List"
+    },
+    "create": {
+      "title": "Add Band",
+      "edit": "Edit Band"
+    },
+    "name": "Band Name"
+  },
+  "owner": {
+    "list": {
+      "title": "Owners List",
+      "image": "Logo",
+      "nameFa": "Name (Farsi)",
+      "nameEn": "Name (English)"
+    },
+    "create": {
+      "title": "Add Owner",
+      "edit": "Edit Owner",
+      "name_fa": "Name (Farsi)",
+      "name_en": "Name(English)",
+      "logo_path": "Logo",
+      "desktop_banner": "Banner Image (Desktop)",
+      "mobile_banner": "Banner Image (Mobile)",
+      "poster": "Poster"
+    }
+  },
+  "subscription": {
+    "list": {
+      "title": "Subscriptions List"
+    },
+    "create": {
+      "title": "Add Subscription",
+      "edit": "Edit Subscription"
+    },
+    "name_en": "Name(English)",
+    "name_fa": "Name(Farsi)",
+    "price": "Price",
+    "discount": "Discount",
+    "duration": "Duration",
+    "year": "Year",
+    "month": "Month",
+    "day": "Day",
+    "hours": "Hours"
+  },
+  "discount": {
+    "list": {
+      "title": "Discount Codes"
+    },
+    "create": {
+      "title": "Add Discount Codes",
+      "edit": "Edit Discount Codes"
+    },
+    "name_en": "Name(English)",
+    "name_fa": "Name(Farsi)",
+    "discount_percent": "Discount Percent",
+    "discount_expire_time": "Expire Time",
+    "discount_value": "Discount Code",
+    "validity duration": "Validity Duration",
+    "has_time": "Status",
+    "valid": "Valid",
+    "invalid": "Invalid"
+  },
+  "gift-discount": {
+    "list": {
+      "title": "Discount Cart"
+    },
+    "create": {
+      "title": "Add Discount Cart Category",
+      "edit": "Edit Discount Cart Category"
+    },
+    "gift": {
+      "create": {
+        "title": "Add Discount Code"
+      },
+      "list": {
+        "username": "User",
+        "cellphone": "User Phone Number",
+        "used-date": "Used Date",
+        "discount": "Discount Code"
+      }
+    },
+    "detail": "Detail",
+    "category": "Category",
+    "number": "Number",
+    "subscriptions": "Subscriptions",
+    "status": "Status",
+    "valid": "Valid",
+    "invalid": "In Valid"
+  },
+  "concert": {
+    "list": {
+      "title": "Concert",
+      "name": "Title",
+      "start_time": "Start Time",
+      "end_time": "End Time",
+      "start_date": "Start Date",
+      "end_date": "End Date",
+      "start_hour": "Start Hour",
+      "end_hour": "End Hour"
+    },
+    "create": {
+      "title": "Create Concert",
+      "edit": "Edit Concert"
+    },
+    "ticket": {
+      "title": "Concert Ticket",
+      "expire_time": "Expire Time",
+      "create": {
+        "title": "Create Concert",
+        "edit": "Edit Ticket"
+      }
+    }
+  },
+  "playlist": {
+    "list": {
+      "title": "Playlist",
+      "name": "Name"
+    },
+    "create": {
+      "title": "Create Playlist",
+      "edit": "Edit Playlist"
+    }
+  },
+  "album": {
+    "list": {
+      "title": "Album",
+      "name": "Title",
+      "price": "Price",
+      "price-physical": "Price(Physical)",
+      "price-digital": "Price(Digital)",
+      "physical-product": "Physical Product",
+      "digital-product": "Digital Product",
+      "zip-file": "Zip File"
+    },
+    "create": {
+      "title": "Create Album",
+      "edit": "Edit Album"
+    },
+    "media_name": "Media Name"
+  },
+  "album-orders": {
+    "info": "Order Info",
+    "set-date": "Set Date",
+    "list": {
+      "title": "Orders",
+      "buyer-name": "Buyer Name",
+      "price": "Price",
+      "album": "Album",
+      "concert": "Concert",
+      "album-with-concert": "Album And Concert",
+      "event-name": "Event Name",
+      "album-name": "Album Name",
+      "concert-name": "Concert Name",
+      "national_code": "National Code",
+      "tracking_code": "Tracking Code"
+    },
+    "address": {
+      "address": "Address",
+      "cellphone": "Cell Phone",
+      "city": "City",
+      "plaque": "Plaque",
+      "postal_code": "Postal Code",
+      "province": "Province",
+      "unit": "Unit"
+    },
+    "create": {
+      "title": "Create Album",
+      "edit": "Edit Album"
+    },
+    "media_name": "Media Name"
+  },
+  "banner": {
+    "list": {
+      "title": "Banners",
+      "image": "Image",
+      "name": "Title",
+      "created_at": "Created At",
+      "keyword": "Keyword",
+      "published": "Published"
+    },
+    "create": {
+      "title": "Add Banner",
+      "edit": "Edit Banner",
+      "name": "Title",
+      "is-published": "Publish",
+      "link": "Link",
+      "keyword": "Keyword",
+      "desc": "Description",
+      "image": "Image",
+      "banner1": "First Banner",
+      "banner2": "Second Banner"
+    }
+  },
+  "contact-us": {
+    "list": {
+      "title": "Contact Us"
+    },
+    "email": "Email",
+    "reviewed": "Reviewed",
+    "has-not-changed": "Has Not Changed"
+  },
+  "artist-panel": {
+    "first-section": {
+      "home": "Home",
+      "listener": "peaple listening now",
+      "back-to-live": "Back to Live",
+      "description": "Here are some resources and tools for artists returning to the stages.",
+      "learn-more": "LEARN MORE"
+    },
+    "seccond-section": {
+      "first-sentence": "Don't forget you can feature an Artist pick the top of your profile",
+      "seccond-sentence": "Chose a playlist, release or concert you want to draw peaple's attention to.",
+      "artist-pisck": "SET ARTIST PICK"
+    },
+    "third-section": {
+      "listeners": "Listeners",
+      "streams": "Streams",
+      "followers": "Followers"
+    },
+    "top-songs": {
+      "title": "Your top songs",
+      "streams": "Straems",
+      "description": "No states for this time Period. States appear when a song has at least 10 listeners whithin th last 7 days"
+    },
+    "deleteArtistPanel": "Delete Artist Panel",
+    "my-challenges": "My Challenges"
+  },
+  "event": {
+    "title": "Event",
+    "list": {
+      "title": "Event List",
+      "edit": "Edit List",
+      "nameFa": "Name (Farsi)",
+      "nameEn": "Name (English)",
+      "album-name": "Album Name",
+      "concert-name": "Concert Name",
+      "album-image": "Album Image",
+      "artist-name": "Artist Name",
+      "digital-album": "Publish Digital Album"
+    },
+    "create": {
+      "title": "Create Event",
+      "edit": "Edit Event",
+      "album": "Album",
+      "concert": "Concert",
+      "artist": "Artist",
+      "teaser": "Teaser",
+      "owner": "Owner",
+      "description": "Description",
+      "link": "Link",
+      "link-name": "Link Button Name",
+      "physical-btn": "Physical Butoon",
+      "digital-btn": "Digital Butoon",
+      "concert-btn": "Concert Butoon",
+      "combo-physical": "Combo Physical Butoon",
+      "combo-digital": "Combo Digital Butoon",
+      "physical-sms": "Physical SMS",
+      "digital-sms": "Digital SMS",
+      "concert-sms": "Concert SMS",
+      "combo-physical-sms": "Combo Physical SMS",
+      "combo-digital-sms": "Combo Digital SMS",
+      "irancell_free": "Free Concert For Irancell"
+    }
+  },
+  "visit-store": "Visit Website",
+  "search": "Search",
+  "advance-search":"Advance Search",
+  "close": "Close",
+  "back": "Back",
+  "reset": "Reset",
+  "created-from": "Created From",
+  "created-to": "Created To",
+  "list-empty": "Nothing to display",
+  "clear-selection": "Clear Selection",
+  "percent": "Percent",
+  "rial": "Rial",
+  "discounted-prices": "Discounted prices",
+  "toman": "Toman",
+  "weight-unit": "g",
+  "millisecond": "Millisecond",
+  "second": "Second",
+  "minutes": "Minutes",
+  "hour": "Hour",
+  "month": "Month",
+  "none": "None",
+  "unknown": "Unknown",
+  "free": "Free",
+  "unlimited": "Unlimited",
+  "upgrade-plan": "Upgrade Plan",
+  "actions": "Actions",
+  "tax": "9 % tax will be added to this price",
+  "px": "px"
+}

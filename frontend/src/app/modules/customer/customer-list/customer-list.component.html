@@ -1,0 +1,320 @@
+<section class="container animated fadeIn">
+  <div class="row">
+    <div class="col">
+      <breadcrumb title="{{ 'customer.list.title' | translate }}"></breadcrumb>
+    </div>
+    <div class="col-md-auto p-0">
+      <div class="form m-0">
+        <button class="btn btn-sm" routerLink="/customer/create" [queryParams]="query.params()">{{
+          'customer.create.title' | translate }}</button>
+      </div>
+    </div>
+  </div>
+  <!-- Search -->
+  <div class="row mb-2">
+    <div class="col-12 mb-3">
+      <div class="accordion scroll-to" [ngClass]="{'active': isOpenAccordion, '': !isOpenAccordion }"
+        (click)="openForm()">
+        <span>{{ 'search' | translate }}</span>
+      </div>
+      <div class="panel" [ngStyle]="editStyle()">
+        <div class="card-body">
+          <form [formGroup]="searchForm" (ngSubmit)="getCustomers()">
+            <div id="mainsetting" style="display: block;" class="tabcontent">
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12">
+                  <div class="row wall mb input-box">
+                    <div class="col-lg-12">
+                      <div class="row">
+                        <!-- ==== Name ===== -->
+                        <div class="col-lg-6">
+                          <div class="row form-group">
+                            <div class="col-lg-12">
+                              <label class="form-label-inline" for="name">
+                                {{ 'customer.fullname' | translate }} :
+                              </label>
+                            </div>
+                            <div class="col-lg-12">
+                              <input id="name" type="text" formControlName="name" required class="form-control"
+                                name="name" />
+                            </div>
+                          </div>
+                        </div>
+                        <!-- user_code -->
+                        <div class="col-lg-6">
+                          <div class="row form-group">
+                            <div class="col-lg-12">
+                              <label class="form-label-inline" for="user_code">
+                                {{ 'customer.user_code' | translate }} :
+                              </label>
+                            </div>
+                            <div class="col-lg-12">
+                              <input id="user_code" type="text" formControlName="user_code" required
+                                class="form-control" name="user_code" />
+                            </div>
+                          </div>
+                        </div>
+                        <!-- national_code -->
+                        <div class="col-lg-6">
+                          <div class="row form-group">
+                            <div class="col-lg-12">
+                              <label class="form-label-inline" for="national_code">
+                                {{ 'customer.national_code' | translate }} :
+                              </label>
+                            </div>
+                            <div class="col-lg-12">
+                              <input id="national_code" type="text" formControlName="national_code" required
+                                class="form-control" name="national_code" />
+                            </div>
+                          </div>
+                        </div>
+                        <!-- ----- phone ----- -->
+                        <div class="col-lg-6">
+                          <div class="row form-group">
+                            <div class="col-lg-12">
+                              <label class="form-label-inline" for="phone">
+                                {{ 'customer.phone' | translate }} :
+                              </label>
+                            </div>
+                            <div class="col-lg-12">
+                              <input id="phone" type="text" formControlName="phone" required class="form-control"
+                                name="phone" />
+                            </div>
+                          </div>
+                        </div>
+                        <!-- ---- province---- -->
+                        <div class="col-lg-6">
+                          <div class="row form-group">
+                            <div class="col-lg-12">
+                              <label class="form-label-inline" for="province">
+                                {{ 'album-orders.address.province' | translate }} :
+                              </label>
+                            </div>
+                            <div class="col-lg-12">
+                              <select formControlName="province" (change)="getCity($event.target.value)"
+                                class="form-control" name="province">
+                                <option *ngFor="let province of provinces" [value]="province.id"> {{province.name}}
+                                </option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- city -->
+                        <div class="col-lg-6">
+                          <div class="row form-group">
+                            <div class="col-lg-12">
+                              <label class="form-label-inline" for="city">
+                                {{ 'customer.city' | translate }} :
+                              </label>
+                            </div>
+                            <div class="col-lg-12">
+                              <select id="city" type="text" formControlName="city" required class="form-control"
+                                name="city">
+                                <option *ngFor="let city of cities" value={{city.id}}> {{ city.name }} </option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- mobile -->
+                        <div class="col-lg-6">
+                          <div class="row form-group">
+                            <div class="col-lg-12">
+                              <label class="form-label-inline" for="mobile">
+                                {{ 'customer.mobile' | translate }} :
+                              </label>
+                            </div>
+                            <div class="col-lg-12">
+                              <input id="mobile" type="text" formControlName="mobile" required class="form-control"
+                                name="mobile" />
+                            </div>
+                          </div>
+                        </div>
+                        <!-- address -->
+                        <div class="col-lg-6">
+                          <div class="row form-group">
+                            <div class="col-lg-12">
+                              <label class="form-label-inline" for="address">
+                                {{ 'customer.address' | translate }} :
+                              </label>
+                            </div>
+                            <div class="col-lg-12">
+                              <textarea id="address" type="text" formControlName="address" required class="form-control"
+                                name="address" cols="10" rows="2"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="row">
+                        <div class="col-6">
+                          <button class="btn btn-sm" type="submit" [disabled]="!searchForm.get('name').value &&
+                        !searchForm.get('user_code').value &&
+                        !searchForm.get('national_code').value &&
+                        !searchForm.get('phone').value &&
+                        !searchForm.get('mobile').value &&
+                        !searchForm.get('address').value &&
+                        !searchForm.get('province').value &&
+                        !searchForm.get('city').value">
+                            {{ 'search' | translate }}</button>
+                          <button class="btn btn-sm" type="button" (click)="reset()">{{ "reset" | translate}}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row wall mb">
+    <div class="col">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <th class="sort-option" (click)="sort('name')">
+              {{ 'customer.fullname' | translate }}
+              <div class="icon icon-caret-up" [hidden]="filters.sort !== '-name'"></div>
+              <div class="icon icon-caret-down" [hidden]="filters.sort !== 'name'"></div>
+            </th>
+            <th class="sort-option text-center" (click)="sort('mobile')">
+              {{ 'customer.mobile' | translate }}
+            </th>
+            <th class="sort-option text-center" (click)="sort('national_code')">
+              {{ 'customer.national_code' | translate }}
+              <div class="icon icon-caret-up" [hidden]="filters.sort !== '-national_code'"></div>
+              <div class="icon icon-caret-down" [hidden]="filters.sort !== 'national_code'"></div>
+            </th>
+            <th class="sort-option text-center" (click)="sort('created_at')">
+              {{ 'customer.created_at' | translate }}
+              <div class="icon icon-caret-up" [hidden]="filters.sort !== '-created_at'"></div>
+              <div class="icon icon-caret-down" [hidden]="filters.sort !== 'created_at'"></div>
+            </th>
+            <th class="text-center">{{ 'auth.reset-pass' | translate }}</th>
+            <th class="text-center">{{ 'customer.reset-national_code' | translate }}</th>
+            <th class="text-center">{{ 'customer.edit.title' | translate }}</th>
+            <th class="text-center">{{ 'customer.delete' | translate }}</th>
+            <th class="text-center">{{ 'product.list.view' | translate }}</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let customer of customers">
+              <td>
+                <a [routerLink]="['/customer', customer.id]" [queryParams]="query.params()">{{ customer.name }}</a>
+              </td>
+              <td class="text-center" dir="ltr">{{ customer.mobile }}</td>
+              <td class="text-center" dir="ltr">{{ customer.national_code }}</td>
+              <td class="text-center" dir="ltr">{{ customer.created_at | jalali:'short' }}</td>
+              <td class="text-center">
+                <div class="icon icon-refresh tools" (click)=" open(customer.id)"></div>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-refresh tools" (click)="openNationalCodeModal(customer)"></div>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-edit tools edit" [routerLink]="['/customer/edit', customer.id]"
+                  [queryParams]="query.params()"></div>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-remove tools delete" (click)="deleteCustomer(customer.id)"></div>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-eye tools view" [routerLink]="['/customer/customer-view', customer.id]"></div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr [hidden]="customers.length">
+              <td class="text-center" colspan="8">
+                <b>{{ 'list-empty' | translate }}</b>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row pb">
+    <div class="col">
+      <pagination (callback)="getCustomers($event)" [currentPage]="filters.page" [totalPages]="totalPages"></pagination>
+    </div>
+  </div>
+  <ngx-smart-modal #passModal identifier="passModal">
+    <form class="pass-form row" [formGroup]="passwordForm" (ngSubmit)="resetPassForm()">
+      <div class="col-11 mb-2 input-style">
+        <div class="col-12 form-group" [ngClass]="{'has-error':passwordForm.controls['password'].invalid && submitted}">
+          <div class="col-6">
+            <label class="form-label-inline" for="password"> {{ 'auth.new-pass' | translate }}: </label>
+          </div>
+          <div class="col-6">
+            <input type="password" dir="ltr" id="password" formControlName="password" class="form-control"
+              name="password" minlength="6" maxlength="12" required>
+                <i class="icon icon-eye"  id="eye-icon" [hidden]="isHidden" (click)="showHide()"></i>
+                <i class="icon icon-eye-slash" id="eye-icon" [hidden]="!isHidden" (click)="showHide()"></i>
+            <div class="feedback" id="errorText" *ngIf="passwordForm.controls['password'].hasError('required') && submitted">
+              {{
+              'forms.feedback.required' | translate }}</div>
+            <div class="feedback" id="errorText" *ngIf="passwordForm.controls['password'].hasError('minlength') && submitted">{{
+              'forms.feedback.least' | translate:{least: 6} }}</div>
+            <div class="feedback" id="errorText" *ngIf="passwordForm.controls['password'].hasError('maxlength') && submitted">{{
+              'forms.feedback.max' | translate:{max: 12} }}</div>
+          </div>
+        </div>
+        <div class="col-12 form-group"
+          [ngClass]="{'has-error':passwordForm.controls['confirm_password'].invalid && submitted}">
+          <div class="col-6" style="margin-top: 20px;">
+            <label class="form-label-inline" for="confirm_password"> {{ 'auth.confirm-pass' | translate }}: </label>
+          </div>
+          <div class="col-6">
+            <input type="password" dir="ltr" id="confirm_password" formControlName="confirm_password"
+              class="form-control" minlength="6" maxlength="12" name="confirm_password" required>
+            <div class="feedback" id="errorText"
+              *ngIf="passwordForm.controls['confirm_password'].hasError('required') && submitted">
+              {{ 'forms.feedback.required' | translate }}</div>
+            <div class="feedback" id="errorText" *ngIf="passwordForm.controls['confirm_password'].hasError('minlength') && submitted">
+              {{ 'forms.feedback.least' | translate:{least: 6} }}</div>
+            <div class="feedback" id="errorText" *ngIf="passwordForm.controls['confirm_password'].hasError('maxlength') && submitted">
+              {{ 'forms.feedback.max' | translate:{max: 12} }}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <p id="errorText"></p>
+        <button type="submit" class="btn">{{ 'forms.submit' | translate }}</button>
+        <button type="button" (click)="close()" class="btn btn-danger">{{
+          'forms.cancel' | translate }}</button>
+      </div>
+    </form>
+  </ngx-smart-modal>
+  <ngx-smart-modal #nationalCode identifier="nationalCode">
+    <form class="row" [formGroup]="nationalCodeForm" (ngSubmit)="resetNationalCode()">
+      <div class="col-11 mb-2">
+        <div class="col-12 form-group"
+          [ngClass]="{'has-error':nationalCodeForm.controls['national_code'].invalid && submitted}">
+          <div class="col-6">
+            <label class="form-label" for="national_code"> {{ 'album-orders.list.national_code' | translate }}: </label>
+          </div>
+          <div class="col-6">
+            <input type="text" dir="ltr" id="national_code" formControlName="national_code" class="form-control"
+              name="national_code" minlength="10" maxlength="10" required>
+            <div class="feedback" *ngIf="nationalCodeForm.controls['national_code'].hasError('required') && submitted">
+              {{ 'forms.feedback.required' | translate }}</div>
+            <div class="feedback" *ngIf="nationalCodeForm.controls['national_code'].hasError('minlength') && submitted">
+              {{ 'forms.feedback.to-number' | translate:{num: 10} }}</div>
+            <div class="feedback" *ngIf="nationalCodeForm.controls['national_code'].hasError('maxlength') && submitted">
+              {{ 'forms.feedback.to-number' | translate:{num: 10} }}</div>
+            <p id="errorText"></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12" style="margin-top: 10px">
+        <button type="submit" [disabled]="nationalCodeForm.get('national_code').invalid" class="btn">{{ 'forms.submit' | translate }}</button>
+        <button type="button" (click)="ngxSmartModalService.getModal('nationalCode').close()" class="btn btn-danger">{{
+          'forms.cancel' | translate }}</button>
+      </div>
+    </form>
+  </ngx-smart-modal>
+</section>

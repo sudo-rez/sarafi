@@ -1,0 +1,151 @@
+// main: ../../styles.less
+
+#themes-list-container {
+  aside {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: @white;
+    box-shadow: 0 0 16px rgba(0,0,0,.1);
+    nav {
+      margin: 0 auto;
+      width: 100%;
+      overflow-y: auto;
+      .scrollbar();
+      ul {
+        width: 100%;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        li {
+          width: 90%;
+          text-align: left;
+          margin: 0 auto;
+          &:nth-child( odd ) {
+            background-color: #f1f1f1;
+          }
+          .icon {
+            font-size: 2.2rem;
+            color: @color-3;
+            padding-right: 1rem;
+          }
+          [class*="-title"] {
+            width: 100%;
+            display: block;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            padding: 1.3rem 2rem;
+            position: relative;
+            text-decoration: none;
+            cursor: pointer;
+            .transition(200ms);
+            &:hover,
+            &.active {
+              &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 0.5rem;
+                height: 100%;
+                background-color: var(--main-color);
+              }
+            }
+            &.active {
+              .icon {
+                color: var(--main-color);
+              }
+              box-shadow: 0 0 16px rgba(0,0,0,.1);
+              border-top-left-radius: 1rem;
+              border-bottom-left-radius: 1rem;
+              &:not(.cat-title) {
+                color: @boulder;
+                font-weight: bold;
+                background-color: @gallery;
+              }
+            }
+            &.active-route {
+              color: var(--main-color);
+            }
+          }
+          .cat-title {
+            padding-right: 4rem;
+            &::after {
+              content: "\49";
+              font-family: 'icomoon' !important;
+              width: 2rem;
+              height: 2rem;
+              line-height: 2rem;
+              font-size: 1.5rem;
+              text-align: center;
+              color: black;
+              position: absolute;
+              right: 1.5rem;
+              top: 0;
+              bottom: 0;
+              margin: auto;
+              transform: rotate(0deg);
+              .advance-transition(~"all 200ms ease-out");
+            }
+            &.active {
+              & + .nav-sub {
+                max-height: 100rem;
+              }
+              &::after {
+                transform: rotate(-90deg) !important;
+              }
+            }
+          }
+          .nav-sub {
+            //background-color: #ff7f501a;
+            border: 1px solid #cccccc;
+            .next {
+              background-color: var(--main-color);
+              color: white;
+            }
+            .previous {
+              background-color: var(--main-color);
+              color: white;
+            }
+            .carousel {
+              background: #EEE;
+            }
+            .carousel-cell {
+              img {
+                width: 100%;
+                height: 100%;
+              }
+              width: 22rem;
+              height: 35rem;
+              margin: 20px;
+              //background: #8C8;
+              border-radius: 5px;
+              padding: 0.5rem;
+              //border: 3px solid var(--success-color);
+              counter-increment: carousel-cell;
+            }
+            //background-color: @color-2;
+            overflow: hidden;
+            max-height: 0;
+            .advance-transition(~"all 300ms ease-in-out");
+          }
+        }
+      }
+    }
+  }
+  @media @sm {
+    aside {
+      width: 30rem;
+    }
+    position: fixed;
+    width: auto;
+    max-width: 0;
+    z-index: 100;
+    overflow: hidden;
+    .advance-transition(~"max-width 400ms ease-in-out");
+    &.visible {
+      max-width: 35rem;
+    }
+  }
+}

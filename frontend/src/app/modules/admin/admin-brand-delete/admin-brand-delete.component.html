@@ -1,0 +1,16 @@
+<section [@toggle-modal]="modalState" class="modal">
+  <div class="overlay" (click)="closeModal()"></div>
+  <div class="wrapper wall" style="width: 40rem;">
+    
+      
+      <div class="col-12">
+        <div class="feedback txt-center" *ngIf="brandInfo">
+          <p>{{ 'brand.delete_confirm' | translate}}</p>
+          <p>{{ 'brand.name' | translate}}: {{brandInfo.name }}</p>
+          <br>
+          <button type="submit" class="btn" (click)="submit()">{{ 'forms.submit' | translate }}</button>
+          <button type="button" class="btn btn-danger" (click)="closeModal()">{{ 'forms.cancel' | translate }}</button>
+        </div>
+      </div>
+  </div>
+</section>

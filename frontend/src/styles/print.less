@@ -1,0 +1,40 @@
+@media only print {
+
+    @page {
+      size: auto;
+      margin: 0;
+    }
+
+    html, body, main {
+      height: 100% !important;
+      overflow: visible !important;
+    }
+
+    header, aside, footer.col-auto {
+      display: none !important;
+    }
+
+    table {
+      font-size: 1.2rem !important;
+      th {
+        font-weight: normal !important;
+      }
+    }
+
+    .title {
+      font-size: 1.4rem !important;
+      font-weight: normal !important;
+    }
+
+    .no-print {
+      display: none !important;
+    }
+
+    // Only Firefox
+    // _:-moz-tree-row(hover), .col-xl-10,
+    // _:-moz-tree-row(hover), .col-md-9 {
+    //     display: block !important;
+    //     flex: none !important;
+    //     max-width: 100% !important;
+    // }
+}

@@ -1,0 +1,342 @@
+// main: ./variables.less, out: null
+
+/* ===========================Reboot=========================== */
+
+@import "./reboot.css";
+
+/* =========================Unit Config======================== */
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem; // 1.6rem == 16px
+}
+
+/* ==========================Variables========================= */
+
+@cols-count: 12;
+@gutter: 1.5rem; // 1.5rem == 15px
+
+// @sm: ~'(min-width: 36rem)'; // *16= 576px
+@sm: ~'(max-width: 47.9375rem)'; // *16= 767px
+@md: ~'(min-width: 48rem)'; // *16= 768px
+@lg: ~'(min-width: 62rem)'; // *16= 992px
+@xl: ~'(min-width: 75rem)'; // *16= 1200px
+
+/* ========================================================== */
+/**
+  Author: Abolfazl Taheri
+  Version: 1.1.3
+  Rewrited Bootstrap Grid v4.0.0 in LESS
+*/
+
+/* ===========================Layout=========================== */
+
+@-ms-viewport {
+  width: device-width;
+}
+
+html {
+  box-sizing: border-box;
+  -ms-overflow-style: scrollbar;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+.container,
+.container-fluid {
+  width: 100%;
+  min-width: 320px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: @gutter;
+  padding-left: @gutter;
+}
+
+.row {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-right: -@gutter;
+  margin-left: -@gutter;
+  &.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+    & > .col,
+    & > [class*="col-"] {
+      padding-right: 0;
+      padding-left: 0;
+    }
+  }
+  
+  &.flex-column {
+    &, &-reverse {
+      & > .col,
+      & > [class*="col-"] {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  }
+}
+
+/* ===========================Mixins=========================== */
+
+.each-mode-cols(@mode, @n: @cols-count, @i: 1) when (@i =< @n) {
+  @selector: ~".col@{mode}-@{i}";
+  @{selector} {
+    &:extend(.cols);
+  }
+  .each-mode-cols(@mode, @n, (@i + 1));
+}
+
+@modes: ~"", -sm, -md, -lg, -xl;
+.each-modes(@i: length(@modes)) when (@i > 0) {
+  .each-modes(@i - 1);
+  @mode: extract(@modes, @i);
+  .col@{mode},
+  .col@{mode}-auto,
+  .col@{mode}-hidden {
+    &:extend(.cols);
+  }
+  .each-mode-cols(@mode);
+}
+
+.generate-cols(@mode: ~"", @n: @cols-count, @i: 1) when (@i =< @n) {
+  @width: ((@i * 100%) / @n);
+  @selector: ~".col@{mode}-@{i}";
+  @{selector} {
+    -ms-flex: 0 0 @width;
+        flex: 0 0 @width;
+    max-width: @width;
+    display: initial !important
+  }
+  .generate-cols(@mode, @n, (@i + 1));
+}
+
+.generate-orders(@mode: ~"", @n: @cols-count, @i: 1) when (@i =< @n) {
+  @selector: ~".order@{mode}-@{i}";
+  @{selector} {
+    -ms-flex-order: @i;
+             order: @i;
+  }
+  .generate-orders(@mode, @n, (@i + 1));
+}
+
+.generate-offsets(@mode: ~"", @n: @cols-count, @i: 1) when (@i =< @n - 1) {
+  @selector: ~".offset@{mode}-@{i}";
+  @{selector} {
+    -webkit-margin-start: @i*100%/@n;
+    -moz-margin-start: @i*100%/@n;
+  }
+  .generate-offsets(@mode, @n, (@i + 1));
+}
+
+@flex-directions: row, column, row-reverse, column-reverse;
+.flex-directions(@mode: ~"", @i: length(@flex-directions)) when (@i > 0) {
+  .flex-directions(@mode, (@i - 1));
+  @value: extract(@flex-directions, @i);
+  @selector: ~".flex@{mode}-@{value}";
+  @{selector} {
+    -ms-flex-direction: @value !important;
+        flex-direction: @value !important;
+  }
+}
+
+@flex-wrap: wrap, nowrap, wrap-reverse;
+.flex-wrap(@mode: ~"", @i: length(@flex-wrap)) when (@i > 0) {
+  .flex-wrap(@mode, (@i - 1));
+  @value: extract(@flex-wrap, @i);
+  @selector: ~".flex@{mode}-@{value}";
+  @{selector} {
+    -ms-flex-wrap: @value;
+        flex-wrap: @value;
+  }
+}
+
+/* Horizontal space between cols for rows */
+.flex-pack(@mode: ~"") {
+  .justify-content@{mode}-start {
+    -ms-flex-pack: start;
+        justify-content: flex-start;
+  }
+  .justify-content@{mode}-end {
+    -ms-flex-pack: end;
+        justify-content: flex-end;
+  }
+  .justify-content@{mode}-center {
+    -ms-flex-pack: center;
+        justify-content: center;
+  }
+  .justify-content@{mode}-between {
+    -ms-flex-pack: justify;
+        justify-content: space-between;
+  }
+  .justify-content@{mode}-around {
+    -ms-flex-pack: distribute;
+        justify-content: space-around;
+  }
+}
+
+/* Vertical align cols for rows */
+.flex-align(@mode: ~"") {
+  .align-items@{mode}-start {
+    -ms-flex-align: start;
+        align-items: flex-start;
+  }
+  .align-items@{mode}-end {
+    -ms-flex-align: end;
+        align-items: flex-end;
+  }
+  .align-items@{mode}-center {
+    -ms-flex-align: center;
+        align-items: center;
+  }
+  .align-items@{mode}-baseline {
+    -ms-flex-align: baseline;
+        align-items: baseline;
+  }
+  .align-items@{mode}-stretch {
+    -ms-flex-align: stretch;
+        align-items: stretch;
+  }
+}
+
+/* Vertical space between cols for rows */
+.flex-line-pack(@mode: ~"") {
+  .align-content@{mode}-start {
+    -ms-flex-line-pack: start;
+        align-content: flex-start;
+  }
+  .align-content@{mode}-end {
+    -ms-flex-line-pack: end;
+        align-content: flex-end;
+  }
+  .align-content@{mode}-center {
+    -ms-flex-line-pack: center;
+        align-content: center;
+  }
+  .align-content@{mode}-between {
+    -ms-flex-line-pack: justify;
+        align-content: space-between;
+  }
+  .align-content@{mode}-around {
+    -ms-flex-line-pack: distribute;
+        align-content: space-around;
+  }
+  .align-content@{mode}-stretch {
+    -ms-flex-line-pack: stretch;
+        align-content: stretch;
+  }
+}
+
+/* Vertical align for cols */
+.flex-item-align(@mode: ~"") {
+  .align-self@{mode}-auto {
+    -ms-flex-item-align: auto;
+        align-self: auto;
+  }
+  .align-self@{mode}-start {
+    -ms-flex-item-align: start;
+        align-self: flex-start;
+  }
+  .align-self@{mode}-end {
+    -ms-flex-item-align: end;
+        align-self: flex-end;
+  }
+  .align-self@{mode}-center {
+    -ms-flex-item-align: center;
+        align-self: center;
+  }
+  .align-self@{mode}-baseline {
+    -ms-flex-item-align: baseline;
+        align-self: baseline;
+  }
+  .align-self@{mode}-stretch {
+    -ms-flex-item-align: stretch;
+        align-self: stretch;
+  }
+}
+
+.make-mode(@mode: ~"") {
+  .col@{mode} {
+    -ms-flex-preferred-size: 0;
+        flex-basis: 0;
+    -ms-flex-positive: 1;
+        flex-grow: 1;
+    max-width: 100%;
+    display: initial !important
+  }
+  .col@{mode}-auto {
+    -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+    width: auto;
+    max-width: none;
+    display: initial !important
+  }
+  .col@{mode}-hidden {
+    display: none;
+  }
+  .generate-cols(@mode);
+  .generate-orders(@mode);
+  .generate-offsets(@mode);
+  .flex-directions(@mode);
+  .flex-wrap(@mode) !important;
+  .flex-pack(@mode) !important;
+  .flex-align(@mode) !important;
+  .flex-line-pack(@mode) !important;
+  .flex-item-align(@mode) !important;
+}
+
+/* ==========================Generals========================== */
+
+.cols {
+  position: relative;
+  width: 100%;
+  min-height: 1px;
+  padding-right: @gutter;
+  padding-left: @gutter;
+}
+.each-modes();
+
+.make-mode();
+
+/* ========================MediaQueries======================== */
+
+@media @sm {
+  .container {
+    max-width: 77rem;
+  }
+  .make-mode(-sm);
+}
+
+@media @md {
+  .container {
+    max-width: 72rem;
+  }
+  .make-mode(-md);
+}
+
+@media @lg {
+  .container {
+    max-width: 96rem;
+  }
+  .make-mode(-lg);
+}
+
+@media @xl {
+  .container {
+    max-width: 114rem;
+  }
+  .make-mode(-xl);
+}
+
+/* ============================================================ */

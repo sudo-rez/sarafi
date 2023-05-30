@@ -1,0 +1,121 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'sapcmanagement' | translate }}"></breadcrumb>
+
+  <div class="row wall wall-sm mb">
+    <div class="col-md-auto">
+      <!-- <input class="search-input small text-center" type="text" [ngModel]="filters.search" (keyup)="search.pass($event, 'adminUserList')" placeholder="{{ 'search' | translate }}"> -->
+    </div>
+    <div class="col-md">
+    </div>
+    <div class="col-md-auto">
+      <button type="button" class="btn btn-sm" (click)="createSAPC(true)"> {{ 'sapc.create' | translate }} </button>
+    </div>
+  </div>
+  <div class="row wall mb">
+    <div class="col">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <th class="sort-option" width="5%">{{ 'customer.row' | translate }}
+            <th class="sort-option" width="10%">{{ 'sapc.name' | translate }}
+            <th class="sort-option text-center" width="10%">{{ 'sapc.card_number' | translate }}
+            <th class="sort-option text-center" width="10%">{{ 'sapc.bank' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'sapc.active' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'sapc.current' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'sapc.blocked' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'sapc.confirmed' | translate }}</th>
+            <th class="sort-option text-left" width="10%">{{ 'sapc.amount_day' | translate }}</th>
+            <th class="sort-option text-left" width="10%">{{ 'sapc.amount_all' | translate }}</th>
+            <th class="sort-option text-center" width="5%">{{ 'operation.edit.title' | translate }}</th>
+            <th class="sort-option text-center" width="5%"> {{ 'operation.delete.title' | translate }}</th>
+
+          </thead>
+          <tbody>
+            <tr *ngFor="let sapc of sapcs;let index = index"
+            [class.bg-success-color]="sapc.current"
+            [class.bg-warning-color]="sapc.active&&!sapc.current"
+            >
+              <th>{{ ( (filters.page-1) * 10) + (index+1) }}</th>
+              <th>{{ sapc.name }}</th>
+              <th class="text-left">{{ sapc.card_number }}</th>
+              <th class="text-center">{{ sapc.bank }}</th>
+              <th class="text-center">
+                <div *ngIf="!sapc.blocked&&sapc.confirmed" class="field-toggle">
+                  <input id="field-toggle{{index}}" class="field-toggle" type="checkbox" [checked]="sapc.active"
+                    (change)="toggleActive(sapc)">
+                  <label class="toggle" for="field-toggle{{index}}">
+                    <span class="toggle-handler"></span>
+                  </label></div>
+                  <span *ngIf="sapc.blocked">{{'sapc.blocked'|translate}}</span>
+                  <span *ngIf="sapc.blocked&&!sapc.confirmed"> <hr> </span>
+                  <span *ngIf="!sapc.confirmed">{{'sapc.not_confirmed'|translate}}</span>
+              </th>
+              <th class="text-center">
+                <div *ngIf="!sapc.blocked&&sapc.confirmed" class="field-toggle">
+                  <input id="field-toggle2{{index}}" class="field-toggle" type="checkbox" [checked]="sapc.current"
+                    (change)="toggleCurrent(sapc)">
+                  <label class="toggle" for="field-toggle2{{index}}">
+                    <span class="toggle-handler"></span>
+                  </label></div>
+                  <span *ngIf="sapc.blocked">{{'sapc.blocked'|translate}}</span>
+                  <span *ngIf="sapc.blocked&&!sapc.confirmed"> <hr> </span>
+                  <span *ngIf="!sapc.confirmed">{{'sapc.not_confirmed'|translate}}</span>
+
+              </th>
+              <th class="text-center">
+                <div *ngIf="userService.isAdmin()||userService.isBrandAdmin()" class="field-toggle">
+                  <input id="field-toggle3{{index}}" class="field-toggle" type="checkbox" [checked]="sapc.blocked"
+                    (change)="getConfirm(sapc,'blocked')">
+                  <label class="toggle" for="field-toggle3{{index}}">
+                    <span class="toggle-handler"></span>
+                  </label></div>
+                <span
+                  *ngIf="!(userService.isAdmin()||userService.isBrandAdmin())&&sapc.blocked">{{'yes'|translate}}</span>
+                <span
+                  *ngIf="!(userService.isAdmin()||userService.isBrandAdmin())&&!sapc.blocked">{{'no'|translate}}</span>
+              </th>
+              <th class="text-center">
+                <div *ngIf="userService.isAdmin()||userService.isBrandAdmin()" class="field-toggle">
+                  <input id="field-toggle4{{index}}" class="field-toggle" type="checkbox" [checked]="sapc.confirmed"
+                    (change)="getConfirm(sapc,'confirmed')">
+                  <label class="toggle" for="field-toggle4{{index}}">
+                    <span class="toggle-handler"></span>
+                  </label></div>
+                <span
+                  *ngIf="!(userService.isAdmin()||userService.isBrandAdmin())&&sapc.confirmed">{{'yes'|translate}}</span>
+                <span
+                  *ngIf="!(userService.isAdmin()||userService.isBrandAdmin())&&!sapc.confirmed">{{'no'|translate}}</span>
+              </th>
+              <th class="text-left">{{ sapc.amount_day }}</th>
+              <th class="text-left">{{ sapc.amount_all }}</th>
+              <td class="text-center">
+                <div class="icon icon-edit tools edit" (click)="editSAPC(sapc)"></div>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-times-circle-o tools delete" (click)="deleteSAPC(sapc)"></div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr [hidden]="sapcs.length">
+              <td class="text-center" colspan="6">
+                <b>{{ 'list-empty' | translate }}</b>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pb">
+    <div class="col">
+      <pagination (callback)="getSAPCs($event)" [currentPage]="filters.page" [totalPages]="totalPages"></pagination>
+    </div>
+  </div>
+
+</section>
+<sapc-create [open]="createSAPCFlag" (flag)="createSAPC($event)"></sapc-create>
+<sapc-edit [sapc]="sapcToEdit" (flag)="editBack($event)"></sapc-edit>
+<sapc-delete [sapc]="sapcToDelete" (deleteFlag)="deleteBack($event)"></sapc-delete>
+<app-confirm [open]="openConfirm" [data]="sapcNameToBlock" (flag)="confirmResult($event)"></app-confirm>

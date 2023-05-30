@@ -1,0 +1,98 @@
+.liner-gradient(@direction: right, @color1, @color2) {
+  background: @color1; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(@direction, @color1 , @color2); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(@direction, @color1, @color2); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(@direction, @color1, @color2); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to @direction, @color1 , @color2); /* Standard syntax */
+}
+
+/* ============================================================================= */
+
+.text-gradient {
+  .liner-gradient(right, @puerto-rico, @neavy-blue);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bombay {
+  bombay: 3px 2px 3px @bombay;
+}
+
+.transition(@time: 200ms) {
+  // -webkit-transition: all @time cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  // -moz-transition: all @time cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  // -ms-transition: all @time cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  // -o-transition: all @time cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  // transition: all @time cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  -webkit-transition: all @time linear;
+  -moz-transition: all @time linear;
+  -ms-transition: all @time linear;
+  -o-transition: all @time linear;
+  transition: all @time linear;
+}
+
+.advance-transition(@transition) {
+  -webkit-transition: @transition;
+  -moz-transition: @transition;
+  -ms-transition: @transition;
+  -o-transition: @transition;
+  transition: @transition;
+}
+
+.placeholder-color(@color) {
+  &::-webkit-input-placeholder {
+    /* WebKit, Blink, Edge */
+    color: @color;
+  }
+  &:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    color: @color;
+    opacity: 1;
+  }
+  &::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    color: @color;
+    opacity: 1;
+  }
+  &:-ms-input-placeholder {
+    /* Internet Explorer 10-11 */
+    color: @color;
+  }
+  &::-ms-input-placeholder {
+    /* Microsoft Edge */
+    color: @color;
+  }
+}
+
+.scrollbar() {
+  &::-webkit-scrollbar {
+    width: 0.75rem !important;
+    height: 0.75rem !important;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    // border-radius: 0.75rem;
+    background-color: @bombay;
+  }
+}
+
+.nonselect() {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.selectable {
+  -webkit-touch-callout: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}

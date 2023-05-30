@@ -1,0 +1,28 @@
+<div class="row no-gutters justify-content-center" *ngIf="visibility">
+
+  <div class="col-auto order-md-1 order-sm-2" style="padding: 0 1rem;">
+    <div style="width: 11rem;">
+      <form class="input-group small" (ngSubmit)="changePage(pageNumber.value)" novalidate>
+        <button class="input-group-addon input-group-btn" type="submit">{{ 'pagination.go' | translate }}:</button>
+        <input class="form-control text-center" type="number" name="pageNumber" min="1" [max]="totalPages" [value]="currentPage" #pageNumber>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-auto order-md-2 order-sm-1">
+    <button class="btn btn-paginition" type="button" (click)="changePage(1)" [disabled]="currentPage == 1">{{ 'pagination.first' | translate }}</button>
+    <button class="btn btn-paginition" type="button" (click)="changePage(currentPage - 1)" [disabled]="currentPage == 1">{{ 'pagination.previous' | translate }}</button>
+  </div>
+
+  <div class="col-md-auto col-sm-hidden order-md-3 text-center">
+    <ng-container *ngFor="let page of pages">
+      <button type="button" class="btn btn-paginition" (click)="changePage(page)" [disabled]="page == currentPage">{{ page }}</button>
+    </ng-container>
+  </div>
+
+  <div class="col-auto order-md-4 order-sm-3">
+    <button class="btn btn-paginition" type="button" (click)="changePage(currentPage + 1)" [disabled]="currentPage == totalPages">{{ 'pagination.next' | translate }}</button>
+    <button class="btn btn-paginition" type="button" (click)="changePage(totalPages)" [disabled]="currentPage == totalPages">{{ 'pagination.last' | translate }}</button>
+  </div>
+
+</div>

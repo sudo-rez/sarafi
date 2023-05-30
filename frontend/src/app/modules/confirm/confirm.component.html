@@ -1,0 +1,15 @@
+<section [@toggle-modal]="modalState" class="modal">
+  <div class="overlay" (click)="closeModal()"></div>
+  <div class="wrapper wall txt-center" style="width: 40rem;">
+    <div class="col-12">
+      <h4 class="txt-center">{{ 'actionconfirm' | translate }}</h4>
+      <h4 class="txt-center">{{detail}}</h4>
+
+      <br><br>
+    </div>
+    <div class="col-12">
+      <button type="submit" class="btn" (click)="submit()">{{ 'yes' | translate }}</button>
+      <button type="button" class="btn btn-danger" (click)="closeModal()">{{ 'no' | translate }}</button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,76 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'admin.user-list' | translate }}"></breadcrumb>
+
+  <div class="row wall wall-sm mb">
+    <div class="col-md-auto">
+      <input class="search-input small text-center" type="text" [ngModel]="filters.search" (keyup)="search.pass($event, 'adminUserList')" placeholder="{{ 'search' | translate }}">
+    </div>
+    <div class="col-md">
+    </div>
+    <div class="col-md-auto">
+      <button type="button" class="btn btn-sm" (click)="createUser(true)">{{ 'user.create' | translate }}</button>
+    </div>
+  </div>
+
+  <div class="row wall mb">
+    <div class="col">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <th class="sort-option" width="5%">{{ 'row' | translate }}</th>
+            <th class="sort-option" width="20%">{{ 'user.username' | translate }}</th>
+            <th *ngIf="userService.isAdmin()" class="sort-option" width="20%">{{ 'user.brand' | translate }}</th>
+            <th class="sort-option" width="20%">{{ 'user.usercode' | translate }}</th>
+            <th class="sort-option" width="40%">{{ 'user.created_at' | translate }}</th>
+            <!-- <th class="sort-option" width="40%" (click)="sort('username')">{{ 'user.username' | translate }} -->
+
+              <!-- <div class="icon icon-caret-up" [hidden]="filters.sort !== '-username'"></div>
+              <div class="icon icon-caret-down" [hidden]="filters.sort !== 'username'"></div> -->
+          
+            <th class="text-center">{{ 'user.role' | translate }}</th>
+            <th class="text-center">{{ 'auth.reset-pass' | translate }}</th>
+            <th class="text-center">{{ 'operation.delete.title' | translate }}</th>
+            
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users;let index=index">
+              <th>{{ ( (filters.page-1) * 10) + (index+1) }}</th>
+              <th>{{ user.username }}</th>
+              <th *ngIf="userService.isAdmin()">{{ user.brand_name }}</th>
+              <th>{{ user.usercode }}</th>
+              <th>{{ user.created_at | jalali:'short' }}</th>
+              <td class="text-center">
+                <div class="icon icon-certificate tools" (click)="createPermission(user)"></div>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-refresh tools" (click)="resetPass(user)"></div>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-times-circle-o tools delete" (click)="deleteUser(user)"></div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr [hidden]="users.length">
+              <td class="text-center" colspan="6">
+                <b>{{ 'list-empty' | translate }}</b>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pb">
+    <div class="col">
+      <pagination (callback)="getUsers($event)" [currentPage]="filters.page" [totalPages]="totalPages"></pagination>
+    </div>
+  </div>
+
+</section>
+
+<admin-reset-user-pass [user]="userToResetPass"></admin-reset-user-pass>
+<admin-user-delete [user]="userToDelete" (deleteFlag)="deleteBack($event)"></admin-user-delete>
+<admin-user-create [open]="createUserFlag" (flag)="createUser($event)" ></admin-user-create>
+<admin-user-permission [user]="userToPermission" (flag)="permissionBack($event)" ></admin-user-permission>

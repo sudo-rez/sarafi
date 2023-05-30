@@ -1,0 +1,73 @@
+// main: styles.less, out: null
+@import "~ngx-smart-modal/ngx-smart-modal.css";
+
+@path: "./styles/";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+:root {
+  --min-col-color: #ffff00;
+  --body-bg-color: #f6fbfb;
+  --body-bg-image: "url('./static/images/b42.png')";
+  --title-text-color: "#777777";
+  --main-color: #0099df;
+  //--main-color: #4b3a71;
+  //--main-color: #762d2d;
+  --danger-color: #970e00;
+  --success-color: #4caf50;
+  --info-color: #5bc0de;
+  --warn-color: #d3d3d3;
+  --btn-radius: 45px;
+  --card-radius: 5px;
+  --form-radius: 5px;
+  --sidebar-bg: #fff;
+  --sidebar-color: #888;
+  --header-bg: #fff;
+  --header-color: #777;
+  --table-header-color: #F0F0F0;
+  --table-even-color: #f0f0f0;
+  --table-odd-color: #fff;
+  --card-bg: #fff;
+  --card-color: #000;
+  --color: #2a2929;
+  --success-bg-color: #89ff8d;
+  --warn-bg-color: #fdf900;
+  --info-bg-color:#78bcf3;
+  --danger-bg-color:#ff5b5b;
+
+}
+
+@import "@{path}variables.less";
+@import "@{path}colors.less";
+@import "@{path}mixins.less";
+
+// @import "../node_modules/bootstrap-grid-less/reboot.css";
+// @import "../node_modules/bootstrap-grid-less/grid.less";
+
+@import "@{path}reboot.css";
+@import "@{path}grid.less";
+
+@import "@{path}fonts.less";
+@import "@{path}icons.less";
+@import "@{path}rules.less";
+
+@import "@{path}components/spinner.less";
+
+@import "@{path}components/sidebar.less";
+@import "@{path}components/dashboard.less";
+@import "@{path}components/card.less";
+@import "@{path}components/header.less";
+@import "@{path}components/admin-nav.less";
+
+@import "@{path}components/switch-language-toggle.less";
+@import "@{path}components/dropzone-images.less";
+@import "@{path}components/input-item.less";
+@import "@{path}components/create-slider.less";
+@import "@{path}components/store-theme.less";
+@import "@{path}components/notification.less";
+@import "@{path}components/themes-list-app.less";
+@import "@{path}components/page-builder.less";
+@import "@{path}components/accordion.less";
+
+@import "@{path}general.less";
+@import "@{path}rtl.less";
+@import "@{path}print.less";

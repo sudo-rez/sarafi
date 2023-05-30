@@ -1,0 +1,65 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'admin.brand-list' | translate }}"></breadcrumb>
+
+  <div class="row wall wall-sm mb">
+    <div class="col-md-auto">
+      <!-- <input class="search-input small text-center" type="text" [ngModel]="filters.search" (keyup)="search.pass($event, 'adminUserList')" placeholder="{{ 'search' | translate }}"> -->
+    </div>
+    <div class="col-md">
+    </div>
+    <div class="col-md-auto">
+      <button type="button" class="btn btn-sm" (click)="newWallet(true)">{{ 'wallet.create' | translate }}</button>
+    </div>
+  </div>
+
+  <div class="row wall mb">
+    <div class="col">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <th class="sort-option" width="5%">{{ 'customer.row' | translate }}
+            <th class="sort-option" width="10%">{{ 'brand.name' | translate }}
+            <th class="sort-option" width="10%">{{ 'wallet.currency' | translate }}
+            <th class="sort-option text-center" width="10%">{{ 'wallet.amount' | translate }}</th>
+            <th class="sort-option" width="20%">{{ 'wallet.created_at' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'wallet.history' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'wallet.charge' | translate }}</th>
+            
+          </thead>
+          <tbody>
+            <tr *ngFor="let wallet of wallets;let index = index">
+              <th>{{ ( (filters.page-1) * 10) + (index+1) }}</th>
+              <th>{{ wallet.brand_name }}</th>
+              <th>{{ wallet.currency }}</th>
+              <th class="text-left">{{ wallet.amount | numberPipe }}</th>
+              <th>{{ wallet.created_at | jalali:'short' }}</th>
+              <td class="text-center">
+                <div class="icon icon-eye tools edit" (click)="walletHistory(wallet)"></div>
+              </td>
+              <td class="text-center">
+                <div class="icon icon-mony tools edit" (click)="chargeWallet(wallet)"></div>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr [hidden]="wallets.length">
+              <td class="text-center" colspan="6">
+                <b>{{ 'list-empty' | translate }}</b>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pb">
+    <div class="col">
+      <pagination (callback)="getWallets($event)" [currentPage]="filters.page" [totalPages]="totalPages"></pagination>
+    </div>
+  </div>
+
+</section>
+<admin-wallet-charge [new]="newWalletCreate" [open]="walletToCharge" (flag)="chargeBack($event)" ></admin-wallet-charge>
+<admin-wallet-history  [open]="walletToHistory" (flag)="historyBack($event)" ></admin-wallet-history>
+
