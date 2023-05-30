@@ -1,0 +1,21 @@
+dev: false
+echo:
+  port: 4000
+  media_path: ./media
+mongo:
+  db: payment
+  uri: mongodb://localhost:27017/payment
+gateway: true
+panel: false
+domain: http://localhost:4000
+scheduler:
+  enable: true
+  main_queue_interval: 10
+  close_txn_interval: 0
+success_test:
+  enable: true
+  pan: 6219869999999990
+  cvv2: 593
+  expire_month: 12
+  expire_year: 07
+  pin: 132456

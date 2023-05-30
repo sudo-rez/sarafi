@@ -1,0 +1,270 @@
+@font-face {
+    font-family: 'IRANSans';
+    font-style: normal;
+    font-weight: normal;
+    src:  url('../fonts/IRANSans-web.woff') format('woff')
+}
+@font-face {
+    font-family: 'notfound';
+    font-style: normal;
+    font-weight: normal;
+    src:  url('../fonts/notfound.woff2') format('woff2')
+}
+
+
+.form-signin {
+    max-width: 35rem;
+    padding: 15px;
+}
+body{
+    background-color: #f0f7f3;
+    font-family:"IRANSans" ;
+}
+.card-box {
+    width: 18rem;
+    height: 10rem;
+    border-radius: 5px;
+    position: absolute;
+    right: 0;
+    left: 0;
+    margin: auto;
+    top: 5rem;
+    background-image: url(../images/card-background.webp);
+    background-size: cover;
+    font-weight: bold;
+}
+.container.main {
+    margin-top :10rem;
+    padding-top:5rem;
+    padding-bottom: 1rem;
+    background-color: white;
+}
+.form-control{
+    direction: ltr;
+}
+.captcha-image-refresh{
+    width: 50px;
+    margin-top: 20px;
+}
+.captcha-image{
+    width: 150px;
+    margin-top: 20px;
+}
+.card-value{
+    direction: ltr;
+    margin-top: 75px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+.cvv2-value {
+    position: absolute;
+    left: 10px;
+    bottom: 0;
+}
+.cvv2-value > p {
+    margin:0;
+    height: 25px;
+}
+.date-value{
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+}
+.date-value > p {
+    margin:0;
+    height: 25px;
+}
+
+
+.ltr {
+    direction: ltr;
+}
+.pouya{
+    font-size: 13px;
+}
+
+.alerts{
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 500px;
+    top: 5px;
+    z-index: 1;
+}
+.bank-value{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+.bank-logo{
+    width: 25px;
+    position: absolute;
+    right: 0;
+}
+.bank-value > p{
+    margin-right: 30px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+.header{
+    position: absolute;
+    width: 35rem;
+}
+.time-remain{
+    position: absolute;
+    left: 34px;
+    font-size: 12px;
+    top: -60px;
+    font-weight: bold;
+}
+.time-remain > p {
+    margin: 0;
+}
+.price {
+    position: absolute;
+    font-size: 12px;
+    top: -60px;
+    font-weight: bold;
+    right: 35px;
+}
+hr{
+    margin: 0;
+}
+@media (max-width: 768px) {
+    .time-remain{
+        top: 0;
+    }
+    .price{
+        top: 0;
+    }
+    
+    
+    .inputs{
+        margin-top: 6rem;
+    }
+    select#card {
+        font-size: 13px;
+    }
+    span#newCard {
+        font-size: 11px;
+    }
+}
+.deactive {
+    display: none !important;
+}
+.active {
+    display: block !important;
+}
+
+.advise {
+    margin-top: 30px;
+}
+.advise > ul {
+    font-size: 13px;
+    color: dimgray;
+}
+
+#notfound {
+    position: relative;
+    height: 100vh
+}
+
+#notfound .notfound {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%)
+}
+
+.notfound {
+    max-width: 520px;
+    width: 100%;
+    line-height: 1.4;
+    text-align: center
+}
+
+.notfound .notfound-404 {
+    position: relative;
+    height: 240px
+}
+
+.notfound .notfound-404 h1 {
+    font-family: notfound, sans-serif;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-size: 252px;
+    font-weight: 900;
+    margin: 0;
+    color: #262626;
+    text-transform: uppercase;
+    letter-spacing: -40px;
+    margin-left: -20px
+}
+
+.notfound .notfound-404 h1>span {
+    text-shadow: -8px 0 0 #fff
+}
+
+.notfound .notfound-404 h3 {
+    position: relative;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #262626;
+    margin: 0;
+    letter-spacing: 3px;
+    padding-left: 6px
+}
+
+.notfound h2 {
+    font-size: 20px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #000;
+    margin-top: 0;
+    margin-bottom: 25px
+}
+
+@media only screen and (max-width:767px) {
+    .notfound .notfound-404 {
+        height: 200px
+    }
+
+    .notfound .notfound-404 h1 {
+        font-size: 200px
+    }
+}
+
+@media only screen and (max-width:480px) {
+    .notfound .notfound-404 {
+        height: 162px
+    }
+
+    .notfound .notfound-404 h1 {
+        font-size: 162px;
+        height: 150px;
+        line-height: 162px
+    }
+
+    .notfound h2 {
+        font-size: 16px
+    }
+}
+.show.invalid{
+    border-color: red;
+}
+.text-right{
+    text-align: right;
+}
+
+#form2 {
+    margin-top: 3rem;
+}
