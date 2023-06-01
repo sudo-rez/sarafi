@@ -17,12 +17,15 @@ case $type in
     ;;
 esac
 fileName=payment-v$version.tar.xz
-GOOS=linux GOARCH=amd64 go build 
+GOOS=linux GOARCH=amd64 go build -o payment
 tar -czvf $fileName payment
 rsync -avzh --progress $fileName $user@$server:/opt/payment
 rsync -avzh --progress $mediaPath $user@$server:/opt/payment
 
 
 ssh $user@$server "cd /opt/payment; tar xvf $fileName;rm $fileName;chmod a+x payment;systemctl restart payment;"
+
+rm $fileName
+rm payment
 
 
