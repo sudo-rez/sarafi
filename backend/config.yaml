@@ -4,7 +4,7 @@ echo:
   media_path: ./media
 mongo:
   db: payment
-  uri: mongodb://localhost:27017/payment
+  uri: mongodb://sarafi:rrffcv1200@164.90.179.177:27019
 gateway: true
 panel: false
 domain: http://localhost:4000

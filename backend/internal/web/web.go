@@ -1,8 +1,6 @@
 package web
 
 import (
-	"fmt"
-	"net/http"
 	"backend/app"
 	"backend/internal/account"
 	"backend/internal/brand"
@@ -10,6 +8,8 @@ import (
 	"backend/internal/txn"
 	"backend/internal/wallet"
 	"backend/pkg/jwtpayload"
+	"fmt"
+	"net/http"
 	"strconv"
 	"time"
 
@@ -248,8 +248,8 @@ func doTransaction(c echo.Context) error {
 		}
 		t.Destination = apc.CardNumber
 	} else {
-		t.Destination = desQ.WD.Card
-		t.WithdrawID = desQ.WD.ID
+		t.Destination = desQ.Card
+		t.WithdrawID = desQ.ID
 	}
 	txnTemp := thirdparty.TransactionTemplate{
 		Source:      form.Pan,

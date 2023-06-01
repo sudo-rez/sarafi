@@ -1,11 +1,11 @@
 package txn
 
 import (
+	"backend/app"
+	"backend/pkg/jwtpayload"
 	"context"
 	"encoding/json"
 	"fmt"
-	"backend/app"
-	"backend/pkg/jwtpayload"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -153,20 +153,21 @@ func (v Txn) UpdateWithDraw() error {
 	if !v.WithdrawID.IsZero() {
 		MQ.mu.Lock()
 		defer MQ.mu.Unlock()
-		for i := range MQ.BQ[v.BrandName] {
-			if MQ.BQ[v.BrandName][i].WD.ID == v.WithdrawID {
-				MQ.BQ[v.BrandName][i].WD.Txns = append(MQ.BQ[v.BrandName][i].WD.Txns, v)
+		for key, value := range MQ.BQ[v.BrandName] {
+			if value.ID == v.WithdrawID {
+				value.Txns = append(value.Txns, v)
 				if v.Successful {
-					MQ.BQ[v.BrandName][i].WD.InProgressAmount = MQ.BQ[v.BrandName][i].WD.InProgressAmount - v.Amount
-					MQ.BQ[v.BrandName][i].WD.Remaining = MQ.BQ[v.BrandName][i].WD.Remaining - v.Amount
-					if MQ.BQ[v.BrandName][i].WD.Remaining <= 0 {
-						MQ.BQ[v.BrandName][i].WD.InProgress = false
-						MQ.BQ[v.BrandName][i].WD.Done = true
+					value.InProgressAmount = value.InProgressAmount - v.Amount
+					value.Remaining = value.Remaining - v.Amount
+					if value.Remaining <= 0 {
+						value.InProgress = false
+						value.Done = true
 					}
 				} else {
-					MQ.BQ[v.BrandName][i].WD.InProgressAmount = MQ.BQ[v.BrandName][i].WD.InProgressAmount - v.Amount
+					value.InProgressAmount = value.InProgressAmount - v.Amount
 				}
-				go MQ.BQ[v.BrandName][i].WD.Save()
+				go value.Save()
+				MQ.BQ[v.BrandName][key] = value
 			}
 		}
 		return nil

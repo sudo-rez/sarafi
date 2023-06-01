@@ -89,8 +89,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options":{
-           "port": 8700,
-              "liveReload": false,
+           "port": 5000,
+              "liveReload": true,
               "proxyConfig": "proxy.config.json"
           },
           "configurations": {
