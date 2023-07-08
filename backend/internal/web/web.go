@@ -259,7 +259,7 @@ func doTransaction(c echo.Context) error {
 		ExpireMonth: form.EMonth,
 		ExpireYear:  form.EYear,
 		Cvv2:        form.Cvv2,
-		PaymentID:   t.ID.Hex(),
+		PaymentID:   t.Info.PaymentID,
 	}
 	res, err := txnTemp.Payment()
 	if err != nil {
