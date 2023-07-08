@@ -1,0 +1,4 @@
+package sepah
+
+
+func GetBalance()

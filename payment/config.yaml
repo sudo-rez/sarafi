@@ -1,0 +1,6 @@
+dev: true
+echo:
+  port: 6000
+sepah:
+  username: septest1
+  password: backend/config.yaml
