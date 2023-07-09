@@ -2,5 +2,6 @@ dev: true
 echo:
   port: 6000
 sepah:
+  base_url: http://185.58.243.130:3000
   username: septest1
-  password: backend/config.yaml
+  password: Afv4s63$4fgr

@@ -19,6 +19,7 @@ type (
 		MediaPath string `json:"media_path" yaml:"media_path"`
 	}
 	Sepah struct {
+		BaseURL  string `json:"base_url" yaml:"base_url"`
 		Username string `json:"username" yaml:"username"`
 		Password string `json:"password" yaml:"password"`
 	}
