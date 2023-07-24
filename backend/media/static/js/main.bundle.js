@@ -255,6 +255,31 @@ function newCardSubmit() {
         showError(jqXHR.responseJSON.msg)
     });
 }
+function newCardSubmitSapc() {
+    if (newcardInput.hasClass("invalid") || mobileInput.hasClass("invalid") || codeInput.hasClass("invalid")) {
+        newcardInput.addClass("show")
+        mobileInput.addClass("show")
+        codeInput.addClass("show")
+        return
+    }
+
+    var data = {
+        p: urlVar["p"],
+        mobile: mobileInput.val().toEng(),
+        pan: newcardInput.val().toEng(),
+    }
+    var settings = {
+        "url": "/sapc/addcard",
+        "method": "POST",
+        "data": data
+    };
+    $.ajax(settings).done(function (response) {
+        addNewCard(data.pan,data.mobile)
+        showSuccess(response.msg)
+    }).fail(function (jqXHR) {
+        showError(jqXHR.responseJSON.msg)
+    });
+}
 
 function transaction() {
 
@@ -287,7 +312,31 @@ function transaction() {
         showError(jqXHR.responseJSON.msg)
     });
 }
+function sapcConfirm(){
+    var data = {
+        p: urlVar["p"],
+        pan: cardInput.val().toEng(),
+    }
+    var settings = {
+        "url": "/sapc/confirm",
+        "method": "POST",
+        "data": data
+    };
+    $.ajax(settings).done(function (response) {
+        switch (response.code) {
+            case 0:
+                showSuccess(response.msg)
+                window.location.replace("/success?id="+urlVar["p"])
+                break;
+            default:
+                showError(response.msg)
+                break;
+        }
 
+    }).fail(function (jqXHR) {
+        showError(jqXHR.responseJSON.msg)
+    });
+}
 function addNewCard(card,mobile) {
     console.log(mobile);
     $('#card').append($('<option>', {
@@ -353,7 +402,14 @@ function toPaymentPage(d) {
         showError(jqXHR.responseJSON.msg)
     });
 }
-
+function toPaymentPageSapc() {
+    if (cardInput.hasClass("invalid")) {
+        cardInput.addClass("show")
+        showError("لطفا شماره کارت خود را انتخاب کنید")
+        return
+    }
+    nextForm(2)
+}
 function cancelTxn(code) {
     window.location.replace("/cancel?id="+urlVar["p"]+"&code="+code)
 }

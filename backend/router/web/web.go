@@ -35,6 +35,11 @@ func Routes(ec *echo.Echo) {
 	ec.POST("/card/verify", cardOtpVerify)
 	ec.POST("/t", doTransaction)
 	ec.Any("/callbacktest", testCallBack)
+
+	// sapc
+	ec.GET("/sapc", sapcIndex).Name = "index"
+	ec.POST("/sapc/addcard", sapcAddCard)
+	ec.POST("/sapc/confirm", sapcConfirm)
 }
 
 type (
@@ -91,6 +96,9 @@ func gatewayWithToken(c echo.Context) error {
 	}
 	if c.QueryParam("r") == "true" {
 		return c.Redirect(http.StatusFound, fmt.Sprint("/?p=", t.ID.Hex()))
+	}
+	if info.Semi == "true" {
+		return c.JSON(http.StatusOK, echo.Map{"url": app.Cfg.Domain + fmt.Sprint("/sapc?p=", t.ID.Hex())})
 	}
 	return c.JSON(http.StatusOK, echo.Map{"url": app.Cfg.Domain + fmt.Sprint("/?p=", t.ID.Hex())})
 }

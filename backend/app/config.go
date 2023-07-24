@@ -18,6 +18,7 @@ type (
 		Domain      string      `json:"domain" yaml:"domain"`
 		Dev         bool        `json:"dev" yaml:"dev"`
 		SuccessTest SuccessTest `json:"success_test" yaml:"success_test"`
+		SAPC        SAPC        `json:"sapc" yaml:"sapc"`
 	}
 	Scheduler struct {
 		Enable            bool `json:"enable" yaml:"enable"`
@@ -40,6 +41,11 @@ type (
 		ExpireMonth string `json:"expire_month" yaml:"expire_month"`
 		ExpireYear  string `json:"expire_year" yaml:"expire_year"`
 		Pin         string `json:"pin" yaml:"pin"`
+	}
+	SAPC struct {
+		URL      string `json:"url" yaml:"url"`
+		Username string `json:"username" yaml:"username"`
+		Password string `json:"password" yaml:"password"`
 	}
 )
 

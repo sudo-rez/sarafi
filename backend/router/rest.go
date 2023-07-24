@@ -1,8 +1,6 @@
 package router
 
 import (
-	"io"
-	"net/http"
 	"backend/app"
 	"backend/internal/brand"
 	"backend/internal/card"
@@ -10,7 +8,9 @@ import (
 	"backend/internal/txn"
 	"backend/internal/user"
 	"backend/internal/wallet"
-	"backend/internal/web"
+	"backend/router/web"
+	"io"
+	"net/http"
 	"text/template"
 
 	"github.com/labstack/echo/v4"

@@ -25,7 +25,6 @@ func (v HTTPRequest) Send() (int, []byte, error) {
 		Method:    v.Method,
 		CreatedAt: time.Now(),
 	}
-	defer history.Save()
 
 	client := &http.Client{}
 	var (
@@ -34,6 +33,8 @@ func (v HTTPRequest) Send() (int, []byte, error) {
 	)
 	requestBody, err = json.Marshal(v.Body)
 	if err != nil {
+		history.Errors = append(history.Errors, err.Error())
+		history.Save()
 		return 0, nil, err
 	}
 	history.RequestBody = string(requestBody)
@@ -42,6 +43,7 @@ func (v HTTPRequest) Send() (int, []byte, error) {
 
 	if err != nil {
 		history.Errors = append(history.Errors, err.Error())
+		history.Save()
 		return 0, nil, err
 	}
 	for key, value := range v.Headers {
@@ -53,6 +55,7 @@ func (v HTTPRequest) Send() (int, []byte, error) {
 	res, err := client.Do(req)
 	if err != nil {
 		history.Errors = append(history.Errors, err.Error())
+		history.Save()
 		return 0, nil, err
 	}
 	defer res.Body.Close()
@@ -61,9 +64,10 @@ func (v HTTPRequest) Send() (int, []byte, error) {
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
 		history.Errors = append(history.Errors, err.Error())
+		history.Save()
 		return res.StatusCode, nil, err
 	}
 	history.ResponseBody = string(body)
-
+	history.Save()
 	return res.StatusCode, body, nil
 }

@@ -1,8 +1,8 @@
 package brand
 
 import (
-	"context"
 	"backend/app"
+	"context"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -150,4 +150,36 @@ func CheckDuplicateSAPC(cardNumber string, brand primitive.ObjectID) bool {
 	res := SAPC{}
 	app.MDB.FindOne(SAPCCollectionName, bson.M{"card_number": cardNumber, "brand": brand}, &res)
 	return res.CardNumber == cardNumber
+}
+func LoadSAPCForPayment(amount int64, brand primitive.ObjectID) (APC, error) {
+	// tNow := time.Now()
+	// start := time.Date(tNow.Year(), tNow.Month(), tNow.Day(), 0, 0, 0, 0, tNow.Location())
+	// end := time.Date(tNow.Year(), tNow.Month(), tNow.Day()+1, 0, 0, 0, 0, tNow.Location())
+
+	current, err := GetCurrentSAPC(brand)
+	// if err == nil {
+	// 	amountToday, _ := APCAmountInTime(current.ID, start, end)
+	// 	if amountToday+amount <= current.MaxAmount {
+	// 		return current, err
+	// 	}
+	// } else {
+	// 	priorityApcs, err := GetWithPriority(brand)
+	// 	if err != nil {
+	// 		return APC{}, err
+	// 	}
+
+	// 	for _, apc := range priorityApcs {
+	// 		amountToday, _ := APCAmountInTime(apc.ID, start, end)
+	// 		if amountToday+amount <= apc.MaxAmount || apc.MaxAmount == 0 {
+	// 			return apc, nil
+	// 		}
+	// 	}
+	// }
+
+	return current, err
+}
+func GetCurrentSAPC(brand primitive.ObjectID) (APC, error) {
+	res := APC{}
+	err := app.MDB.FindOne(SAPCCollectionName, bson.M{"current": true, "brand": brand}, &res)
+	return res, err
 }
