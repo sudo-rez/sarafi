@@ -122,8 +122,8 @@ func UpdateTransaction(id int, flag bool) error {
 	return nil
 }
 
-func ConfirmTxn(pan, amount string) error {
-	accessToken, err := Login(app.Cfg.SAPC.Username, app.Cfg.SAPC.Password)
+func ConfirmTxn(username, password, pan, amount string) error {
+	accessToken, err := Login(username, password)
 	if err != nil {
 		app.Error("SAPC Login Error", err.Error())
 		return err

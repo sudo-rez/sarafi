@@ -20,6 +20,7 @@
             <th class="sort-option" width="10%">{{ 'sapc.name' | translate }}
             <th class="sort-option text-center" width="10%">{{ 'sapc.card_number' | translate }}
             <th class="sort-option text-center" width="10%">{{ 'sapc.bank' | translate }}</th>
+            <th class="sort-option text-center" width="10%">{{ 'sapc.username' | translate }}</th>
             <th class="sort-option text-center" width="10%">{{ 'sapc.active' | translate }}</th>
             <th class="sort-option text-center" width="10%">{{ 'sapc.current' | translate }}</th>
             <th class="sort-option text-center" width="10%">{{ 'sapc.blocked' | translate }}</th>
@@ -39,6 +40,7 @@
               <th>{{ sapc.name }}</th>
               <th class="text-left">{{ sapc.card_number }}</th>
               <th class="text-center">{{ sapc.bank }}</th>
+              <th class="text-center">{{ sapc.username }}</th>
               <th class="text-center">
                 <div *ngIf="!sapc.blocked&&sapc.confirmed" class="field-toggle">
                   <input id="field-toggle{{index}}" class="field-toggle" type="checkbox" [checked]="sapc.active"

@@ -78,6 +78,10 @@ export class SAPCCreateComponent implements OnInit {
   private _migrateForm(): void {
     this.form = this._fb.group({
       "name": ["", Validators.compose([Validators.required])],
+      "username": ["", Validators.compose([Validators.required])],
+      "password": ["", Validators.compose([Validators.required])],
+      "active": [false],
+      "current": [false],
       "card_number": ["", Validators.compose([Validators.required, Validators.minLength(16), Validators.maxLength(16), this.isValidCard()])],
     });
   }

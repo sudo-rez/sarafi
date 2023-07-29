@@ -26,6 +26,8 @@ type (
 		Confirmed  bool               `bson:"confirmed"`
 		Priority   int                `bson:"priority"`
 		Brand      primitive.ObjectID `bson:"brand"`
+		Username   string             `bson:"username"`
+		Password   string             `bson:"password"`
 	}
 	SAPCSlice []SAPC
 	SAPCLog   struct {
@@ -72,6 +74,8 @@ func (v SAPC) Rest() echo.Map {
 		"amount_all":  amountAll,
 		"blocked":     v.Blocked,
 		"confirmed":   v.Confirmed,
+		"username":    v.Username,
+		"password":    v.Password,
 	}
 }
 func (slice SAPCLogSlice) Rest() []echo.Map {
@@ -93,6 +97,10 @@ func (v SAPCLog) Rest() echo.Map {
 func LoadSAPC(key string, value interface{}) (SAPC, error) {
 	v := new(SAPC)
 	return *v, app.MDB.FindOne(SAPCCollectionName, bson.M{key: value}, v)
+}
+func LoadSAPCQ(q bson.M) (SAPC, error) {
+	v := new(SAPC)
+	return *v, app.MDB.FindOne(SAPCCollectionName, q, v)
 }
 func (v SAPC) Save() error {
 	if !v.ID.IsZero() {

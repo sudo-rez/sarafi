@@ -1,10 +1,10 @@
 package brand
 
 import (
-	"context"
-	"net/http"
 	"backend/app"
 	"backend/internal/user"
+	"context"
+	"net/http"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -33,6 +33,10 @@ type (
 		ID         primitive.ObjectID `json:"_id" form:"_id"`
 		CardNumber string             `json:"card_number" form:"card_number"`
 		Name       string             `json:"name" form:"name"`
+		Username   string             `json:"username" form:"username"`
+		Password   string             `json:"password" form:"password"`
+		Active     bool               `json:"active" form:"active"`
+		Current    bool               `json:"current" form:"current"`
 	}
 )
 
@@ -275,7 +279,7 @@ func (e Echo) APCToggle(c echo.Context) error {
 func (e Echo) SAPCSave(c echo.Context) error {
 	user := c.Get("user").(user.User)
 	var sapc SAPC
-	form := new(APCSaveForm)
+	form := new(SAPCSaveForm)
 	if err := c.Bind(form); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
 	}
@@ -295,6 +299,21 @@ func (e Echo) SAPCSave(c echo.Context) error {
 	sapc.Name = form.Name
 	sapc.Bank = app.BankNameEN(form.CardNumber)
 	sapc.Brand = user.Brand
+	sapc.Username = form.Username
+	sapc.Password = form.Password
+	sapc.Active = form.Active
+	sapc.Current = form.Current
+	if sapc.Active {
+		sapc.Blocked = false
+		sapc.Confirmed = true
+	}
+	if sapc.Current {
+		if err := sapc.DecurrentOthers(); err != nil {
+			if !(err.Error() == "mongo: no documents in result") {
+				return c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
+			}
+		}
+	}
 
 	if err := sapc.Save(); err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})

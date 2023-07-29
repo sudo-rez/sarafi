@@ -22,7 +22,34 @@
           <div class="feedback" *ngIf="form.controls['card_number'].hasError('wrongCard') && formSubmited">{{ 'forms.feedback.wrong-card' | translate }}</div>
         </div>
       </div>
-
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['username'].invalid && formSubmited}">
+          <label class="form-label" for="username">{{ 'sapc.username' | translate }}:</label>
+          <input type="string" id="username" class="form-control" name="username" formControlName="username" placeholder="">
+          <div class="feedback" *ngIf="form.controls['username'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['password'].invalid && formSubmited}">
+          <label class="form-label" for="password">{{ 'sapc.password' | translate }}:</label>
+          <input type="string" id="password" class="form-control" name="password" formControlName="password" placeholder="">
+          <div class="feedback" *ngIf="form.controls['password'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['active'].invalid && formSubmited}">
+          <label class="form-label" for="active">{{ 'sapc.active' | translate }}:</label>
+          <input id="field-toggle1" class="field-toggle" type="checkbox" formControlName="active"  >          
+          <div class="feedback" *ngIf="form.controls['active'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['current'].invalid && formSubmited}">
+          <label class="form-label" for="current">{{ 'sapc.current' | translate }}:</label>
+          <input id="field-toggle2" class="field-toggle" type="checkbox"  formControlName="current"  >          
+          <div class="feedback" *ngIf="form.controls['current'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
       <div class="col-12">
         <button type="submit" class="btn" [disabled]="form.invalid && formSubmited">{{ 'forms.submit' | translate }}</button>
         <button type="button" class="btn btn-danger" (click)="closeModal()">{{ 'forms.cancel' | translate }}</button>

@@ -112,7 +112,9 @@
     "delete_confirm":"Are you sure to Delete account below ?",
     "blocked":"Blocked",
     "confirmed":"Confirmed",
-    "not_confirmed":"Waiting For Confirmation"
+    "not_confirmed":"Waiting For Confirmation",
+    "username":"Username",
+    "password":"Password"
 
   },
   "setting":{

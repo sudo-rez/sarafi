@@ -18,4 +18,6 @@ export interface SAPC {
     bank:string
     amount_all:number
     amount_day:number
+    username:string
+    password:string
 }

@@ -55,6 +55,10 @@ export class SAPCEditComponent implements OnInit {
     this.form = this._fb.group({
       "_id":[this.sapcEdit?._id, Validators.compose([Validators.required])],
       "name": [this.sapcEdit?.name, Validators.compose([Validators.required])],
+      "username": [this.sapcEdit?.username, Validators.compose([Validators.required])],
+      "password": [this.sapcEdit?.password, Validators.compose([Validators.required])],
+      "active": [this.sapcEdit?.active],
+      "current": [this.sapcEdit?.current],
       "card_number": [this.sapcEdit?.card_number, Validators.compose([Validators.required, Validators.minLength(16), Validators.maxLength(16), this.isValidCard()])],
     });
   }

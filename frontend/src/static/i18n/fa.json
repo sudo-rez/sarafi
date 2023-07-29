@@ -109,7 +109,9 @@
     "delete_confirm":"آیا مطمئن هستید میخواهید حساب زیر را حذف کنید؟",
     "blocked":"مسدود",
     "confirmed":"تاییده شده",
-    "not_confirmed":"در انتظار تایید"
+    "not_confirmed":"در انتظار تایید",
+    "username":"نام کاربری",
+    "password":"رمز عبور"
   },
   "setting":{
     "gateway":"تنظیمات درگاه",
