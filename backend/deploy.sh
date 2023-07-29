@@ -8,7 +8,7 @@ echo 1:panel 2:gateway
 read type
 case $type in
     1)
-        server=165.232.67.106
+        server=164.90.179.177
         mediaPath=./dist
     ;;
     2)

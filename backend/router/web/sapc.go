@@ -46,14 +46,15 @@ func sapcIndex(c echo.Context) error {
 	t.Destination = sapc.CardNumber
 	t.Save()
 	return c.Render(http.StatusOK, "sapc.html", echo.Map{
-		"title":       "صفحه پرداخت نیمه خودکار",
-		"captchaId":   captcha.New(),
-		"setting":     app.Stg.Rest(),
-		"account":     account,
-		"cancel":      t.CancelCode,
-		"amount":      t.Amount,
-		"time_remain": timeRemain.Milliseconds(),
-		"destination": t.Destination,
+		"title":            "صفحه پرداخت نیمه خودکار",
+		"captchaId":        captcha.New(),
+		"setting":          app.Stg.Rest(),
+		"account":          account,
+		"cancel":           t.CancelCode,
+		"amount":           t.Amount,
+		"time_remain":      timeRemain.Milliseconds(),
+		"destination":      t.Destination,
+		"destination_name": sapc.Name,
 	})
 }
 

@@ -49,17 +49,17 @@
                     <div class="col-auto shadow card-box">
                         <div class="bank-value text-center">
                             <img id="bank-logo" class="bank-logo" src="" alt="">
-                            <p id="bank-value"></p>
+
                         </div>
-                        <div id="card-value" class="card-value">
+                        <div id="card-value" class="card-value" value="{{.destination}}">
                         </div>
                         <div class="cvv2-value text-center">
-                            <p>CVV2</p>
-                            <p id="cvv2-value"></p>
+
+                            <p id="bank-value"></p>
                         </div>
                         <div class="date-value">
-                            <p>انقضا</p>
-                            <p id="date-value"></p>
+                            <p>{{.destination_name}}</p>
+
                         </div>
                         <div id="amount" style="display: none;">{{.model.amount}}</div>
                         <div id="paymentID" style="display: none;">{{.model.paymentID}}</div>
@@ -145,8 +145,8 @@
                             <div class="row g-3">
 
                             <div class="col-md-12 ">
-                            <p class="text-center"><b>شماره کارت مقصد :</b> {{.destination}}</p>
-                            <p>لطفا پس از واریز دکمه تایید را بزنید </p>
+                            <p>لطفا مبلغ                             <b><span id="price2">{{.amount}}</span> <span>ریال</span></b>
+                            را به شماره کارت <span><b class="toPersian">{{.destination}}</b></span> کارت به کارت کنید و پس از گذشت<b> ۲ دقیقه</b>  کلید پرداخت را بزنید</p>
                             </div>
                             <div class="col-8 mt-5">
                                 <button id="confirm-btn" type="button" onclick="sapcConfirm()"
@@ -167,7 +167,10 @@
         <script type="text/javascript" src="./static/js/jquery.min.js"></script>
         <script type="text/javascript" src="./static/js/join_inputs.jquery.min.js"></script>
         <script type="text/javascript" src="./static/js/banks.js"></script>
-        <script type="text/javascript" src="./static/js/main.bundle.js"></script>
+        <script type="text/javascript" src="./static/js/sapc.js"></script>
+        <script>
+            fixCard()
+        </script>
 
 
     </body>
