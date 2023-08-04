@@ -102,17 +102,18 @@ func SearchTransactions(token, cardNumber, amountTransaction string) ([]Transact
 
 }
 
-func UpdateTransaction(id int, flag bool) error {
+func UpdateTransaction(token string, id int, flag bool) error {
 	req := request.HTTPRequest{
 		Name:   "SAPC Update Transaction",
-		URL:    app.Cfg.SAPC.URL + fmt.Sprintf("/transactions/update?id=%d&flag", id),
+		URL:    app.Cfg.SAPC.URL + fmt.Sprintf("/transactions/update?id=%d&flag=%t", id, flag),
 		Method: http.MethodPut,
 		Body: map[string]bool{
 			"flag": flag,
 		},
 		Headers: map[string]string{
-			"Content-Type": "application/json",
-			"accept":       "application/json",
+			"Content-Type":  "application/json",
+			"accept":        "application/json",
+			"Authorization": "Bearer " + token,
 		},
 	}
 	_, _, err := req.Send()
@@ -137,7 +138,7 @@ func ConfirmTxn(username, password, pan, amount string) error {
 		app.Error("SAPC SearchTransactions Error", "transaction not found")
 		return errors.New("transaction not found")
 	}
-	if err := UpdateTransaction(transactions[0].ID, true); err != nil {
+	if err := UpdateTransaction(accessToken, transactions[0].ID, true); err != nil {
 		app.Error("SAPC UpdateTransaction Error", err.Error())
 		return err
 	}

@@ -64,11 +64,10 @@ cardInput.on('input', function (n) {
     selectMobile = element.attr("mobile");
     val = cardInput.val()
     if (val.length != 16) {
-        cardValue.text("")
-        bankValue.text("")
-        bankLogo.attr("src", "")
         cardInput.addClass("invalid")
         return
+    }else {
+        cardInput.removeClass("invalid")
     }
 });
 cvv2Input.on('input', function () {
@@ -95,7 +94,6 @@ function fixCard() {
 
     const joy = trimedVal.match(/.{1,4}/g);
     cardValue.text(joy.join('  '))
-    cardInput.removeClass("invalid")
 }
 
 
@@ -327,16 +325,7 @@ function sapcConfirm(){
         "data": data
     };
     $.ajax(settings).done(function (response) {
-        switch (response.code) {
-            case 0:
-                showSuccess(response.msg)
-                window.location.replace("/success?id="+urlVar["p"])
-                break;
-            default:
-                showError(response.msg)
-                break;
-        }
-
+        showSuccess(response.msg)
     }).fail(function (jqXHR) {
         showError(jqXHR.responseJSON.msg)
     });
