@@ -86,6 +86,7 @@
   "rejected":"Rejected",
   "actionconfirm":"Do You Confirm The Action ?",
   "dayprofit":"Today's profit",
+  "accountmanagement":"Account Management",
   "apc":{
     "create":"Create Automate Account",
     "name":"Owner Name",

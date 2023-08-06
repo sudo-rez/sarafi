@@ -4,7 +4,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <!--<base href="/newipg/">-->
     <base href=".">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta name="msapplication-tap-highlight" content="no">
@@ -26,6 +25,7 @@
     <title>{{.title}}</title>
     <link href="./static/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./static/css/main.bundle.css">
+    <link rel="stylesheet" href="./static/css/index.css">
 
 
 </head>
@@ -41,189 +41,45 @@
                 <div class="text-center" id="success-msg"></div>
             </div>
         </div>
-        <main class="form-signin w-100 m-auto ">
+        <main class="form-s w-100 m-auto ">
 
             <div class="container main shadow-lg rounded">
+                <h4 class="text-center"> نحوه پرداخت را انتخاب کنید </h3>
+                    <hr>
+                    <br>
+                    <div class="row">
+                        <div class="col-6">
+                            <a href="/apc?p={{.payment_id}}">
+                            <div class="apc m-auto text-center shadow-lg">
+                            <img
+                            class="card__background m-auto"
+                            src="./static/images/apc.png"
+                            alt=""
+                          />     
+                            <h5 class="title">پرداخت مستقیم</h5>
 
-                <div class="row g-5">
-                    <div class="col-auto shadow card-box">
-                        <div class="bank-value text-center">
-                            <img id="bank-logo" class="bank-logo" src="" alt="">
-                            <p id="bank-value"></p>
+                          </div>
+                        </a>
                         </div>
-                        <div id="card-value" class="card-value">
+                        <div class="col-6">
+                            <a href="/sapc?p={{.payment_id}}">
+
+                            <div class="apc m-auto text-center shadow-lg">
+                            <img
+                            class="card__background m-auto"
+                            src="./static/images/sapc.png"
+                            alt=""
+
+                            />
+                            <h5 class="title">کارت به کارت</h5>
                         </div>
-                        <div class="cvv2-value text-center">
-                            <p>CVV2</p>
-                            <p id="cvv2-value"></p>
-                        </div>
-                        <div class="date-value">
-                            <p>انقضا</p>
-                            <p id="date-value"></p>
-                        </div>
-                        <div id="amount" style="display: none;">{{.model.amount}}</div>
-                        <div id="paymentID" style="display: none;">{{.model.paymentID}}</div>
-                    </div>
-                    <div class="header">
-                        <div class="time-remain text-center ltr">
-                            زمان باقی مانده
-                            <hr>
-                            <p id="time-remain"></p>
-                        </div>
-                        <div class="price text-center">
-                            مبلغ پرداخت
-                            <hr>
-                            <p><span id="price">{{.amount}}</span> <span>ریال</span></p>
-                        </div>
-
-                    </div>
-                    <div class="col-md-12 inputs ">
-                        <div class="active" id="form1">
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <p class="text-center">شماره کارت</p>
-                                    <div class="input-group ltr">
-                                        <span class="input-group-text pouya" id="newCard" onclick="nextForm(3)">
-                                            ثبت کارت جدید
-                                        </span>
-                                        <select id="card" class="form-select invalid" aria-label="Card Select">
-                                            <option class="text-right">شماره کارت خود را انتخاب کنید </option>
-                                            {{if .account.Pans}}
-                                            {{range .account.Pans}}
-                                            <option class="text-center" value="{{.Card}}" mobile="{{.Mobile}}">
-                                                {{.Split}}</option>
-                                            {{end}}
-                                            {{end}}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-12 advise">
-                                    {{if .setting.messages}}
-                                    <p>نکات توصیه شده:</p>
-                                    {{.setting.messages}}
-                                    {{end}}
-                                </div>
-                                <div class="col-8">
-                                    <button id="next-btn" type="button"
-                                        onclick="toPaymentPage('{{.setting.blocked_banks}}')"
-                                        class="w-100 btn btn-primary">بعدی</button>
-                                </div>
-                                <div class="col-4">
-                                    <button id="next-btn" type="button" class="w-100 btn btn-danger"
-                                        onclick="cancelTxn('{{.cancel}}')">انصراف</button>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="deactive" id="form3">
-                            <form id="cardForm">
-                                <div class="row g-3">
-                                    <div class="col-md-12">
-                                        <p class="text-center"> شماره کارت جدید</p>
-                                        <input id="newcard" name="newcard" type="tel"
-                                            class="form-control text-center invalid" pattern="(\d{19})|(\s{19})"
-                                            maxlength="19" autocomplete="off" required="" card-grp="1">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <p class="text-center"> شماره تلفن</p>
-                                        <input id="mobile" name="mobile" type="tel"
-                                            class="form-control text-center invalid" pattern="(\d{11})|(\s{11})"
-                                            maxlength="11" autocomplete="off" required="" card-grp="1">
-                                    </div>
-                                    <div class="col-md-12p">
-                                        <p class="text-center"> کد دریافتی</p>
-                                        <div class="input-group ltr">
-                                            <span class="input-group-text" id="cardOtp" onclick="getCardOtp()">
-                                                دریافت کد
-                                            </span>
-                                            <input id="code" name="code" type="tel"
-                                                class="form-control text-center invalid" pattern="(\d{19})|(\s{19})"
-                                                maxlength="19" autocomplete="off" required="" card-grp="1">
-                                        </div>
-                                    </div>
-                                    <div class="col-8">
-                                        <button id="next-btn" type="button" onclick="newCardSubmit()"
-                                            class="w-100 btn btn-primary">ثبت کارت</button>
-                                    </div>
-                                    <div class="col-4">
-                                        <button id="next-btn" type="button" onclick="nextForm(1)"
-                                            class="w-100 btn btn-danger">برگشت</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="deactive" id="form2">
-                            <form action="/" method="post" id="payForm" autocomplete="off" novalidate="">
-                                <div class="row g-3">
-
-                                    <div class="col-4">
-                                        <p class="text-center">CVV2</p>
-                                        <div class="sm-9 md-10 no-padding focus-wrapper">
-                                            <input class="form-control pass text-center" id="cvv2" name="cvv2"
-                                                type="tel" pattern-msg="CVV2 معتبر نمی باشد ." pattern="\d{3,4}"
-                                                maxlength="4" autocomplete="off" required="">
-
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-
-                                        <p class="text-center">ماه </p>
-                                        <input id="month" name="expiry-month" type="tel"
-                                            class="form-control text-center" maxlength="2"
-                                            pattern-msg="ماه تاریخ انقضا معتبر نمی باشد ."
-                                            pattern="(0[1-9]|1[0-2])|(\*{2})" required="" autocomplete="off">
-                                    </div>
-                                    <div class="col-4">
-                                        <p class="text-center">سال </p>
-
-                                        <input id="year" name="expiry-year" type="tel" class="form-control text-center"
-                                            maxlength="2" pattern-msg="سال تاریخ انقضا معتبر نمی باشد ."
-                                            pattern="(\d{2})|(\*{2})" required="" autocomplete="off">
-                                    </div>
-                                    <div class="col-md-12 ">
-                                        <p class="text-center">رمز اینترنتی</p>
-                                        <div class="input-group ltr">
-                                            <span class="input-group-text pouya" id="pouya" onclick="sendOtp()">دریافت
-                                                رمز
-                                                پویا</span>
-                                            <input type="tel" class="form-control pass is-keypad" id="second-pass"
-                                                name="second-pass" pattern-msg="رمز اینترنتی معتبر نمی باشد ."
-                                                pattern="\d{5,12}" maxlength="12" autocomplete="off" required=""
-                                                keypad="true">
-                                        </div>
-
-                                    </div>
-
-                                    <!-- <div class="col-4 ">
-                                        <p class="text-center">کد امنیتی </p>
-                                        <input id="captcha" type="tel" class="form-control captcha-input" maxlength="6"
-                                            name="captcha" pattern-msg="کد امنیتی صحیح نمیباشد" pattern="\d{6}"
-                                            required="" autocomplete="off">
-                                    </div> -->
-                                    <!-- <div class="col-6 col-md-4">
-                                        <img class="captcha-image" id=image src="/captcha/{{.captchaId}}.png"
-                                            alt="Captcha image">
-                                    </div>
-                                    <div class="col-2 col-md-4">
-                                        <a href="#" onclick="reload()">
-                                            <img id="captcha-image-refresh" class="captcha-image-refresh"
-                                                src="./static/images/refresh-icon.png">
-                                        </a>
-                                    </div> -->
-                                    <div class="col-8 mt-5">
-                                        <button id="confirm-btn" type="button" onclick="transaction()"
-                                            class="w-100 btn btn-primary">پرداخت</button>
-                                    </div>
-                                    <div class="col-4 mt-5">
-                                        <button id="confirm-btn" type="button" onclick="nextForm(1)"
-                                            class="w-100 btn btn-danger">برگشت</button>
-                                    </div>
-
-                                </div>
-
-                            </form>
+                            </a>
                         </div>
                     </div>
+                
+                  
+
+            </div>
         </main>
         <div class="d-none">
             <input type="number" id="paymentId" value="{{.paymentId}}">

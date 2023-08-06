@@ -1,8 +1,8 @@
 package account
 
 import (
-	"context"
 	"backend/app"
+	"context"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -19,6 +19,7 @@ type (
 		TrustLevel int                `bson:"trust_level"`
 		CreatedAt  time.Time          `bson:"created_at"`
 		UpdatedAt  time.Time          `bson:"updated_at"`
+		SAPCActive bool               `bson:"sapc_active"`
 	}
 	AccountSlice []Account
 	Pan          struct {

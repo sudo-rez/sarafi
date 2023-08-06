@@ -2,6 +2,7 @@ package router
 
 import (
 	"backend/app"
+	"backend/internal/account"
 	"backend/internal/brand"
 	"backend/internal/card"
 	"backend/internal/dashboard"
@@ -109,6 +110,14 @@ func RegisterV1(ec *echo.Echo) {
 	}
 	dashboardG := v1G.Group(DashboardEc.Prefix, LoginRequired)
 	dashboardG.GET("/base", DashboardEc.BaseInfo)
+
+	// Account
+	accountEC := account.Echo{
+		Prefix: "/account",
+	}
+	accountG := v1G.Group(accountEC.Prefix, LoginRequired)
+	accountG.GET("", accountEC.List)
+
 }
 
 func RegisterGateway(ec *echo.Echo) {

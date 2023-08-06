@@ -355,6 +355,7 @@ function toPaymentPage(d) {
         return
     }
     arr = JSON.parse(d)
+    console.log(arr);
     if (arr.includes(cardInput.val().toEng().substring(0, 6))) {
         showError("بانک انتخاب شده موقتا غیرفعال میباشد ، لطفا از کارت دیگر بانک ها استفاده نمایید")
         return

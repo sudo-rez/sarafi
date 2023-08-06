@@ -6,6 +6,7 @@ import (
 	"backend/internal/brand"
 	"backend/internal/txn"
 	"backend/sapc"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -29,6 +30,9 @@ func sapcIndex(c echo.Context) error {
 	account, err := account.LoadOrCreateAccount(t.Account, t.Brand)
 	if err != nil {
 		return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
+	}
+	if !account.SAPCActive {
+		return c.Redirect(http.StatusFound, fmt.Sprint("/apc?p=", t.ID.Hex()))
 	}
 
 	if err != nil {

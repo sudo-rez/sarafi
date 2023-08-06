@@ -79,6 +79,15 @@
           </li>
         </ul>
       </li>
+      <li *ngIf="userService.hasPermission('accountmanagement')">
+        <ul>
+          <li>
+            <a class="nav-title" routerLink="/account" [routerLinkActive]="['active-route']">
+              <div class="icon icon-users1"></div>{{ 'accountmanagement' | translate }}
+            </a>
+          </li>
+        </ul>
+      </li>
       <!-- apc -->
       <ng-container
         *ngIf="userService.isAdmin()||userService.hasPermission('apcmanagement') ||userService.hasPermission('sapcmanagement') ">
