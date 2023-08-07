@@ -117,6 +117,7 @@ func RegisterV1(ec *echo.Echo) {
 	}
 	accountG := v1G.Group(accountEC.Prefix, LoginRequired)
 	accountG.GET("", accountEC.List)
+	accountG.GET("/toggle/sapc/:id", accountEC.ToggleSAPC)
 
 }
 

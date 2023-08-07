@@ -1,0 +1,58 @@
+<section class="container animated fadeIn">
+  <breadcrumb title="{{ 'accountmanagement' | translate }}"></breadcrumb>
+
+  <div class="row wall wall-sm mb">
+    <div class="col-md-auto">
+      <input class="search-input small text-center" type="text" [ngModel]="filters.search" (keyup)="search.pass($event, 'accountList')" placeholder="{{ 'search' | translate }}">
+    </div>
+  </div>
+  <div class="row wall mb">
+    <div class="col">
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <th>{{ 'customer.row' | translate }}
+            <th>{{ 'account.username' | translate }}
+            <th *ngIf="userService.isAdmin()">{{ 'txn.brand_name' | translate }}</th>
+            <th>{{ 'account.created_at' | translate }}</th>
+            <th>{{ 'account.cards' | translate }}</th>
+            <th class="text-center">{{ 'account.sapc' | translate}}</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let account of accounts;let index = index">
+              <th>{{ ( (filters.page-1) * 10) + (index+1) }}</th>
+              <th>{{ account.username }}</th>
+              <th *ngIf="userService.isAdmin()">{{ account.brand_name }}</th>
+              <th>{{ account.created_at | jalali:'middle' }}</th>
+              <th>{{ pans(account.pans) }}</th>
+              <th class="text-center">
+                <div  class="field-toggle">
+                  <input id="field-toggle2{{index}}" class="field-toggle" type="checkbox" [checked]="account.sapc_active"
+                    (change)="toggleSapcActive(account)">
+                  <label class="toggle" for="field-toggle2{{index}}">
+                    <span class="toggle-handler"></span>
+                  </label></div>
+
+              </th>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr [hidden]="accounts.length">
+              <td class="text-center" colspan="6">
+                <b>{{ 'list-empty' | translate }}</b>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pb">
+    <div class="col">
+      <pagination (callback)="getAccountsByPage($event)" [currentPage]="filters.page" [totalPages]="totalPages">
+      </pagination>
+    </div>
+  </div>
+
+</section>

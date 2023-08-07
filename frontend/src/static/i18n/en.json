@@ -118,6 +118,12 @@
     "password":"Password"
 
   },
+  "account":{
+    "username":"Username",
+    "created_at":"Created At",
+    "cards":"Cards",
+    "sapc":"Semi-Automate Gateway"
+  },
   "setting":{
     "gateway":"Gateway Settings",
     "blocked_banks":"Blocked Banks",

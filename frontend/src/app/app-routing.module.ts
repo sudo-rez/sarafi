@@ -43,6 +43,12 @@ const routes: Routes = [
     loadChildren: () => import('../app/modules/withdraw/withdraw.module').then(m => m.WithdrawModule),
     canActivate: [AuthGuard]
   },
+  // account management
+  {
+    path: 'account',
+    loadChildren: () => import('../app/modules/account/account.module').then(m => m.AccountModule),
+    canActivate: [AuthGuard]
+  },
   // card verification
   {
     path: 'card',

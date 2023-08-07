@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from 'src/app/guards/auth.guard';
 
-import { WithdrawComponent } from './withdraw.component';
+import { AccountComponents } from './account.component';
 // import { BannerCreateComponent } from './banner-create/banner-create.component';
 
 
 const routes: Routes = [
   {
     path: '',
-    component: WithdrawComponent,
+    component: AccountComponents,
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     data: {
-      title: 'sidebar.withdraw',
+      title: 'accountmanagement',
     }
   },
 ];
@@ -22,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class WithdrawRoutingModule { }
+export class AccountRoutingModule { }

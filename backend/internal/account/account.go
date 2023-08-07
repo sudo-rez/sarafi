@@ -2,6 +2,7 @@ package account
 
 import (
 	"backend/app"
+	"backend/internal/brand"
 	"context"
 	"time"
 
@@ -37,10 +38,15 @@ var (
 
 func (v Account) Rest() echo.Map {
 	return echo.Map{
-		"id":       v.ID,
-		"brand":    v.Brand,
-		"username": v.Username,
-		"pans":     v.Pans.Rest(),
+		"id":          v.ID,
+		"brand":       v.Brand,
+		"brand_name":  brand.GetBrandName(v.Brand.Hex()),
+		"username":    v.Username,
+		"pans":        v.Pans.Rest(),
+		"trust_level": v.TrustLevel,
+		"created_at":  v.CreatedAt,
+		"updated_at":  v.UpdatedAt,
+		"sapc_active": v.SAPCActive,
 	}
 }
 func (v AccountSlice) Rest() []echo.Map {
@@ -129,7 +135,7 @@ func Load(q bson.M) (Account, error) {
 }
 func loadSlice(q bson.M, page, limit int, sort string) (AccountSlice, error) {
 	v := make(AccountSlice, 0)
-	return v, app.MDB.Find(collectionName, q, &v, page, limit, sort)
+	return v, app.MDB.Find(collectionName, q, &v, limit, page, sort)
 }
 func LoadSlice(page, limit int, search, sort string, brand primitive.ObjectID) (AccountSlice, int, error) {
 	q := bson.M{}
@@ -139,6 +145,7 @@ func LoadSlice(page, limit int, search, sort string, brand primitive.ObjectID) (
 	if search != "" {
 		q["$or"] = bson.A{
 			bson.M{"username": bson.M{"$regex": search, "$options": "i"}},
+			bson.M{"pans.card": bson.M{"$regex": search, "$options": "i"}},
 		}
 	}
 	res, err := loadSlice(q, page, limit, sort)

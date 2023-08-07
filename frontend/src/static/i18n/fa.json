@@ -114,6 +114,12 @@
     "username":"نام کاربری",
     "password":"رمز عبور"
   },
+  "account":{
+    "username":"نام کاربری",
+    "created_at":"تاریخ ایجاد",
+    "cards":"حساب های بانکی",
+    "sapc":"درگاه نیمه اتومات"
+  },
   "setting":{
     "gateway":"تنظیمات درگاه",
     "blocked_banks":"بانک های بلاک شده",
