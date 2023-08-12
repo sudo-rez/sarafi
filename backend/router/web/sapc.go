@@ -5,6 +5,7 @@ import (
 	"backend/internal/account"
 	"backend/internal/brand"
 	"backend/internal/txn"
+	"backend/internal/wallet"
 	"backend/sapc"
 	"fmt"
 	"net/http"
@@ -123,6 +124,25 @@ func sapcConfirm(c echo.Context) error {
 	t.Message = "OK"
 	t.Successful = true
 	t.Save()
+	if t.Done {
+		go func() {
+			if err := wallet.TxnFeeDeduction(t.Brand, t.FeeDeduction(brand.ReadWage(t.Brand))); err != nil {
+				app.Error("Error in Deducting Fee , brand =", t.Brand, " Error = ", err.Error())
+			}
+			if err := t.SendCallBack(); err != nil {
+				for i := 0; i < 5; i++ {
+					if err := t.SendCallBack(); err == nil {
+						return
+					}
+				}
+				app.Error("CallBackError", err.Error())
+			} else {
+				t.CallBack.Done = true
+				t.Save()
+			}
+		}()
+
+	}
 
 	return c.JSON(http.StatusOK, echo.Map{"msg": "پرداخت با موفقیت انجام شد"})
 }
