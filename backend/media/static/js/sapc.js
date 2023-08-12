@@ -326,6 +326,7 @@ function sapcConfirm(){
     };
     $.ajax(settings).done(function (response) {
         showSuccess(response.msg)
+        window.location.replace("/success?id="+urlVar["p"])
     }).fail(function (jqXHR) {
         showError(jqXHR.responseJSON.msg)
     });
