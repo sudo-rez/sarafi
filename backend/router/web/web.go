@@ -125,9 +125,9 @@ func index(c echo.Context) error {
 	if timeRemain < 0 || t.Done {
 		return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": "time finished or transaction is done"})
 	}
-	if !account.SAPCActive {
-		return c.Redirect(http.StatusFound, fmt.Sprint("/apc?p=", t.ID.Hex()))
-	}
+	// if !account.SAPCActive {
+	// 	return c.Redirect(http.StatusFound, fmt.Sprint("/apc?p=", t.ID.Hex()))
+	// }
 	return c.Render(http.StatusOK, "index.html", echo.Map{
 		"title":       "صفحه پرداخت",
 		"setting":     app.Stg.Rest(),
@@ -139,36 +139,37 @@ func index(c echo.Context) error {
 	})
 }
 func apc(c echo.Context) error {
-	objID, err := primitive.ObjectIDFromHex(c.QueryParam("p"))
-	if err != nil {
-		return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": err.Error()})
-	}
-	t, err := txn.Load(bson.M{"_id": objID})
-	if err != nil {
-		return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": err.Error()})
-	}
+	return c.Redirect(http.StatusFound, fmt.Sprint("/?p=", c.QueryParam("p")))
+	// objID, err := primitive.ObjectIDFromHex(c.QueryParam("p"))
+	// if err != nil {
+	// 	return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": err.Error()})
+	// }
+	// t, err := txn.Load(bson.M{"_id": objID})
+	// if err != nil {
+	// 	return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": err.Error()})
+	// }
 
-	account, err := account.LoadOrCreateAccount(t.Account, t.Brand)
-	if err != nil {
-		return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
-	}
+	// account, err := account.LoadOrCreateAccount(t.Account, t.Brand)
+	// if err != nil {
+	// 	return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
+	// }
 
-	if err != nil {
-		return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
-	}
-	timeRemain := time.Duration(app.Stg.GateWay.OpenTime)*time.Minute - time.Since(t.CreatedAt)
-	if timeRemain < 0 || t.Done {
-		return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": "time finished or transaction is done"})
-	}
-	return c.Render(http.StatusOK, "apc.html", echo.Map{
-		"title":       "صفحه پرداخت",
-		"captchaId":   captcha.New(),
-		"setting":     app.Stg.Rest(),
-		"account":     account,
-		"cancel":      t.CancelCode,
-		"amount":      t.Amount,
-		"time_remain": timeRemain.Milliseconds(),
-	})
+	// if err != nil {
+	// 	return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
+	// }
+	// timeRemain := time.Duration(app.Stg.GateWay.OpenTime)*time.Minute - time.Since(t.CreatedAt)
+	// if timeRemain < 0 || t.Done {
+	// 	return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": "time finished or transaction is done"})
+	// }
+	// return c.Render(http.StatusOK, "apc.html", echo.Map{
+	// 	"title":       "صفحه پرداخت",
+	// 	"captchaId":   captcha.New(),
+	// 	"setting":     app.Stg.Rest(),
+	// 	"account":     account,
+	// 	"cancel":      t.CancelCode,
+	// 	"amount":      t.Amount,
+	// 	"time_remain": timeRemain.Milliseconds(),
+	// })
 }
 
 func withdraw(c echo.Context) error {

@@ -5,8 +5,8 @@ echo:
 mongo:
   db: sarafi
   uri: mongodb://localhost:27017
-gateway: false
-panel: true
+gateway: true
+panel: false
 domain: http://localhost:4000
 scheduler:
   enable: true

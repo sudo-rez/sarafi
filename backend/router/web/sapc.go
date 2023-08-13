@@ -7,7 +7,6 @@ import (
 	"backend/internal/txn"
 	"backend/internal/wallet"
 	"backend/sapc"
-	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -32,9 +31,9 @@ func sapcIndex(c echo.Context) error {
 	if err != nil {
 		return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
 	}
-	if !account.SAPCActive {
-		return c.Redirect(http.StatusFound, fmt.Sprint("/apc?p=", t.ID.Hex()))
-	}
+	// if !account.SAPCActive {
+	// 	return c.Redirect(http.StatusFound, fmt.Sprint("/apc?p=", t.ID.Hex()))
+	// }
 
 	if err != nil {
 		return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
@@ -123,6 +122,7 @@ func sapcConfirm(c echo.Context) error {
 	t.Done = true
 	t.Message = "OK"
 	t.Successful = true
+	t.Source = form.Pan
 	t.Save()
 	if t.Done {
 		go func() {
