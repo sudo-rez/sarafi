@@ -2,6 +2,7 @@ package brand
 
 import (
 	"backend/app"
+	"backend/sapc"
 	"context"
 	"time"
 
@@ -103,6 +104,8 @@ func LoadSAPCQ(q bson.M) (SAPC, error) {
 	return *v, app.MDB.FindOne(SAPCCollectionName, q, v)
 }
 func (v SAPC) Save() error {
+	go sapc.SetBankAccount(v.Username, v.Password)
+
 	if !v.ID.IsZero() {
 		return v.Update()
 	}

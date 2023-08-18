@@ -21,10 +21,11 @@ type (
 		SAPC        SAPC        `json:"sapc" yaml:"sapc"`
 	}
 	Scheduler struct {
-		Enable            bool `json:"enable" yaml:"enable"`
-		BrandListInterval int  `json:"brand_list_interval" yaml:"brand_list_interval"`
-		MainQueueInterval int  `json:"main_queue_interval" yaml:"main_queue_interval"`
-		CloseTxnInterval  int  `json:"close_txn_interval" yaml:"close_txn_interval"`
+		Enable                bool `json:"enable" yaml:"enable"`
+		BrandListInterval     int  `json:"brand_list_interval" yaml:"brand_list_interval"`
+		MainQueueInterval     int  `json:"main_queue_interval" yaml:"main_queue_interval"`
+		CloseTxnInterval      int  `json:"close_txn_interval" yaml:"close_txn_interval"`
+		UpdateSapcTxnInterval int  `json:"update_sapc_txn_interval" yaml:"update_sapc_txn_interval"`
 	}
 	Echo struct {
 		Port      string `json:"port" yaml:"port"`

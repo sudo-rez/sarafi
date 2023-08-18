@@ -12,6 +12,7 @@ scheduler:
   enable: true
   main_queue_interval: 10
   close_txn_interval: 0
+  update_sapc_txn_interval: 60
 success_test:
   enable: true
   pan: 6219869999999990
@@ -20,6 +21,6 @@ success_test:
   expire_year: 07
   pin: 132456
 sapc:
-  url: http://142.132.130.87:3002
+  url: http://91.107.159.173:3002
   username: 1850506132
   password: 77918386

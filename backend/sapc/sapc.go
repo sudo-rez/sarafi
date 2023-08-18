@@ -13,19 +13,11 @@ type (
 	LoginResponse struct {
 		AccessToken string `json:"accessToken"`
 	}
-	Transaction struct {
-		ID                int    `json:"id"`
-		TransactionAmount string `json:"transactionAmount"`
-		BalanceAmount     string `json:"balanceAmount"`
-		Description       string `json:"description"`
-		TransactionType   int    `json:"transactionType"`
-		ActionType        int    `json:"actionType"`
-		DateMill          int64  `json:"dateMill"`
-		Username          string `json:"username"`
-		UserID            string `json:"userId"`
-		DisplayName       string `json:"displayName"`
-		NationalCode      string `json:"nationalCode"`
-		Flag              int    `json:"flag"`
+
+	Account struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+		UserID   string `json:"userId"`
 	}
 )
 
@@ -61,7 +53,6 @@ func Transactions(token string, page, limit int) ([]Transaction, error) {
 		URL:    app.Cfg.SAPC.URL + fmt.Sprintf("/transactions?page=%d&limit=%d", page, limit),
 		Method: http.MethodGet,
 		Headers: map[string]string{
-			"Content-Type":  "application/json",
 			"accept":        "application/json",
 			"Authorization": "Bearer " + token,
 		},
@@ -73,6 +64,7 @@ func Transactions(token string, page, limit int) ([]Transaction, error) {
 	var transactions []Transaction
 	err = json.Unmarshal(body, &transactions)
 	if err != nil {
+		app.Debug(string(body))
 		return nil, err
 	}
 	return transactions, nil
@@ -143,4 +135,99 @@ func ConfirmTxn(username, password, pan, amount string) error {
 		return err
 	}
 	return nil
+}
+
+func SetBankAccount(username, password string) error {
+	token, err := Login(username, password)
+	if err != nil {
+		return err
+	}
+	req := request.HTTPRequest{
+		Name:   "SAPC Set Bank Account",
+		URL:    app.Cfg.SAPC.URL + "/account/setBankAccount",
+		Method: http.MethodPost,
+		Headers: map[string]string{
+			"Content-Type":  "application/json",
+			"accept":        "application/json",
+			"Authorization": "Bearer " + token,
+		},
+		Body: map[string]string{
+			"username": username,
+			"password": password,
+		},
+	}
+	_, _, err = req.Send()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func SetAccountNumber(number, token string) error {
+	req := request.HTTPRequest{
+		Name:   "SAPC Set Account Number",
+		URL:    app.Cfg.SAPC.URL + "/account/accountNumber",
+		Method: http.MethodPost,
+		Headers: map[string]string{
+			"Content-Type":  "application/json",
+			"accept":        "application/json",
+			"Authorization": "Bearer " + token,
+		},
+		Body: map[string]string{
+			"number": number,
+		},
+	}
+	_, _, err := req.Send()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func GetAccountNumbers(token string) ([]string, error) {
+	req := request.HTTPRequest{
+		Name:   "SAPC Get Account Numbers",
+		URL:    app.Cfg.SAPC.URL + "/account/accountNumbers",
+		Method: http.MethodGet,
+		Headers: map[string]string{
+			"Content-Type":  "application/json",
+			"accept":        "application/json",
+			"Authorization": "Bearer " + token,
+		},
+	}
+	_, body, err := req.Send()
+	if err != nil {
+		return nil, err
+	}
+	var accountNumbers []string
+	err = json.Unmarshal(body, &accountNumbers)
+	if err != nil {
+		return nil, err
+	}
+	return accountNumbers, nil
+}
+func GetCurrentUserID(token string) (Account, error) {
+	req := request.HTTPRequest{
+		Name:   "SAPC Get Current User ID",
+		URL:    app.Cfg.SAPC.URL + "/account/currentUserId",
+		Method: http.MethodGet,
+		Headers: map[string]string{
+			"Content-Type":  "application/json",
+			"accept":        "application/json",
+			"Authorization": "Bearer " + token,
+		},
+	}
+	_, body, err := req.Send()
+	if err != nil {
+		return Account{}, err
+	}
+	var account []Account
+	err = json.Unmarshal(body, &account)
+	if err != nil {
+		return Account{}, err
+	}
+	if len(account) == 0 {
+		return Account{}, errors.New("account not found")
+	}
+	return account[0], nil
 }
