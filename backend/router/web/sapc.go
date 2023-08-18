@@ -111,12 +111,12 @@ func sapcConfirm(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه"})
 	}
-	sapcV, err := brand.LoadSAPCQ(bson.M{"brand": t.Brand, "card_number": t.Destination})
-	if err != nil {
-		app.Error("Load SAPC Error", err.Error(), t.Brand)
-		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": gateWayDisabledError})
-	}
-	if sapc.ConfirmTxn(sapcV.Username, sapcV.Password, form.Pan, strconv.Itoa(int(t.Amount))) != nil {
+	// sapcV, err := brand.LoadSAPCQ(bson.M{"brand": t.Brand, "card_number": t.Destination})
+	// if err != nil {
+	// 	app.Error("Load SAPC Error", err.Error(), t.Brand)
+	// 	return c.JSON(http.StatusInternalServerError, echo.Map{"msg": gateWayDisabledError})
+	// }
+	if sapc.ConfirmTxn(form.Pan, strconv.Itoa(int(t.Amount))) != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
 	}
 	t.Done = true

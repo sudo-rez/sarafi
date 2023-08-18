@@ -3,6 +3,8 @@ package sapc
 import (
 	"backend/app"
 	"context"
+	"regexp"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -37,6 +39,9 @@ func (v Transaction) Save() error {
 	_, err := app.MDB.CollectionString(txnCollectioName).UpdateOne(context.Background(), bson.M{"id": v.ID}, bson.M{"$set": v}, opt)
 	return err
 }
+func (v *Transaction) Load(filter bson.M) error {
+	return app.MDB.CollectionString(txnCollectioName).FindOne(context.Background(), filter).Decode(v)
+}
 func GetLastID() (int, error) {
 	var txn Transaction
 	err := app.MDB.CollectionString(txnCollectioName).FindOne(context.Background(), bson.M{}, options.FindOne().SetSort(bson.M{"id": -1})).Decode(&txn)
@@ -70,6 +75,7 @@ func UpdateTxns() {
 		}
 		for _, txn := range txns {
 			if txn.ID > lastID {
+				txn.Source, txn.Destination = parseDescription(txn.Description)
 				if err := txn.Save(); err != nil {
 					app.Error("SAPC Transaction Save failed: " + err.Error())
 				}
@@ -77,4 +83,29 @@ func UpdateTxns() {
 		}
 		page++
 	}
+}
+func findNumber(str string) string {
+	re := regexp.MustCompile(`\d{16}`)
+	return re.FindString(str)
+}
+func parseDescription(v string) (string, string) {
+	source := findNumber(v)
+	v = strings.Replace(v, source, "", 1)
+	destination := findNumber(v)
+	return source, destination
+}
+
+func ConfirmTxn(pan, amount string) error {
+	txn := new(Transaction)
+	q := bson.M{"source": pan, "transactionAmount": amount, "flag": 0}
+	if err := txn.Load(q); err != nil {
+		app.Error("SAPC ConfirmTxn Load Error", err.Error())
+		return err
+	}
+	txn.Flag = 1
+	if err := txn.Save(); err != nil {
+		app.Error("SAPC ConfirmTxn Save Error", err.Error())
+		return err
+	}
+	return nil
 }

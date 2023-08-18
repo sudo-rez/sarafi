@@ -115,28 +115,6 @@ func UpdateTransaction(token string, id int, flag bool) error {
 	return nil
 }
 
-func ConfirmTxn(username, password, pan, amount string) error {
-	accessToken, err := Login(username, password)
-	if err != nil {
-		app.Error("SAPC Login Error", err.Error())
-		return err
-	}
-	transactions, err := SearchTransactions(accessToken, pan, amount)
-	if err != nil {
-		app.Error("SAPC SearchTransactions Error", err.Error())
-		return err
-	}
-	if len(transactions) == 0 {
-		app.Error("SAPC SearchTransactions Error", "transaction not found")
-		return errors.New("transaction not found")
-	}
-	if err := UpdateTransaction(accessToken, transactions[0].ID, true); err != nil {
-		app.Error("SAPC UpdateTransaction Error", err.Error())
-		return err
-	}
-	return nil
-}
-
 func SetBankAccount(username, password string) error {
 	token, err := Login(username, password)
 	if err != nil {
