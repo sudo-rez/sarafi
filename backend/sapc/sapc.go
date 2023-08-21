@@ -21,14 +21,14 @@ type (
 	}
 )
 
-func Login(username, password string) (string, error) {
+func Login() (string, error) {
 	req := request.HTTPRequest{
 		Name:   "SAPC Login",
 		URL:    app.Cfg.SAPC.URL + "/auth/login",
 		Method: http.MethodPost,
 		Body: map[string]string{
-			"username": username,
-			"password": password,
+			"username": app.Cfg.SAPC.Username,
+			"password": app.Cfg.SAPC.Password,
 		},
 		Headers: map[string]string{
 			"Content-Type": "application/json",
@@ -116,7 +116,7 @@ func UpdateTransaction(token string, id int, flag bool) error {
 }
 
 func SetBankAccount(username, password string) error {
-	token, err := Login(username, password)
+	token, err := Login()
 	if err != nil {
 		return err
 	}

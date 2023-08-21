@@ -52,7 +52,7 @@ func GetLastID() (int, error) {
 }
 
 func UpdateTxns() {
-	token, err := Login(app.Cfg.SAPC.Username, app.Cfg.SAPC.Password)
+	token, err := Login()
 	if err != nil {
 		app.Error("SAPC Login failed: " + err.Error())
 		return
