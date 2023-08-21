@@ -95,9 +95,9 @@ func parseDescription(v string) (string, string) {
 	return source, destination
 }
 
-func ConfirmTxn(pan, amount string) error {
+func ConfirmTxn(source, destination, amount string) error {
 	txn := new(Transaction)
-	q := bson.M{"source": pan, "transactionAmount": amount, "flag": 0}
+	q := bson.M{"source": source, "transactionAmount": amount, "flag": 0, "destination": destination}
 	if err := txn.Load(q); err != nil {
 		app.Error("SAPC ConfirmTxn Load Error", err.Error())
 		return err
