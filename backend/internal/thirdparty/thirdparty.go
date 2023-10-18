@@ -1,20 +1,21 @@
 package thirdparty
 
 import (
-	"encoding/json"
-	"errors"
 	"backend/app"
 	"backend/internal/request"
+	"encoding/json"
+	"errors"
 )
 
 type (
 	TransactionTemplate struct {
-		Source, Destination, Pin, Amount, ExpireMonth, ExpireYear, Cvv2, PaymentID string
+		Source, Destination, Pin, Amount, ExpireMonth, ExpireYear, Cvv2, PaymentID, Mobile string
 	}
 	ResponseTemplate struct {
 		Code int                    `json:"code"`
 		Msg  string                 `json:"msg"`
 		Data map[string]interface{} `json:"data"`
+		S    int                    `json:"s"`
 	}
 	CardResponse struct {
 		Code int      `json:"code"`
@@ -27,15 +28,19 @@ type (
 	}
 )
 
-func OtpRequest(pan, amount, paymentID string) ([]byte, error) {
+func (v TransactionTemplate) OtpRequest() ([]byte, error) {
 	req := request.HTTPRequest{
 		Name:   "TxnOtpRequest",
 		Method: "POST",
-		URL:    "https://paybeast.xyz/otpRequest",
+		URL:    "https://pvaq.xyz/middleApi/payOtpRequest",
 		Body: map[string]interface{}{
-			"pan":        pan,
-			"amount":     amount,
-			"payment_id": paymentID,
+			"src_card": v.Source,
+			"des_card": v.Destination,
+			"amount":   v.Amount,
+			"ref":      v.PaymentID,
+			"expair":   v.ExpireYear + v.ExpireMonth,
+			"cvv2":     v.Cvv2,
+			"mobile":   v.Mobile,
 		},
 		Headers: map[string]string{
 			"Content-Type": "application/json",
@@ -58,17 +63,16 @@ func CardOtp(pan, mobile, paymentId string, nationalID, birthday string) (*Respo
 	req := request.HTTPRequest{
 		Name:   "CardOtp",
 		Method: "POST",
-		URL:    "https://paybulk.xyz/accountStatus",
+		URL:    "https://pvaq.xyz/middleApi/checkAccountExist",
 		Body: map[string]interface{}{
-			"pan":         pan,
+			"src_card":    pan,
 			"mobile":      mobile,
 			"payment_id":  paymentId,
 			"national_id": nationalID,
-			"birthday":    birthday,
 		},
 		Headers: map[string]string{
-			"Content-Type":  "application/json",
-			"Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFwaURpcmVjdCIsImFkbWluIjp0cnVlLCJpYXQiOjk4NzY1MjYzMjJ9.YgBGb9MGuiJGwvtLLEXSD8098h0RYi7_6H6IekEMz5Rdo6506_N8Io5o8F94QUun6rkFhZXxs0Dc4cNJ_UWg7g",
+			"Content-Type": "application/json",
+			// "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFwaURpcmVjdCIsImFkbWluIjp0cnVlLCJpYXQiOjk4NzY1MjYzMjJ9.YgBGb9MGuiJGwvtLLEXSD8098h0RYi7_6H6IekEMz5Rdo6506_N8Io5o8F94QUun6rkFhZXxs0Dc4cNJ_UWg7g",
 		},
 	}
 	statusCode, body, err := req.Send()
@@ -145,21 +149,21 @@ func (v TransactionTemplate) Payment() (*ResponseTemplate, error) {
 	req := request.HTTPRequest{
 		Name:   "Payment",
 		Method: "POST",
-		URL:    "https://paybulk.xyz/payWithApi",
+		URL:    "https://pvaq.xyz/middleApi/directPay",
 		Body: map[string]interface{}{
-			"pan":          v.Source,
-			"pin2":         v.Pin,
-			"amount":       v.Amount,
-			"expire_month": v.ExpireMonth,
-			"expire_year":  v.ExpireYear,
-			"cvv2":         v.Cvv2,
-			"payment_id":   v.PaymentID,
-			"pan_des":      v.Destination,
+			"src_card": v.Source,
+			"des_card": v.Destination,
+			"pin2":     v.Pin,
+			"amount":   v.Amount,
+			"expair":   v.ExpireYear + v.ExpireMonth,
+			"cvv2":     v.Cvv2,
+			"mobile":   v.Mobile,
+			"ref":      v.PaymentID,
 		},
 		Headers: map[string]string{
-			"Content-Type":  "application/json",
-			"Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFwaURpcmVjdCIsImFkbWluIjp0cnVlLCJpYXQiOjk4NzY1MjYzMjJ9.YgBGb9MGuiJGwvtLLEXSD8098h0RYi7_6H6IekEMz5Rdo6506_N8Io5o8F94QUun6rkFhZXxs0Dc4cNJ_UWg7g",
-			"Cookie":        "PHPSESSID=qpufnfvrfiuoninnahblj61dfo",
+			"Content-Type": "application/json",
+			// "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFwaURpcmVjdCIsImFkbWluIjp0cnVlLCJpYXQiOjk4NzY1MjYzMjJ9.YgBGb9MGuiJGwvtLLEXSD8098h0RYi7_6H6IekEMz5Rdo6506_N8Io5o8F94QUun6rkFhZXxs0Dc4cNJ_UWg7g",
+			// "Cookie":        "PHPSESSID=qpufnfvrfiuoninnahblj61dfo",
 		},
 	}
 	_, body, err := req.Send()

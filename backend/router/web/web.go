@@ -139,37 +139,37 @@ func index(c echo.Context) error {
 	})
 }
 func apc(c echo.Context) error {
-	return c.Redirect(http.StatusFound, fmt.Sprint("/?p=", c.QueryParam("p")))
-	// objID, err := primitive.ObjectIDFromHex(c.QueryParam("p"))
-	// if err != nil {
-	// 	return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": err.Error()})
-	// }
-	// t, err := txn.Load(bson.M{"_id": objID})
-	// if err != nil {
-	// 	return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": err.Error()})
-	// }
+	// return c.Redirect(http.StatusFound, fmt.Sprint("/?p=", c.QueryParam("p")))
+	objID, err := primitive.ObjectIDFromHex(c.QueryParam("p"))
+	if err != nil {
+		return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": err.Error()})
+	}
+	t, err := txn.Load(bson.M{"_id": objID})
+	if err != nil {
+		return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": err.Error()})
+	}
 
-	// account, err := account.LoadOrCreateAccount(t.Account, t.Brand)
-	// if err != nil {
-	// 	return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
-	// }
+	account, err := account.LoadOrCreateAccount(t.Account, t.Brand)
+	if err != nil {
+		return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
+	}
 
-	// if err != nil {
-	// 	return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
-	// }
-	// timeRemain := time.Duration(app.Stg.GateWay.OpenTime)*time.Minute - time.Since(t.CreatedAt)
-	// if timeRemain < 0 || t.Done {
-	// 	return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": "time finished or transaction is done"})
-	// }
-	// return c.Render(http.StatusOK, "apc.html", echo.Map{
-	// 	"title":       "صفحه پرداخت",
-	// 	"captchaId":   captcha.New(),
-	// 	"setting":     app.Stg.Rest(),
-	// 	"account":     account,
-	// 	"cancel":      t.CancelCode,
-	// 	"amount":      t.Amount,
-	// 	"time_remain": timeRemain.Milliseconds(),
-	// })
+	if err != nil {
+		return c.Render(http.StatusInternalServerError, "badrequest.html", echo.Map{"code": "500", "error": err.Error()})
+	}
+	timeRemain := time.Duration(app.Stg.GateWay.OpenTime)*time.Minute - time.Since(t.CreatedAt)
+	if timeRemain < 0 || t.Done {
+		return c.Render(http.StatusBadRequest, "badrequest.html", echo.Map{"code": "404", "error": "time finished or transaction is done"})
+	}
+	return c.Render(http.StatusOK, "apc.html", echo.Map{
+		"title":       "صفحه پرداخت",
+		"captchaId":   captcha.New(),
+		"setting":     app.Stg.Rest(),
+		"account":     account,
+		"cancel":      t.CancelCode,
+		"amount":      t.Amount,
+		"time_remain": timeRemain.Milliseconds(),
+	})
 }
 
 func withdraw(c echo.Context) error {
@@ -282,18 +282,6 @@ func doTransaction(c echo.Context) error {
 	t, err := txn.Load(bson.M{"_id": objID, "done": false})
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": gateWayInputError})
-	}
-	desQ := txn.GetFromQueue(t.Amount, t.BrandName)
-	if desQ == nil {
-		apc, err := brand.LoadAPCForPayment(t.Amount, t.Brand)
-		if err != nil {
-			app.Error("Load APC Error", err.Error())
-			return c.JSON(http.StatusInternalServerError, echo.Map{"msg": gateWayDisabledError})
-		}
-		t.Destination = apc.CardNumber
-	} else {
-		t.Destination = desQ.Card
-		t.WithdrawID = desQ.ID
 	}
 	txnTemp := thirdparty.TransactionTemplate{
 		Source:      form.Pan,
@@ -415,7 +403,7 @@ func successTransaction(c echo.Context) error {
 	})
 }
 func otp(c echo.Context) error {
-	form := new(Form)
+	form := new(TxnForm)
 	if err := c.Bind(form); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه", "error": err.Error()})
 	}
@@ -433,10 +421,50 @@ func otp(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه"})
 	}
-	body, err := thirdparty.OtpRequest(form.Pan, fmt.Sprint(t.Amount), form.PaymentID)
+	if t.Destination == "" {
+		desQ := txn.GetFromQueue(t.Amount, t.BrandName)
+		if desQ == nil {
+			apc, err := brand.LoadAPCForPayment(t.Amount, t.Brand)
+			if err != nil {
+				app.Error("Load APC Error", err.Error())
+				return c.JSON(http.StatusInternalServerError, echo.Map{"msg": gateWayDisabledError})
+			}
+			t.Destination = apc.CardNumber
+		} else {
+			t.Destination = desQ.Card
+			t.WithdrawID = desQ.ID
+		}
+	}
+	txnTemp := thirdparty.TransactionTemplate{
+		Source:      form.Pan,
+		Destination: t.Destination,
+		Pin:         form.Pin,
+		Amount:      fmt.Sprint(t.Amount),
+		ExpireMonth: form.EMonth,
+		ExpireYear:  form.EYear,
+		Cvv2:        form.Cvv2,
+		PaymentID:   t.Info.PaymentID,
+	}
+
+	body, err := txnTemp.OtpRequest()
 	if err != nil {
+		go func() {
+			if err := t.UpdateWithDrawOTP(); err != nil {
+				app.Error("Update Withdraw Issue in OTP , ", err.Error())
+			}
+		}()
 		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
 	}
+	go func() {
+		time.Sleep(5 * time.Minute)
+		updatedTxn, err := txn.Load(bson.M{"_id": objID})
+		if err != nil {
+			app.Error("Can not get Txn for update withdraw list after 5 min , err = ", err.Error())
+		}
+		if err := updatedTxn.UpdateWithDrawOTP(); err != nil {
+			app.Error("Update Withdraw Issue in OTP2 , ", err.Error())
+		}
+	}()
 	return c.Blob(http.StatusOK, "application/json", body)
 }
 func cardOtp(c echo.Context) error {

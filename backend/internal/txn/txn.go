@@ -174,6 +174,24 @@ func (v Txn) UpdateWithDraw() error {
 	}
 	return nil
 }
+func (v Txn) UpdateWithDrawOTP() error {
+	if !v.WithdrawID.IsZero() {
+		MQ.mu.Lock()
+		defer MQ.mu.Unlock()
+		for key, value := range MQ.BQ[v.BrandName] {
+			if value.ID == v.WithdrawID {
+				value.Txns = append(value.Txns, v)
+				if !v.Successful {
+					value.InProgressAmount = value.InProgressAmount - v.Amount
+				}
+				go value.Save()
+				MQ.BQ[v.BrandName][key] = value
+			}
+		}
+		return nil
+	}
+	return nil
+}
 
 func CloseExpired() {
 	set := app.Stg
