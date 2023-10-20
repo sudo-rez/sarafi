@@ -82,6 +82,11 @@ cardInput.on('input', function (n) {
     cardInput.removeClass("invalid")
 });
 cvv2Input.on('input', function () {
+    if (cvv2Input.val().length > 2) {
+        cvv2Input.removeClass("invalid")
+    } else {
+        cvv2Input.addClass("invalid")
+    }
     cvv2Input.val(cvv2Input.val().toPersianDigits())
     cvv2Value.text(cvv2Input.val())
 });
@@ -89,6 +94,16 @@ monthInput.on('input', expireDate);
 yearInput.on('input', expireDate);
 
 function expireDate() {
+    if (monthInput.val().length = 2) {
+        monthInput.removeClass("invalid")
+    } else {
+        monthInput.addClass("invalid")
+    }
+    if (yearInput.val().length = 2) {
+        yearInput.removeClass("invalid")
+    } else {
+        yearInput.addClass("invalid")
+    }
     yearInput.val(yearInput.val().toPersianDigits())
     monthInput.val(monthInput.val().toPersianDigits())
     dateValue.text(yearInput.val() + "/" + monthInput.val())
@@ -156,9 +171,16 @@ function sendOtp() {
         showError("لطفا منتظر بمانید")
         return
     }
+    if (monthInput.hasClass("invalid") || yearInput.hasClass("invalid") || cvv2Input.hasClass("invalid")) {
+        monthInput.addClass("show")
+        yearInput.addClass("show")
+        cvv2Input.addClass("show")
+        return
+    }
+
     var data = {
         p: urlVar["p"],
-        mobile: mobileInput.val().toEng(),
+        mobile: selectMobile.toEng(),
         pan: cardInput.val().toEng(),
         cvv2: cvv2Input.val().toEng(),
         e_month: monthInput.val().toEng(),
@@ -289,7 +311,7 @@ function transaction() {
 
     var data = {
         p: urlVar["p"],
-        mobile: mobileInput.val().toEng(),
+        mobile: selectMobile.toEng(),
         pan: cardInput.val().toEng(),
         cvv2: cvv2Input.val().toEng(),
         pin: passInput.val().toEng(),
@@ -364,48 +386,50 @@ function toPaymentPage(d) {
         showError("بانک انتخاب شده موقتا غیرفعال میباشد ، لطفا از کارت دیگر بانک ها استفاده نمایید")
         return
     }
-    var data = {
-        p: urlVar["p"],
-        mobile: selectMobile.toEng(),
-        pan: cardInput.val().toEng()
-    }
-    var settings = {
-        "url": "/card/otp",
-        "method": "POST",
-        "data": data
-    };
-    $.ajax(settings).done(function (response) {
-        switch (response.code) {
-            case 0:
-                nextForm(3)
-                newcardInput.val(cardInput.val().cardSplit())
-                mobileInput.val(selectMobile.toPersianDigits())
-                newcardInput.removeClass("invalid")
-                mobileInput.removeClass("invalid")
-                distanceCard = 120000
-                cardOtpTimer = setInterval(timeFuncNewCard, 1000);
+    nextForm(2)
 
-                break;
-            case 1:
-                // nextForm(3)
-                // newcardInput.val(cardInput.val().cardSplit())
-                // mobileInput.val(selectMobile.toPersianDigits())
-                // newcardInput.removeClass("invalid")
-                // mobileInput.removeClass("invalid")
-                // distanceCard = 12000
-                // cardOtpTimer = setInterval(timeFuncNewCard, 1000);
-                nextForm(2)
-                break;
-            case 2:
-                showError(response.msg)
-                break;
-            default:
-                break;
-        }
+    // var data = {
+    //     p: urlVar["p"],
+    //     mobile: selectMobile.toEng(),
+    //     pan: cardInput.val().toEng()
+    // }
+    // var settings = {
+    //     "url": "/card/otp",
+    //     "method": "POST",
+    //     "data": data
+    // };
+    // $.ajax(settings).done(function (response) {
+    //     switch (response.code) {
+    //         case 0:
+    //             nextForm(3)
+    //             newcardInput.val(cardInput.val().cardSplit())
+    //             mobileInput.val(selectMobile.toPersianDigits())
+    //             newcardInput.removeClass("invalid")
+    //             mobileInput.removeClass("invalid")
+    //             distanceCard = 120000
+    //             cardOtpTimer = setInterval(timeFuncNewCard, 1000);
 
-    }).fail(function (jqXHR) {
-        showError(jqXHR.responseJSON.msg)
-    });
+    //             break;
+    //         case 1:
+    //             // nextForm(3)
+    //             // newcardInput.val(cardInput.val().cardSplit())
+    //             // mobileInput.val(selectMobile.toPersianDigits())
+    //             // newcardInput.removeClass("invalid")
+    //             // mobileInput.removeClass("invalid")
+    //             // distanceCard = 12000
+    //             // cardOtpTimer = setInterval(timeFuncNewCard, 1000);
+    //             nextForm(2)
+    //             break;
+    //         case 2:
+    //             showError(response.msg)
+    //             break;
+    //         default:
+    //             break;
+    //     }
+
+    // }).fail(function (jqXHR) {
+    //     showError(jqXHR.responseJSON.msg)
+    // });
 }
 function toPaymentPageSapc() {
     if (cardInput.hasClass("invalid")) {
