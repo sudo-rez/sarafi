@@ -6,7 +6,6 @@ require (
 	github.com/dchest/captcha v1.0.0
 	github.com/fatih/structs v1.1.0
 	github.com/golang-jwt/jwt v3.2.2+incompatible
-	github.com/google/go-querystring v1.1.0
 	github.com/labstack/echo/v4 v4.10.0
 	github.com/labstack/gommon v0.4.0
 	go.mongodb.org/mongo-driver v1.11.1
