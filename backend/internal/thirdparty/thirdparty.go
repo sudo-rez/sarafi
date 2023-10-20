@@ -50,7 +50,7 @@ func (v TransactionTemplate) OtpRequest() ([]byte, error) {
 	return body, err
 }
 
-func CardOtp(pan, mobile, paymentId string, nationalID, birthday string) (*ResponseTemplate, int, error) {
+func CardOtp(pan, mobile, paymentId string, nationalID, birthday, amount string) (*ResponseTemplate, int, error) {
 	if app.Cfg.Dev {
 		return &ResponseTemplate{
 			Code: 1,
@@ -67,7 +67,7 @@ func CardOtp(pan, mobile, paymentId string, nationalID, birthday string) (*Respo
 		Body: map[string]interface{}{
 			"src_card":    pan,
 			"mobile":      mobile,
-			"payment_id":  paymentId,
+			"amount":      amount,
 			"national_id": nationalID,
 		},
 		Headers: map[string]string{

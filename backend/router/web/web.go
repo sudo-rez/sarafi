@@ -486,7 +486,7 @@ func cardOtp(c echo.Context) error {
 	if !app.IsValidCard(form.Pan) {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "شماره کارت اشتباه میباشد"})
 	}
-	body, code, err := thirdparty.CardOtp(form.Pan, form.Mobile, form.PaymentID, form.NationalID, form.BirthDay)
+	body, code, err := thirdparty.CardOtp(form.Pan, form.Mobile, form.PaymentID, form.NationalID, form.BirthDay, fmt.Sprint(t.Amount))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
 	}
