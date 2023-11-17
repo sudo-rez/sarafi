@@ -2,31 +2,25 @@ package sapc
 
 import (
 	"backend/app"
+	"backend/internal/thirdparty"
 	"context"
-	"regexp"
-	"strings"
+	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type (
 	Transaction struct {
-		ID                int    `json:"id" bson:"id"`
-		TransactionAmount string `json:"transactionAmount" bson:"transactionAmount"`
-		BalanceAmount     string `json:"balanceAmount" bson:"balanceAmount"`
-		Description       string `json:"description" bson:"description"`
-		TransactionType   int    `json:"transactionType" bson:"transactionType"`
-		ActionType        int    `json:"actionType" bson:"actionType"`
-		DateMill          int64  `json:"dateMill" bson:"dateMill"`
-		Username          string `json:"username" bson:"username"`
-		UserID            string `json:"userId" bson:"userId"`
-		DisplayName       string `json:"displayName" bson:"displayName"`
-		NationalCode      string `json:"nationalCode" bson:"nationalCode"`
-		AccountNumber     string `json:"account_number" bson:"account_number"`
-		Flag              int    `json:"flag" bson:"flag"`
-		Source            string `json:"source" bson:"source"`
-		Destination       string `json:"destination" bson:"destination"`
+		ID           primitive.ObjectID `json:"id" bson:"_id,omitempty"`
+		SrcCard      string             `json:"src_card" bson:"src_card"`
+		DesCard      string             `json:"des_card" bson:"des_card"`
+		Amount       string             `json:"amount" bson:"amount"`
+		TrackingCode string             `json:"tracking_code" bson:"tracking_code"`
+		Status       string             `json:"status" bson:"status"`
+		Created      time.Time          `json:"created" bson:"created"`
+		Flag         int                `json:"flag" bson:"flag"`
 	}
 )
 
@@ -42,62 +36,48 @@ func (v Transaction) Save() error {
 func (v *Transaction) Load(filter bson.M) error {
 	return app.MDB.CollectionString(txnCollectioName).FindOne(context.Background(), filter).Decode(v)
 }
-func GetLastID() (int, error) {
-	var txn Transaction
-	err := app.MDB.CollectionString(txnCollectioName).FindOne(context.Background(), bson.M{}, options.FindOne().SetSort(bson.M{"id": -1})).Decode(&txn)
-	if err != nil {
-		return 0, err
-	}
-	return txn.ID, nil
-}
 
 func UpdateTxns() {
-	token, err := Login()
+	cardLists, _, err := thirdparty.TP.SiteCardList()
 	if err != nil {
-		app.Error("SAPC Login failed: " + err.Error())
+		app.Error("SAPC SiteCardList failed: " + err.Error())
 		return
 	}
-	lastID, err := GetLastID()
-	if err != nil {
-		app.Error("SAPC GetLastID failed: " + err.Error())
-		lastID = -1
-	}
-	page := 1
-	limit := 100
-	for {
-		txns, err := Transactions(token, page, limit)
+
+	for _, card := range cardLists.Item {
+		txnResponse, _, err := thirdparty.TP.CardTransaction(card.CardNo)
 		if err != nil {
 			app.Error("SAPC Transactions failed: " + err.Error())
 			return
 		}
-		if len(txns) == 0 {
+		if len(txnResponse.Item) == 0 {
 			break
 		}
-		for _, txn := range txns {
-			if txn.ID > lastID {
-				txn.Source, txn.Destination = parseDescription(txn.Description)
-				if err := txn.Save(); err != nil {
-					app.Error("SAPC Transaction Save failed: " + err.Error())
-				}
+		for _, txn := range txnResponse.Item {
+			t := new(Transaction)
+			t.ID = primitive.NewObjectID()
+			t.SrcCard = txn.SrcCard
+			t.DesCard = txn.DesCard
+			t.Amount = txn.Amount
+			t.TrackingCode = txn.TrackingCode
+			t.Status = txn.Status
+			t.Created, err = time.Parse("2006-01-02 15:04:05", txn.Created)
+			if err != nil {
+				app.Error("SAPC Transaction Parse Time failed: " + err.Error())
+				t.Created = time.Now()
 			}
+
+			if err := t.Save(); err != nil {
+				app.Error("SAPC Transaction Save failed: " + err.Error())
+			}
+
 		}
-		page++
 	}
-}
-func findNumber(str string) string {
-	re := regexp.MustCompile(`\d{16}`)
-	return re.FindString(str)
-}
-func parseDescription(v string) (string, string) {
-	source := findNumber(v)
-	v = strings.Replace(v, source, "", 1)
-	destination := findNumber(v)
-	return source, destination
 }
 
 func ConfirmTxn(source, destination, amount string) error {
 	txn := new(Transaction)
-	q := bson.M{"source": source, "transactionAmount": amount, "flag": 0, "destination": destination}
+	q := bson.M{"src_card": source, "amount": amount, "flag": 0, "des_card": destination}
 	if err := txn.Load(q); err != nil {
 		app.Error("SAPC ConfirmTxn Load Error", err.Error())
 		return err

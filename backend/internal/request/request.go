@@ -71,3 +71,11 @@ func (v HTTPRequest) Send() (int, []byte, error) {
 	history.Save()
 	return res.StatusCode, body, nil
 }
+func (v HTTPRequest) SendAndDecode(result interface{}) (int, error) {
+	statusCode, body, err := v.Send()
+	if err != nil {
+		return statusCode, err
+	}
+	err = json.Unmarshal(body, result)
+	return statusCode, err
+}

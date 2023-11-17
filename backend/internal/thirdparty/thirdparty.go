@@ -1,182 +1,150 @@
 package thirdparty
 
 import (
-	"backend/app"
 	"backend/internal/request"
 	"encoding/json"
 	"errors"
 )
 
 type (
-	TransactionTemplate struct {
-		Source, Destination, Pin, Amount, ExpireMonth, ExpireYear, Cvv2, PaymentID, Mobile string
-	}
-	ResponseTemplate struct {
-		Code int                    `json:"code"`
-		Msg  string                 `json:"msg"`
-		Data map[string]interface{} `json:"data"`
-		S    int                    `json:"s"`
-	}
-	CardResponse struct {
-		Code int      `json:"code"`
-		Data CardData `json:"data"`
-		Msg  string   `json:"msg"`
-	}
-	CardData struct {
-		Owner string `json:"owner"`
-		Bank  string `json:"bank"`
+	ThirdParty struct {
+		URL string `json:"url"`
 	}
 )
 
-func (v TransactionTemplate) OtpRequest() ([]byte, error) {
-	req := request.HTTPRequest{
-		Name:   "TxnOtpRequest",
-		Method: "POST",
-		URL:    "https://pvaq.xyz/middleApi/payOtpRequest",
-		Body: map[string]interface{}{
-			"src_card": v.Source,
-			"des_card": v.Destination,
-			"amount":   v.Amount,
-			"ref":      v.PaymentID,
-			"expair":   v.ExpireYear + v.ExpireMonth,
-			"cvv2":     v.Cvv2,
-			"mobile":   v.Mobile,
-		},
-		Headers: map[string]string{
-			"Content-Type": "application/json",
-		},
+var (
+	TP = ThirdParty{
+		URL: "https://pvaq.xyz",
 	}
-	_, body, err := req.Send()
+)
+
+func (s ThirdParty) SiteCardList() (SiteCardReponse, int, error) {
+	var siteCards SiteCardReponse
+	status, err := request.HTTPRequest{
+		Name:   "Sapc-SiteCardList",
+		Method: "GET",
+		URL:    s.URL + "/api/siteCardList",
+	}.SendAndDecode(&siteCards)
+	return siteCards, status, err
+}
+
+func (t ThirdParty) PSPList() (PSPListResponse, int, error) {
+	var pspList PSPListResponse
+	status, err := request.HTTPRequest{
+		Name:   "Sapc-PSPList",
+		Method: "GET",
+		URL:    t.URL + "/api/pspList",
+	}.SendAndDecode(&pspList)
+	return pspList, status, err
+}
+
+func (t ThirdParty) AddSiteCard(form SiteCard) (int, []byte, error) {
+	return request.HTTPRequest{
+		Name:   "Sapc-AddSiteCard",
+		Method: "POST",
+		URL:    t.URL + "/api/addSiteCard",
+		Body:   form,
+	}.Send()
+}
+
+func (t ThirdParty) SiteCardRemove(ID int) (int, []byte, error) {
+	return request.HTTPRequest{
+		Name:   "Sapc-SiteCardRemove",
+		Method: "POST",
+		URL:    t.URL + "/api/siteCardRemove",
+		Body:   map[string]int{"id": ID},
+	}.Send()
+}
+
+func (t ThirdParty) SiteCardChangeActive(ID int) (int, []byte, error) {
+	return request.HTTPRequest{
+		Name:   "Sapc-SiteCardChangeActive",
+		Method: "POST",
+		URL:    t.URL + "/api/siteCardChangeActive",
+		Body:   map[string]int{"id": ID},
+	}.Send()
+}
+
+func (t ThirdParty) CheckAccountExist(form CheckAccountExistForm) (ChackAccountExistResponse, error) {
+	var checkAccountExistResponse ChackAccountExistResponse
+	_, err := request.HTTPRequest{
+		Name:   "Sapc-CheckAccountExist",
+		Method: "POST",
+		URL:    t.URL + "/api/checkAccountExist",
+		Body:   form,
+	}.SendAndDecode(&checkAccountExistResponse)
+	return checkAccountExistResponse, err
+}
+
+func (t ThirdParty) VerifyAccount(form VerfiyAccountForm) ([]byte, error) {
+	_, body, err := request.HTTPRequest{
+		Name:   "Sapc-VerifyAccount",
+		Method: "POST",
+		URL:    t.URL + "/api/verifyAccount",
+		Body:   form,
+	}.Send()
 	return body, err
 }
 
-func CardOtp(pan, mobile, paymentId string, nationalID, birthday, amount string) (*ResponseTemplate, int, error) {
-	if app.Cfg.Dev {
-		return &ResponseTemplate{
-			Code: 1,
-			Msg:  "success",
-			Data: map[string]interface{}{
-				"status": "success",
-			},
-		}, 200, nil
-	}
-	req := request.HTTPRequest{
-		Name:   "CardOtp",
+func (t ThirdParty) ShaparakSendSms(form ShaparakSendSmsForm) ([]byte, error) {
+	_, body, err := request.HTTPRequest{
+		Name:   "Sapc-ShaparakSendSms",
 		Method: "POST",
-		URL:    "https://pvaq.xyz/middleApi/checkAccountExist",
-		Body: map[string]interface{}{
-			"src_card":    pan,
-			"mobile":      mobile,
-			"amount":      amount,
-			"national_id": nationalID,
-		},
-		Headers: map[string]string{
-			"Content-Type": "application/json",
-			// "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFwaURpcmVjdCIsImFkbWluIjp0cnVlLCJpYXQiOjk4NzY1MjYzMjJ9.YgBGb9MGuiJGwvtLLEXSD8098h0RYi7_6H6IekEMz5Rdo6506_N8Io5o8F94QUun6rkFhZXxs0Dc4cNJ_UWg7g",
-		},
-	}
-	statusCode, body, err := req.Send()
-	result := new(ResponseTemplate)
-	if err := json.Unmarshal(body, result); err != nil {
-		return nil, statusCode, err
-	}
-	return result, statusCode, err
+		URL:    t.URL + "/api/shaparakSendSms",
+		Body:   form,
+	}.Send()
+	return body, err
 }
 
-func CardOtpVerify(pan, mobile, paymentId string, verifyCode string) (*ResponseTemplate, error) {
-	req := request.HTTPRequest{
-		Name:   "CardOtpVerify",
+func (t ThirdParty) ShaparakAddCard(form ShaparakAddCardForm) ([]byte, error) {
+	_, body, err := request.HTTPRequest{
+		Name:   "Sapc-ShaparakAddCard",
 		Method: "POST",
-		URL:    "https://paybulk.xyz/accountVerify",
-		Body: map[string]interface{}{
-			"pan":         pan,
-			"mobile":      mobile,
-			"payment_id":  paymentId,
-			"verify_code": verifyCode,
-		},
-		Headers: map[string]string{
-			"Content-Type":  "application/json",
-			"Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFwaURpcmVjdCIsImFkbWluIjp0cnVlLCJpYXQiOjk4NzY1MjYzMjJ9.YgBGb9MGuiJGwvtLLEXSD8098h0RYi7_6H6IekEMz5Rdo6506_N8Io5o8F94QUun6rkFhZXxs0Dc4cNJ_UWg7g",
-		},
-	}
-
-	_, body, err := req.Send()
-	if err != nil {
-		return nil, err
-	}
-	result := new(ResponseTemplate)
-	if err := json.Unmarshal(body, result); err != nil {
-		return nil, err
-	}
-	return result, nil
+		URL:    t.URL + "/api/shaparakAddCard",
+		Body:   form,
+	}.Send()
+	return body, err
 }
 
-func (v TransactionTemplate) Payment() (*ResponseTemplate, error) {
-	if app.Cfg.SuccessTest.Enable &&
-		app.Cfg.SuccessTest.Pan == v.Source {
-		if app.Cfg.SuccessTest.Cvv2 == v.Cvv2 &&
-			app.Cfg.SuccessTest.ExpireMonth == v.ExpireMonth &&
-			app.Cfg.SuccessTest.ExpireYear == v.ExpireYear &&
-			app.Cfg.SuccessTest.Pin == v.Pin {
-			return &ResponseTemplate{
-				Code: 0,
-				Msg:  "OK",
-				Data: map[string]interface{}{
-					"site_ref":      "1234567890",
-					"bankReference": "1234567890",
-				},
-			}, nil
-		}
-		return &ResponseTemplate{
-			Code: 1,
-			Msg:  "OK",
-			Data: map[string]interface{}{
-				"site_ref":      "1234567890",
-				"bankReference": "1234567890",
-			},
-		}, nil
-	}
-	if app.Cfg.Dev {
-		return &ResponseTemplate{
-			Code: 0,
-			Msg:  "success",
-			Data: map[string]interface{}{
-				"payment_id": "1234567890",
-				"status":     "success",
-			},
-		}, nil
-	}
-	req := request.HTTPRequest{
-		Name:   "Payment",
+func (t ThirdParty) PayOTPRequest(form PayOTPRequestForm) ([]byte, error) {
+	_, body, err := request.HTTPRequest{
+		Name:   "Sapc-PayOTPRequest",
 		Method: "POST",
-		URL:    "https://pvaq.xyz/middleApi/directPay",
-		Body: map[string]interface{}{
-			"src_card": v.Source,
-			"des_card": v.Destination,
-			"pin2":     v.Pin,
-			"amount":   v.Amount,
-			"expair":   v.ExpireYear + v.ExpireMonth,
-			"cvv2":     v.Cvv2,
-			"mobile":   v.Mobile,
-			"ref":      v.PaymentID,
-		},
-		Headers: map[string]string{
-			"Content-Type": "application/json",
-			// "Authorization": "Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFwaURpcmVjdCIsImFkbWluIjp0cnVlLCJpYXQiOjk4NzY1MjYzMjJ9.YgBGb9MGuiJGwvtLLEXSD8098h0RYi7_6H6IekEMz5Rdo6506_N8Io5o8F94QUun6rkFhZXxs0Dc4cNJ_UWg7g",
-			// "Cookie":        "PHPSESSID=qpufnfvrfiuoninnahblj61dfo",
-		},
-	}
-	_, body, err := req.Send()
-	if err != nil {
-		return nil, err
-	}
-	result := new(ResponseTemplate)
-	if err := json.Unmarshal(body, result); err != nil {
-		return nil, err
-	}
-	return result, nil
+		URL:    t.URL + "/api/payOTPRequest",
+		Body:   form,
+	}.Send()
+	return body, err
 }
 
+func (t ThirdParty) DirectPay(form DirectPayForm) ([]byte, error) {
+	_, body, err := request.HTTPRequest{
+		Name:   "Sapc-DirectPay",
+		Method: "POST",
+		URL:    t.URL + "/api/directPay",
+		Body:   form,
+	}.Send()
+	return body, err
+}
+
+func (t ThirdParty) CardTransaction(srcCard string) (CardTransactionResponse, int, error) {
+	var cardTransactionResponse CardTransactionResponse
+	status, err := request.HTTPRequest{
+		Name:   "Sapc-CardTransaction",
+		Method: "POST",
+		URL:    t.URL + "/api/cardTransaction",
+		Body:   map[string]string{"src_card": srcCard},
+	}.SendAndDecode(&cardTransactionResponse)
+	return cardTransactionResponse, status, err
+}
+
+func (t ThirdParty) DetectPSP() ([]byte, error) {
+	_, body, err := request.HTTPRequest{
+		Name:   "Sapc-CardDetectPSP",
+		Method: "GET",
+		URL:    t.URL + "/api/detectPsp",
+	}.Send()
+	return body, err
+}
 func CardInfo(cardNumber string) (*CardData, error) {
 	req := request.HTTPRequest{
 		Name:   "CardInfo",
