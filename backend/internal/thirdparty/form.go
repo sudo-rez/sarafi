@@ -72,8 +72,9 @@ type (
 		TransactionID string `json:"transaction_id"`
 	}
 	DirectPayResponse struct {
-		Code    int    `json:"code"`
-		Message string `json:"message"`
+		Code            int    `json:"code"`
+		Message         string `json:"message"`
+		ReferenceNumber string `json:"reference_number"`
 	}
 
 	CardTransaction struct {

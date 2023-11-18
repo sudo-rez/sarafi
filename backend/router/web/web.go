@@ -305,12 +305,8 @@ func doTransaction(c echo.Context) error {
 	t.ResponseCode = res.Code
 
 	if res.Code == 0 {
-		// if siteref, ok := res.Data["site_ref"]; ok {
-		// 	t.SiteRef = fmt.Sprint(siteref)
-		// }
-		// if bankref, ok := res.Data["bankReference"]; ok {
-		// 	t.CheckoutRef = fmt.Sprint(bankref)
-		// }
+		t.SiteRef = res.ReferenceNumber
+		t.CheckoutRef = res.ReferenceNumber
 		t.Done = true
 		t.Message = "OK"
 		t.Successful = true
