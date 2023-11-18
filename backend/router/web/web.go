@@ -34,9 +34,10 @@ func Routes(ec *echo.Echo) {
 
 	// apc
 	ec.GET("/apc", apc)
-	ec.POST("/otp", otp)
-	ec.POST("/card/otp", cardOtp)
-	ec.POST("/card/verify", cardOtpVerify)
+	ec.POST("/otp", payOtp)
+	ec.POST("/card/check", checkAccountExist)
+	ec.POST("/card/otp", shaparakSendSms)
+	ec.POST("/card/verify", shaparakAddCard)
 	ec.POST("/t", doTransaction)
 
 	// sapc
@@ -47,12 +48,13 @@ func Routes(ec *echo.Echo) {
 
 type (
 	Form struct {
-		Pan        string `json:"pan" form:"pan"`
-		Mobile     string `json:"mobile" form:"mobile"`
-		PaymentID  string `json:"p" form:"p"`
-		NationalID string `json:"national_id" form:"national_id"`
-		BirthDay   string `json:"birthday" form:"birthday"`
-		VerifyCode string `json:"verify_code" form:"verify_code"`
+		Pan       string `json:"pan" form:"pan"`
+		Mobile    string `json:"mobile" form:"mobile"`
+		PaymentID string `json:"p" form:"p"`
+		EMonth    string `json:"e_month" form:"e_month"`
+		EYear     string `json:"e_year" form:"e_year"`
+		Cvv2      string `json:"cvv2" form:"cvv2"`
+		Otp       string `json:"otp" form:"otp"`
 	}
 	TxnForm struct {
 		PaymentID string `json:"p" form:"p"`
@@ -61,6 +63,7 @@ type (
 		Cvv2      string `json:"cvv2" form:"cvv2"`
 		EMonth    string `json:"e_month" form:"e_month"`
 		EYear     string `json:"e_year" form:"e_year"`
+		Mobile    string `json:"mobile" form:"mobile"`
 	}
 )
 
@@ -283,35 +286,36 @@ func doTransaction(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": gateWayInputError})
 	}
-	txnTemp := thirdparty.TransactionTemplate{
-		Source:      form.Pan,
-		Destination: t.Destination,
-		Pin:         form.Pin,
-		Amount:      fmt.Sprint(t.Amount),
-		ExpireMonth: form.EMonth,
-		ExpireYear:  form.EYear,
-		Cvv2:        form.Cvv2,
-		PaymentID:   t.Info.PaymentID,
+
+	txnTemp := thirdparty.DirectPayForm{
+		SrcCard:       form.Pan,
+		DesCard:       t.Destination,
+		Pin2:          form.Pin,
+		Cvv2:          form.Cvv2,
+		Amount:        fmt.Sprint(t.Amount),
+		Expair:        form.EYear + form.EMonth,
+		Mobile:        form.Mobile,
+		TransactionID: t.TransactionID,
 	}
-	res, err := txnTemp.Payment()
+	res, err := thirdparty.TP.DirectPay(txnTemp)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": tryLaterError})
 	}
-	t.Source = txnTemp.Source
+	t.Source = txnTemp.SrcCard
 	t.ResponseCode = res.Code
 
 	if res.Code == 0 {
-		if siteref, ok := res.Data["site_ref"]; ok {
-			t.SiteRef = fmt.Sprint(siteref)
-		}
-		if bankref, ok := res.Data["bankReference"]; ok {
-			t.CheckoutRef = fmt.Sprint(bankref)
-		}
+		// if siteref, ok := res.Data["site_ref"]; ok {
+		// 	t.SiteRef = fmt.Sprint(siteref)
+		// }
+		// if bankref, ok := res.Data["bankReference"]; ok {
+		// 	t.CheckoutRef = fmt.Sprint(bankref)
+		// }
 		t.Done = true
 		t.Message = "OK"
 		t.Successful = true
 	} else {
-		t.Message = res.Msg
+		t.Message = res.Message
 	}
 
 	if err := t.Save(); err != nil {
@@ -402,7 +406,7 @@ func successTransaction(c echo.Context) error {
 		"redirect": t.CallBack.RedirectURL,
 	})
 }
-func otp(c echo.Context) error {
+func payOtp(c echo.Context) error {
 	form := new(TxnForm)
 	if err := c.Bind(form); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه", "error": err.Error()})
@@ -435,18 +439,17 @@ func otp(c echo.Context) error {
 			t.WithdrawID = desQ.ID
 		}
 	}
-	txnTemp := thirdparty.TransactionTemplate{
-		Source:      form.Pan,
-		Destination: t.Destination,
-		Pin:         form.Pin,
-		Amount:      fmt.Sprint(t.Amount),
-		ExpireMonth: form.EMonth,
-		ExpireYear:  form.EYear,
-		Cvv2:        form.Cvv2,
-		PaymentID:   t.Info.PaymentID,
+	txnTemp := thirdparty.PayOTPRequestForm{
+		SrcCard:       form.Pan,
+		DesCard:       t.Destination,
+		Amount:        fmt.Sprint(t.Amount),
+		Expair:        form.EYear + form.EMonth,
+		Cvv2:          form.Cvv2,
+		Mobile:        form.Mobile,
+		TransactionID: t.TransactionID,
 	}
 
-	body, err := txnTemp.OtpRequest()
+	body, err := thirdparty.TP.PayOTPRequest(txnTemp)
 	if err != nil {
 		go func() {
 			if err := t.UpdateWithDrawOTP(); err != nil {
@@ -467,7 +470,7 @@ func otp(c echo.Context) error {
 	}()
 	return c.Blob(http.StatusOK, "application/json", body)
 }
-func cardOtp(c echo.Context) error {
+func checkAccountExist(c echo.Context) error {
 	form := new(Form)
 	if err := c.Bind(form); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه", "error": err.Error()})
@@ -486,30 +489,58 @@ func cardOtp(c echo.Context) error {
 	if !app.IsValidCard(form.Pan) {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "شماره کارت اشتباه میباشد"})
 	}
-	body, code, err := thirdparty.CardOtp(form.Pan, form.Mobile, form.PaymentID, form.NationalID, form.BirthDay, fmt.Sprint(t.Amount))
+	tmp := thirdparty.CheckAccountExistForm{
+		SrcCard: form.Pan,
+		Amount:  fmt.Sprint(t.Amount),
+		Mobile:  form.Mobile,
+		PSP:     "",
+	}
+	res, err := thirdparty.TP.CheckAccountExist(tmp)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
 	}
-	if body.Code == 1 {
-		p := account.Pan{
-			Card:       form.Pan,
-			Mobile:     form.Mobile,
-			NationalID: form.NationalID,
-			Birthday:   form.BirthDay,
-		}
-		if err := p.AddNewPan(t.Account, t.Brand); err != nil {
-			return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
-		}
-
+	t.TransactionID = res.TransactionID
+	if err := t.Save(); err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
 	}
-	return c.JSON(code, body)
+	return c.JSON(http.StatusOK, res)
 }
-func cardOtpVerify(c echo.Context) error {
+func shaparakSendSms(c echo.Context) error {
 	form := new(Form)
 	if err := c.Bind(form); err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه", "error": err.Error()})
 	}
-	if form.Pan == "" || form.Mobile == "" || !primitive.IsValidObjectID(form.PaymentID) || form.VerifyCode == "" {
+	if form.Pan == "" || form.Mobile == "" || !primitive.IsValidObjectID(form.PaymentID) {
+		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه"})
+	}
+	objID, err := primitive.ObjectIDFromHex(form.PaymentID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه"})
+	}
+	t, err := txn.Load(bson.M{"_id": objID})
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه"})
+	}
+	if !app.IsValidCard(form.Pan) {
+		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "شماره کارت اشتباه میباشد"})
+	}
+	tmp := thirdparty.ShaparakSendSmsForm{
+		SrcCard:       form.Pan,
+		Mobile:        form.Mobile,
+		TransactionID: t.TransactionID,
+	}
+	body, err := thirdparty.TP.ShaparakSendSms(tmp)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
+	}
+	return c.Blob(http.StatusOK, "application/json", body)
+}
+func shaparakAddCard(c echo.Context) error {
+	form := new(Form)
+	if err := c.Bind(form); err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه", "error": err.Error()})
+	}
+	if form.Pan == "" || form.Mobile == "" || !primitive.IsValidObjectID(form.PaymentID) || form.Otp == "" {
 		return c.JSON(http.StatusOK, echo.Map{"msg": "مشکل در ورودی درگاه"})
 	}
 	objID, err := primitive.ObjectIDFromHex(form.PaymentID)
@@ -523,22 +554,26 @@ func cardOtpVerify(c echo.Context) error {
 	if !app.IsValidCard(form.Pan) {
 		return c.JSON(http.StatusOK, echo.Map{"msg": "شماره کارت اشتباه میباشد"})
 	}
-	body, err := thirdparty.CardOtpVerify(form.Pan, form.Mobile, form.PaymentID, form.VerifyCode)
+	tmp := thirdparty.ShaparakAddCardForm{
+		SrcCard:       form.Pan,
+		Expair:        form.EYear + form.EMonth,
+		Cvv2:          form.Cvv2,
+		OTP:           form.Otp,
+		TransactionID: t.TransactionID,
+	}
+	body, err := thirdparty.TP.ShaparakAddCard(tmp)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
 	}
-	if body.Code == 0 {
-		p := account.Pan{
-			Card:       form.Pan,
-			Mobile:     form.Mobile,
-			NationalID: form.NationalID,
-			Birthday:   form.BirthDay,
-		}
-		if err := p.AddNewPan(t.Account, t.Brand); err != nil {
-			return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
-		}
+	p := account.Pan{
+		Card:   form.Pan,
+		Mobile: form.Mobile,
 	}
-	return c.JSON(http.StatusOK, body)
+	if err := p.AddNewPan(t.Account, t.Brand); err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
+	}
+
+	return c.Blob(http.StatusOK, "application/json", body)
 }
 func testCallBack(c echo.Context) error {
 	if !app.Cfg.Dev {

@@ -386,50 +386,41 @@ function toPaymentPage(d) {
         showError("بانک انتخاب شده موقتا غیرفعال میباشد ، لطفا از کارت دیگر بانک ها استفاده نمایید")
         return
     }
-    nextForm(2)
+    // nextForm(2)
 
-    // var data = {
-    //     p: urlVar["p"],
-    //     mobile: selectMobile.toEng(),
-    //     pan: cardInput.val().toEng()
-    // }
-    // var settings = {
-    //     "url": "/card/otp",
-    //     "method": "POST",
-    //     "data": data
-    // };
-    // $.ajax(settings).done(function (response) {
-    //     switch (response.code) {
-    //         case 0:
-    //             nextForm(3)
-    //             newcardInput.val(cardInput.val().cardSplit())
-    //             mobileInput.val(selectMobile.toPersianDigits())
-    //             newcardInput.removeClass("invalid")
-    //             mobileInput.removeClass("invalid")
-    //             distanceCard = 120000
-    //             cardOtpTimer = setInterval(timeFuncNewCard, 1000);
+    var data = {
+        p: urlVar["p"],
+        mobile: selectMobile.toEng(),
+        pan: cardInput.val().toEng()
+    }
+    var settings = {
+        "url": "/card/check",
+        "method": "POST",
+        "data": data
+    };
+    $.ajax(settings).done(function (response) {
+        switch (response.code) {
+            case 0:
+                nextForm(3)
+                newcardInput.val(cardInput.val().cardSplit())
+                mobileInput.val(selectMobile.toPersianDigits())
+                newcardInput.removeClass("invalid")
+                mobileInput.removeClass("invalid")
+                distanceCard = 120000
+                cardOtpTimer = setInterval(timeFuncNewCard, 1000);
 
-    //             break;
-    //         case 1:
-    //             // nextForm(3)
-    //             // newcardInput.val(cardInput.val().cardSplit())
-    //             // mobileInput.val(selectMobile.toPersianDigits())
-    //             // newcardInput.removeClass("invalid")
-    //             // mobileInput.removeClass("invalid")
-    //             // distanceCard = 12000
-    //             // cardOtpTimer = setInterval(timeFuncNewCard, 1000);
-    //             nextForm(2)
-    //             break;
-    //         case 2:
-    //             showError(response.msg)
-    //             break;
-    //         default:
-    //             break;
-    //     }
+                break;
+            case 1:
+                nextForm(2)
+                break;
+            default:
+                showError(response.msg)
+                break;
+        }
 
-    // }).fail(function (jqXHR) {
-    //     showError(jqXHR.responseJSON.msg)
-    // });
+    }).fail(function (jqXHR) {
+        showError(jqXHR.responseJSON.msg)
+    });
 }
 function toPaymentPageSapc() {
     if (cardInput.hasClass("invalid")) {

@@ -82,10 +82,8 @@ func sapcAddCard(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه"})
 	}
 	pan := account.Pan{
-		Card:       form.Pan,
-		Mobile:     form.Mobile,
-		NationalID: form.NationalID,
-		Birthday:   form.BirthDay,
+		Card:   form.Pan,
+		Mobile: form.Mobile,
 	}
 	if err := pan.AddNewPan(t.Account, t.Brand); err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})

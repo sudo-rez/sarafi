@@ -15,27 +15,28 @@ import (
 
 type (
 	Txn struct {
-		ID           primitive.ObjectID `bson:"_id,omitempty"`
-		Source       string             `bson:"source"`
-		Destination  string             `bson:"destination"`
-		Amount       int64              `bson:"amount"`
-		Message      string             `bson:"message"`
-		SiteRef      string             `bson:"site_ref"`
-		CheckoutRef  string             `bson:"checkout_ref"`
-		Account      string             `bson:"account"`
-		CreatedAt    time.Time          `bson:"created_at"`
-		UpdatedAt    time.Time          `bson:"updated_at"`
-		ClientIP     string             `bson:"client_ip" faker:"ipv4"`
-		PaymentID    string             `bson:"payment_id"`
-		BrandName    string             `bson:"brand_name"`
-		Brand        primitive.ObjectID `bson:"brand"`
-		Done         bool               `bson:"done"`
-		ResponseCode int                `bson:"response_code"`
-		Successful   bool               `bson:"successful"`
-		WithdrawID   primitive.ObjectID `bson:"withdraw,omitempty"`
-		Info         jwtpayload.Info    `bson:"info"`
-		CallBack     Callback           `bson:"callback"`
-		CancelCode   string             `bson:"cancel_code"`
+		ID            primitive.ObjectID `bson:"_id,omitempty"`
+		Source        string             `bson:"source"`
+		Destination   string             `bson:"destination"`
+		Amount        int64              `bson:"amount"`
+		Message       string             `bson:"message"`
+		SiteRef       string             `bson:"site_ref"`
+		CheckoutRef   string             `bson:"checkout_ref"`
+		Account       string             `bson:"account"`
+		CreatedAt     time.Time          `bson:"created_at"`
+		UpdatedAt     time.Time          `bson:"updated_at"`
+		ClientIP      string             `bson:"client_ip" faker:"ipv4"`
+		PaymentID     string             `bson:"payment_id"`
+		BrandName     string             `bson:"brand_name"`
+		Brand         primitive.ObjectID `bson:"brand"`
+		Done          bool               `bson:"done"`
+		ResponseCode  int                `bson:"response_code"`
+		Successful    bool               `bson:"successful"`
+		WithdrawID    primitive.ObjectID `bson:"withdraw,omitempty"`
+		Info          jwtpayload.Info    `bson:"info"`
+		CallBack      Callback           `bson:"callback"`
+		CancelCode    string             `bson:"cancel_code"`
+		TransactionID string             `bson:"transaction_id"`
 	}
 	TxnSlice []Txn
 	Echo     struct {

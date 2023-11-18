@@ -116,14 +116,15 @@ func (t ThirdParty) PayOTPRequest(form PayOTPRequestForm) ([]byte, error) {
 	return body, err
 }
 
-func (t ThirdParty) DirectPay(form DirectPayForm) ([]byte, error) {
-	_, body, err := request.HTTPRequest{
+func (t ThirdParty) DirectPay(form DirectPayForm) (DirectPayResponse, error) {
+	var directPayResponse DirectPayResponse
+	_, err := request.HTTPRequest{
 		Name:   "Sapc-DirectPay",
 		Method: "POST",
 		URL:    t.URL + "/api/directPay",
 		Body:   form,
-	}.Send()
-	return body, err
+	}.SendAndDecode(&directPayResponse)
+	return directPayResponse, err
 }
 
 func (t ThirdParty) CardTransaction(srcCard string) (CardTransactionResponse, int, error) {
