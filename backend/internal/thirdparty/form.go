@@ -12,8 +12,9 @@ type (
 		Active   string `json:"active"`
 	}
 	SiteCardReponse struct {
-		Code int        `json:"code"`
-		Item []SiteCard `json:"item"`
+		Code    int        `json:"code"`
+		Message string     `json:"message"`
+		Item    []SiteCard `json:"item"`
 	}
 	PSPListResponse struct {
 		Code int   `json:"code"`

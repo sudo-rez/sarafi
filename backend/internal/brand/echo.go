@@ -37,6 +37,9 @@ type (
 		Password   string             `json:"password" form:"password"`
 		Active     bool               `json:"active" form:"active"`
 		Current    bool               `json:"current" form:"current"`
+		ShebaNo    string             `json:"sheba_no" form:"sheba_no"`
+		PSP        string             `json:"psp" form:"psp"`
+		TPID       string             `json:"id" form:"id"`
 	}
 )
 

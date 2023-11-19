@@ -2,7 +2,9 @@ package brand
 
 import (
 	"backend/app"
+	"backend/internal/thirdparty"
 	"context"
+	"errors"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -18,6 +20,10 @@ type (
 		UpdatedAt  time.Time          `bson:"updated_at"`
 		DeletedAt  time.Time          `bson:"deleted_at"`
 		CardNumber string             `bson:"card_number"`
+		ShebaNo    string             `bson:"sheba_no"`
+		PSP        string             `bson:"psp"`
+		TPID       string             `bson:"id"`
+		TPActive   string             `bson:"tp_active" json:"tp_active"`
 		Name       string             `bson:"name"`
 		Bank       string             `bson:"bank"`
 		Active     bool               `bson:"active"`
@@ -76,6 +82,10 @@ func (v SAPC) Rest() echo.Map {
 		"confirmed":   v.Confirmed,
 		"username":    v.Username,
 		"password":    v.Password,
+		"sheba_no":    v.ShebaNo,
+		"psp":         v.PSP,
+		"id":          v.TPID,
+		"tp_active":   v.TPActive,
 	}
 }
 func (slice SAPCLogSlice) Rest() []echo.Map {
@@ -113,11 +123,48 @@ func (v SAPC) Create() error {
 	v.CreatedAt = time.Now()
 	v.UpdatedAt = time.Now()
 	v.ID = primitive.NewObjectID()
-	_, err := app.MDB.DB.Collection(SAPCCollectionName).InsertOne(context.Background(), v)
+	tmp := thirdparty.SiteCard{
+		ID:       v.TPID,
+		Owner:    v.Name,
+		CardNo:   v.CardNumber,
+		ShebaNo:  v.ShebaNo,
+		Username: v.Username,
+		Pass:     v.Password,
+		PSP:      v.PSP,
+		Active:   v.TPActive,
+	}
+	_, res, err := thirdparty.TP.AddSiteCard(tmp)
+	if err != nil {
+		return err
+	}
+	if res.Code != 200 {
+		return errors.New(res.Message)
+	}
+	v.TPID = res.Item[0].ID
+
+	_, err = app.MDB.DB.Collection(SAPCCollectionName).InsertOne(context.Background(), v)
+
 	return err
 }
 func (v SAPC) Update() error {
 	v.UpdatedAt = time.Now()
+	tmp := thirdparty.SiteCard{
+		ID:       v.TPID,
+		Owner:    v.Name,
+		CardNo:   v.CardNumber,
+		ShebaNo:  v.ShebaNo,
+		Username: v.Username,
+		Pass:     v.Password,
+		PSP:      v.PSP,
+		Active:   v.TPActive,
+	}
+	_, res, err := thirdparty.TP.AddSiteCard(tmp)
+	if err != nil {
+		return err
+	}
+	if res.Code != 200 {
+		return errors.New(res.Message)
+	}
 	return app.MDB.UpdateOne(SAPCCollectionName, bson.M{"_id": v.ID}, bson.M{"$set": v})
 }
 func (v SAPC) Delete() error {

@@ -38,13 +38,15 @@ func (t ThirdParty) PSPList() (PSPListResponse, int, error) {
 	return pspList, status, err
 }
 
-func (t ThirdParty) AddSiteCard(form SiteCard) (int, []byte, error) {
-	return request.HTTPRequest{
+func (t ThirdParty) AddSiteCard(form SiteCard) (int, SiteCardReponse, error) {
+	var siteCards SiteCardReponse
+	statts, err := request.HTTPRequest{
 		Name:   "Sapc-AddSiteCard",
 		Method: "POST",
 		URL:    t.URL + "/api/addSiteCard",
 		Body:   form,
-	}.Send()
+	}.SendAndDecode(&siteCards)
+	return statts, siteCards, err
 }
 
 func (t ThirdParty) SiteCardRemove(ID int) (int, []byte, error) {
