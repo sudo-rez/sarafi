@@ -40,6 +40,7 @@ type (
 		ShebaNo    string             `json:"sheba_no" form:"sheba_no"`
 		PSP        string             `json:"psp" form:"psp"`
 		TPID       string             `json:"id" form:"id"`
+		TPActive   string             `json:"tp_active" form:"tp_active"`
 	}
 )
 
@@ -306,6 +307,10 @@ func (e Echo) SAPCSave(c echo.Context) error {
 	sapc.Password = form.Password
 	sapc.Active = form.Active
 	sapc.Current = form.Current
+	sapc.ShebaNo = form.ShebaNo
+	sapc.PSP = form.PSP
+	sapc.TPID = form.TPID
+	sapc.TPActive = form.TPActive
 	if sapc.Active {
 		sapc.Blocked = false
 		sapc.Confirmed = true
