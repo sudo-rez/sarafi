@@ -46,6 +46,11 @@ type (
 		Mobile        string `json:"mobile"`
 		TransactionID string `json:"transaction_id"`
 	}
+	ShaparakSendSmsResponse struct {
+		Code          int    `json:"code"`
+		Message       string `json:"message"`
+		TransactionID string `json:"transaction_id"`
+	}
 	ShaparakAddCardForm struct {
 		SrcCard       string `json:"src_card"`
 		Expair        string `json:"expair"`

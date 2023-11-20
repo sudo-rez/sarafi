@@ -24,7 +24,9 @@ let priceValue = $('#price')
 let mobileInput = $('#mobile')
 let codeInput = $('#code')
 let urlVar = getUrlVars()
-
+let cvv2NewInput = $("#cvv2-new")
+let monthNewInput = $("#month-new")
+let yearNewInput = $("#year-new")
 
 passInput.on('focus', function () {
     passInput.attr("type", "password")
@@ -92,6 +94,18 @@ cvv2Input.on('input', function () {
 });
 monthInput.on('input', expireDate);
 yearInput.on('input', expireDate);
+
+cvv2NewInput.on('input', function () {
+    if (cvv2Input.val().length > 2) {
+        cvv2Input.removeClass("invalid")
+    } else {
+        cvv2Input.addClass("invalid")
+    }
+    cvv2Input.val(cvv2Input.val().toPersianDigits())
+    cvv2Value.text(cvv2Input.val())
+});
+monthNewInput.on('input', expireDate);
+yearNewInput.on('input', expireDate);
 
 function expireDate() {
     if (monthInput.val().length = 2) {
@@ -194,7 +208,10 @@ function sendOtp() {
     $.ajax(settings).done(function (response) {
         distance = 120000
         otpTimer = setInterval(timeFunc, 1000);
+        if(response.msg)
         showSuccess(response.msg)
+        if(response.message)
+        showSuccess(response.message)
     }).fail(function (jqXHR) {
         showError(jqXHR.responseJSON.msg)
     });
@@ -257,7 +274,10 @@ function newCardSubmit() {
         p: urlVar["p"],
         mobile: mobileInput.val().toEng(),
         pan: newcardInput.val().toEng(),
-        verify_code: codeInput.val().toEng(),
+        otp: codeInput.val().toEng(),
+        cvv2:cvv2NewInput.val().toEng(),
+        e_month:monthNewInput.val().toEng(),
+        e_year:yearNewInput.val().toEng(),
     }
     var settings = {
         "url": "/card/verify",
@@ -414,7 +434,11 @@ function toPaymentPage(d) {
                 nextForm(2)
                 break;
             default:
+                if (response.msg != "")
                 showError(response.msg)
+                if (response.message != "")
+                showError(response.message)
+
                 break;
         }
 

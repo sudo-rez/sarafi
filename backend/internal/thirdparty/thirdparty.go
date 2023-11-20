@@ -108,8 +108,9 @@ func (t ThirdParty) VerifyAccount(form VerfiyAccountForm) ([]byte, error) {
 	return body, err
 }
 
-func (t ThirdParty) ShaparakSendSms(form ShaparakSendSmsForm) ([]byte, error) {
-	_, body, err := request.HTTPRequest{
+func (t ThirdParty) ShaparakSendSms(form ShaparakSendSmsForm) (ShaparakSendSmsResponse, error) {
+	var shaparakSendSmsResponse ShaparakSendSmsResponse
+	_, err := request.HTTPRequest{
 		Name:   "Sapc-ShaparakSendSms",
 		Method: "POST",
 		URL:    t.URL + "/middleApi/shaparakSendSms",
@@ -118,8 +119,8 @@ func (t ThirdParty) ShaparakSendSms(form ShaparakSendSmsForm) ([]byte, error) {
 			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
-	}.Send()
-	return body, err
+	}.SendAndDecode(&shaparakSendSmsResponse)
+	return shaparakSendSmsResponse, err
 }
 
 func (t ThirdParty) ShaparakAddCard(form ShaparakAddCardForm) ([]byte, error) {

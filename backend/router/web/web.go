@@ -499,7 +499,10 @@ func checkAccountExist(c echo.Context) error {
 	if err := t.Save(); err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
 	}
-	return c.JSON(http.StatusOK, res)
+	return c.JSON(http.StatusOK, echo.Map{
+		"code": res.Code,
+		"msg":  res.Message,
+	})
 }
 func shaparakSendSms(c echo.Context) error {
 	form := new(Form)
@@ -520,16 +523,36 @@ func shaparakSendSms(c echo.Context) error {
 	if !app.IsValidCard(form.Pan) {
 		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "شماره کارت اشتباه میباشد"})
 	}
-	tmp := thirdparty.ShaparakSendSmsForm{
+	tmp := thirdparty.CheckAccountExistForm{
+		SrcCard: form.Pan,
+		Amount:  fmt.Sprint(t.Amount),
+		Mobile:  form.Mobile,
+		PSP:     "",
+	}
+	res, err := thirdparty.TP.CheckAccountExist(tmp)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
+	}
+	t.TransactionID = res.TransactionID
+	if err := t.Save(); err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
+	}
+	if res.Code == 0 {
+		return c.JSON(http.StatusOK, res)
+	}
+	tmp2 := thirdparty.ShaparakSendSmsForm{
 		SrcCard:       form.Pan,
 		Mobile:        form.Mobile,
 		TransactionID: t.TransactionID,
 	}
-	body, err := thirdparty.TP.ShaparakSendSms(tmp)
+	body, err := thirdparty.TP.ShaparakSendSms(tmp2)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
 	}
-	return c.Blob(http.StatusOK, "application/json", body)
+	return c.JSON(http.StatusOK, echo.Map{
+		"code": body.Code,
+		"msg":  body.Message,
+	})
 }
 func shaparakAddCard(c echo.Context) error {
 	form := new(Form)

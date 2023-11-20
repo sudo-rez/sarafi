@@ -268,3 +268,9 @@ hr{
 #form2 {
     margin-top: 3rem;
 }
+#cardOtp {
+    cursor: pointer;
+}
+.csr {
+    cursor: pointer;
+}

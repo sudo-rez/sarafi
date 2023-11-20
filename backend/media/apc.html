@@ -86,7 +86,7 @@
                                 <div class="col-md-12">
                                     <p class="text-center">شماره کارت</p>
                                     <div class="input-group ltr">
-                                        <span class="input-group-text pouya" id="newCard" onclick="nextForm(3)">
+                                        <span class="input-group-text pouya csr" id="newCard" onclick="nextForm(3)">
                                             ثبت کارت جدید
                                         </span>
                                         <select id="card" class="form-select invalid" aria-label="Card Select">
@@ -132,6 +132,30 @@
                                         <input id="mobile" name="mobile" type="tel"
                                             class="form-control text-center invalid" pattern="(\d{11})|(\s{11})"
                                             maxlength="11" autocomplete="off" required="" card-grp="1">
+                                    </div>
+                                    <div class="col-4">
+                                        <p class="text-center">CVV2</p>
+                                        <div class="sm-9 md-10 no-padding focus-wrapper">
+                                            <input class="form-control pass text-center" id="cvv2-new" name="cvv2"
+                                                type="tel" pattern-msg="CVV2 معتبر نمی باشد ." pattern="\d{3,4}"
+                                                maxlength="4" autocomplete="off" required="">
+
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+
+                                        <p class="text-center">ماه </p>
+                                        <input id="month-new" name="expiry-month" type="tel"
+                                            class="form-control text-center" maxlength="2"
+                                            pattern-msg="ماه تاریخ انقضا معتبر نمی باشد ."
+                                            pattern="(0[1-9]|1[0-2])|(\*{2})" required="" autocomplete="off">
+                                    </div>
+                                    <div class="col-4">
+                                        <p class="text-center">سال </p>
+
+                                        <input id="year-new" name="expiry-year" type="tel" class="form-control text-center"
+                                            maxlength="2" pattern-msg="سال تاریخ انقضا معتبر نمی باشد ."
+                                            pattern="(\d{2})|(\*{2})" required="" autocomplete="off">
                                     </div>
                                     <div class="col-md-12p">
                                         <p class="text-center"> کد دریافتی</p>
