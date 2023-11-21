@@ -454,7 +454,7 @@ func payOtp(c echo.Context) error {
 				app.Error("Update Withdraw Issue in OTP , ", err.Error())
 			}
 		}()
-		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
+		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید", "error": err.Error()})
 	}
 	if body.Code != 0 {
 		if err := t.UpdateWithDrawOTP(); err != nil {
@@ -476,7 +476,7 @@ func payOtp(c echo.Context) error {
 		}
 	}()
 	if err := t.Save(); err != nil {
-		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
+		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید", "error": err.Error()})
 	}
 	return c.JSON(http.StatusOK, echo.Map{"msg": body.Message, "code": body.Code})
 }

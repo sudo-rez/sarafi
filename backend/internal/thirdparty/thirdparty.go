@@ -138,7 +138,7 @@ func (t ThirdParty) PayOTPRequest(form PayOTPRequestForm) (PayOTPRequestResponse
 	_, err := request.HTTPRequest{
 		Name:   "Sapc-PayOTPRequest",
 		Method: "POST",
-		URL:    t.URL + "/middleApi/payOTPRequest",
+		URL:    t.URL + "/middleApi/payOtpRequest",
 		Body:   form,
 		Headers: map[string]string{
 			"Content-Type": "application/json",
