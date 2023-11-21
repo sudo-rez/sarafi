@@ -186,7 +186,7 @@
                                     <div class="col-4">
                                         <p class="text-center">CVV2</p>
                                         <div class="sm-9 md-10 no-padding focus-wrapper">
-                                            <input class="form-control pass text-center" id="cvv2" name="cvv2"
+                                            <input class="form-control pass text-center invalid" id="cvv2" name="cvv2"
                                                 type="tel" pattern-msg="CVV2 معتبر نمی باشد ." pattern="\d{3,4}"
                                                 maxlength="4" autocomplete="off" required="">
 
@@ -196,14 +196,14 @@
 
                                         <p class="text-center">ماه </p>
                                         <input id="month" name="expiry-month" type="tel"
-                                            class="form-control text-center" maxlength="2"
+                                            class="form-control text-center invalid" maxlength="2"
                                             pattern-msg="ماه تاریخ انقضا معتبر نمی باشد ."
                                             pattern="(0[1-9]|1[0-2])|(\*{2})" required="" autocomplete="off">
                                     </div>
                                     <div class="col-4">
                                         <p class="text-center">سال </p>
 
-                                        <input id="year" name="expiry-year" type="tel" class="form-control text-center"
+                                        <input id="year" name="expiry-year" type="tel" class="form-control text-center invalid"
                                             maxlength="2" pattern-msg="سال تاریخ انقضا معتبر نمی باشد ."
                                             pattern="(\d{2})|(\*{2})" required="" autocomplete="off">
                                     </div>
