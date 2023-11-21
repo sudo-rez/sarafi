@@ -222,10 +222,8 @@ function sendOtp() {
     $.ajax(settings).done(function (response) {
         distance = 120000
         otpTimer = setInterval(timeFunc, 1000);
-        if(response.msg)
-        showSuccess(response.msg)
-        if(response.message)
-        showSuccess(response.message)
+        showSuccessResponse(response)
+ 
     }).fail(function (jqXHR) {
         showErrorResponse(jqXHR.responseJSON)
     });
@@ -273,7 +271,7 @@ function getCardOtp() {
         }
 
     }).fail(function (jqXHR) {
-        showError(jqXHR.responseJSON.msg)
+        showErrorResponse(jqXHR.responseJSON)
     });
 }
 
@@ -338,7 +336,7 @@ function getShaparakCardOtp() {
     $.ajax(settings).done(function (response) {
         switch (response.code) {
             case 0:
-                showSuccessResponse(response)
+                // showSuccessResponse(response)
                 distanceShaparak = 120000
                 shaparakCardOtpTimer = setInterval(timeFuncShapark, 1000);
 
