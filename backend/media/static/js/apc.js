@@ -73,10 +73,10 @@ codeInput.on('input', function (n) {
     }
 })
 shaparakCodeInput.on('input', function (n) {
-    if (codeInput.val().length > 1) {
-        codeInput.removeClass("invalid")
+    if (shaparakCodeInput.val().length > 1) {
+        shaparakCodeInput.removeClass("invalid")
     } else {
-        codeInput.addClass("invalid")
+        shaparakCodeInput.addClass("invalid")
     }
 })
 cardInput.on('input', function (n) {
