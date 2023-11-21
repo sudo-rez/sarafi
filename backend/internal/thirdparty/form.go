@@ -41,6 +41,10 @@ type (
 		VerifyCode    string `json:"verify_code"`
 		TransactionID string `json:"transaction_id"`
 	}
+	VerfiyAccountFormReponse struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+	}
 	ShaparakSendSmsForm struct {
 		SrcCard       string `json:"src_card"`
 		Mobile        string `json:"mobile"`

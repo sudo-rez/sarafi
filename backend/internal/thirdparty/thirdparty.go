@@ -72,7 +72,6 @@ func (t ThirdParty) SiteCardChangeActive(ID int) (int, []byte, error) {
 		Method: "POST",
 		URL:    t.URL + "/api/siteCardChangeActive",
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
 		Body: map[string]int{"id": ID},
@@ -87,25 +86,24 @@ func (t ThirdParty) CheckAccountExist(form CheckAccountExistForm) (ChackAccountE
 		URL:    t.URL + "/middleApi/checkAccountExist",
 		Body:   form,
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
 	}.SendAndDecode(&checkAccountExistResponse)
 	return checkAccountExistResponse, err
 }
 
-func (t ThirdParty) VerifyAccount(form VerfiyAccountForm) ([]byte, error) {
-	_, body, err := request.HTTPRequest{
+func (t ThirdParty) VerifyAccount(form VerfiyAccountForm) (VerfiyAccountFormReponse, error) {
+	var verfiyAccountFormReponse VerfiyAccountFormReponse
+	_, err := request.HTTPRequest{
 		Name:   "Sapc-VerifyAccount",
 		Method: "POST",
 		URL:    t.URL + "/middleApi/verifyAccount",
 		Body:   form,
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
-	}.Send()
-	return body, err
+	}.SendAndDecode(&verfiyAccountFormReponse)
+	return verfiyAccountFormReponse, err
 }
 
 func (t ThirdParty) ShaparakSendSms(form ShaparakSendSmsForm) (ShaparakSendSmsResponse, error) {
@@ -116,7 +114,6 @@ func (t ThirdParty) ShaparakSendSms(form ShaparakSendSmsForm) (ShaparakSendSmsRe
 		URL:    t.URL + "/middleApi/shaparakSendSms",
 		Body:   form,
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
 	}.SendAndDecode(&shaparakSendSmsResponse)
@@ -130,7 +127,6 @@ func (t ThirdParty) ShaparakAddCard(form ShaparakAddCardForm) ([]byte, error) {
 		URL:    t.URL + "/middleApi/shaparakAddCard",
 		Body:   form,
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
 	}.Send()
@@ -144,7 +140,6 @@ func (t ThirdParty) PayOTPRequest(form PayOTPRequestForm) ([]byte, error) {
 		URL:    t.URL + "/middleApi/payOTPRequest",
 		Body:   form,
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
 	}.Send()
@@ -159,7 +154,6 @@ func (t ThirdParty) DirectPay(form DirectPayForm) (DirectPayResponse, error) {
 		URL:    t.URL + "/middleApi/directPay",
 		Body:   form,
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
 	}.SendAndDecode(&directPayResponse)
@@ -174,7 +168,6 @@ func (t ThirdParty) CardTransaction(srcCard string) (CardTransactionResponse, in
 		URL:    t.URL + "/middleApi/cardTransaction",
 		Body:   map[string]string{"src_card": srcCard},
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
 	}.SendAndDecode(&cardTransactionResponse)
@@ -187,7 +180,6 @@ func (t ThirdParty) DetectPSP() ([]byte, error) {
 		Method: "GET",
 		URL:    t.URL + "/middleApi/detectPsp",
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
 	}.Send()
@@ -202,7 +194,6 @@ func CardInfo(cardNumber string) (*CardData, error) {
 			"pan": cardNumber,
 		},
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
 	}

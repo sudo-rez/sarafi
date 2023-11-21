@@ -28,6 +28,14 @@ let cvv2NewInput = $("#cvv2-new")
 let monthNewInput = $("#month-new")
 let yearNewInput = $("#year-new")
 
+
+var distance = 0;
+var distanceCard = 0
+var remainTime = $("#time_remain").val()
+var otpTime = null
+var remainTimer = null
+var selectMobile = "";
+
 passInput.on('focus', function () {
     passInput.attr("type", "password")
 });
@@ -137,12 +145,7 @@ function getUrlVars() {
 }
 
 
-var distance = 0;
-var distanceCard = 0
-var remainTime = $("#time_remain").val()
-var otpTime = null
-var remainTimer = null
-var selectMobile = "";
+
 
 
 
@@ -213,7 +216,7 @@ function sendOtp() {
         if(response.message)
         showSuccess(response.message)
     }).fail(function (jqXHR) {
-        showError(jqXHR.responseJSON.msg)
+        showErrorResponse(jqXHR.responseJSON)
     });
 }
 
@@ -241,7 +244,10 @@ function getCardOtp() {
     $.ajax(settings).done(function (response) {
         switch (response.code) {
             case 0:
+                if (response.msg)
                 showSuccess(response.msg)
+                if (response.message)
+                showSuccess(response.message)
                 distanceCard = 120000
                 cardOtpTimer = setInterval(timeFuncNewCard, 1000);
 
@@ -251,9 +257,10 @@ function getCardOtp() {
                 addNewCard(data.pan,data.mobile)
                 break;
             case 2:
-                showError(response.msg)
+                showErrorResponse(response)
                 break;
             default:
+                showErrorResponse(response)
                 break;
         }
 
@@ -287,18 +294,18 @@ function newCardSubmit() {
     $.ajax(settings).done(function (response) {
         switch (response.code) {
             case -1:
-                showError(response.msg)
+                showErrorResponse(response)
                 break;
             case 0:
                 addNewCard(data.pan,data.mobile)
                 showSuccess(response.msg)
                 break;
             default:
-                showError(response.msg)
+                showErrorResponse(response)
                 break;
         }
     }).fail(function (jqXHR) {
-        showError(jqXHR.responseJSON.msg)
+        showErrorResponse(jqXHR.responseJSON)
     });
 }
 function newCardSubmitSapc() {
@@ -323,7 +330,7 @@ function newCardSubmitSapc() {
         addNewCard(data.pan,data.mobile)
         showSuccess(response.msg)
     }).fail(function (jqXHR) {
-        showError(jqXHR.responseJSON.msg)
+        showErrorResponse(jqXHR.responseJSON)
     });
 }
 
@@ -346,16 +353,19 @@ function transaction() {
     $.ajax(settings).done(function (response) {
         switch (response.code) {
             case 0:
+                if (response.msg)
                 showSuccess(response.msg)
+                if (response.message)
+                showSuccess(response.message)
                 window.location.replace("/success?id="+urlVar["p"])
                 break;
             default:
-                showError(response.msg)
+                showErrorResponse(response)
                 break;
         }
 
     }).fail(function (jqXHR) {
-        showError(jqXHR.responseJSON.msg)
+        showErrorResponse(jqXHR.responseJSON)
     });
 }
 function sapcConfirm(){
@@ -375,12 +385,12 @@ function sapcConfirm(){
                 window.location.replace("/success?id="+urlVar["p"])
                 break;
             default:
-                showError(response.msg)
+                showErrorResponse(response)
                 break;
         }
 
     }).fail(function (jqXHR) {
-        showError(jqXHR.responseJSON.msg)
+        showErrorResponse(jqXHR.responseJSON)
     });
 }
 function addNewCard(card,mobile) {
@@ -434,16 +444,41 @@ function toPaymentPage(d) {
                 nextForm(2)
                 break;
             default:
-                if (response.msg != "")
-                showError(response.msg)
-                if (response.message != "")
-                showError(response.message)
-
+                showErrorResponse(response)
                 break;
         }
 
     }).fail(function (jqXHR) {
-        showError(jqXHR.responseJSON.msg)
+        showErrorResponse(jqXHR.responseJSON)
+    });
+}
+function checkVerify() {
+    if (verifyCodeInput.val().length < 1) {
+        verifyCodeInput.addClass("show")
+        return
+    }
+    var data = {
+        p: urlVar["p"],
+        otp: verifyCodeInput.val().toEng(),
+        mobile:verifyMobile,
+    }
+    var settings = {
+        "url": "/card/check/verify",
+        "method": "POST",
+        "data": data
+    };
+
+    $.ajax(settings).done(function (response) {
+        switch (response.code) {
+            case 0:
+                nextForm(1)
+                break;
+            default:
+                showErrorResponse(response)
+                break;
+        }
+    }).fail(function (jqXHR) {
+        showErrorResponse(jqXHR.responseJSON)
     });
 }
 function toPaymentPageSapc() {
@@ -465,8 +500,10 @@ function nextForm(step) {
             form3.addClass('deactive');
             form2.removeClass('active')
             form2.addClass('deactive');
+            
             form1.removeClass('deactive');
             form1.addClass('active');
+            
             cvv2Input.val("")
             monthInput.val("")
             yearInput.val("")
@@ -480,6 +517,7 @@ function nextForm(step) {
             form3.addClass('deactive');
             form1.removeClass('active')
             form1.addClass('deactive');
+
 
             form2.removeClass('deactive');
             form2.addClass('active');
@@ -502,6 +540,7 @@ function nextForm(step) {
             form2.addClass('deactive');
             form3.removeClass('deactive');
             form3.addClass('active');
+            
 
             newcardInput.val("")
             newcardInput.removeClass("show")
@@ -511,6 +550,7 @@ function nextForm(step) {
 
             codeInput.val("")
             codeInput.removeClass("show")
+
 
         default:
             break;
@@ -552,6 +592,13 @@ function timerFunc() {
         clearInterval(remainTimer);
         timer.text("زمان به اتمام رسید")
     }
+}
+function showErrorResponse(response) {
+    if (response.msg != "")
+        showError(response.msg)
+    if (response.message != "")
+        showError(response.message)
+
 }
 
 function showSuccess(msg) {

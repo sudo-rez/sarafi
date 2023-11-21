@@ -36,6 +36,7 @@ func Routes(ec *echo.Echo) {
 	ec.GET("/apc", apc)
 	ec.POST("/otp", payOtp)
 	ec.POST("/card/check", checkAccountExist)
+	ec.POST("/card/check/verify", checkVerify)
 	ec.POST("/card/otp", shaparakSendSms)
 	ec.POST("/card/verify", shaparakAddCard)
 	ec.POST("/t", doTransaction)
@@ -502,6 +503,39 @@ func checkAccountExist(c echo.Context) error {
 	return c.JSON(http.StatusOK, echo.Map{
 		"code": res.Code,
 		"msg":  res.Message,
+	})
+}
+func checkVerify(c echo.Context) error {
+	form := new(Form)
+	if err := c.Bind(form); err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه", "error": err.Error()})
+	}
+	if form.Mobile == "" || !primitive.IsValidObjectID(form.PaymentID) || form.Otp == "" {
+		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه"})
+	}
+	objID, err := primitive.ObjectIDFromHex(form.PaymentID)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه"})
+	}
+	t, err := txn.Load(bson.M{"_id": objID})
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "مشکل در ورودی درگاه"})
+	}
+	if !app.IsValidCard(form.Pan) {
+		return c.JSON(http.StatusBadRequest, echo.Map{"msg": "شماره کارت اشتباه میباشد"})
+	}
+	tmp := thirdparty.VerfiyAccountForm{
+		Mobile:        form.Mobile,
+		VerifyCode:    form.Otp,
+		TransactionID: t.TransactionID,
+	}
+	body, err := thirdparty.TP.VerifyAccount(tmp)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
+	}
+	return c.JSON(http.StatusOK, echo.Map{
+		"code": body.Code,
+		"msg":  body.Message,
 	})
 }
 func shaparakSendSms(c echo.Context) error {
