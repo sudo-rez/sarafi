@@ -37,8 +37,8 @@ func Routes(ec *echo.Echo) {
 	ec.POST("/otp", payOtp)
 	ec.POST("/card/check", checkAccountExist)
 	ec.POST("/card/check/verify", checkVerify)
-	ec.POST("/card/otp", shaparakSendSms)
-	ec.POST("/card/verify", shaparakAddCard)
+	ec.POST("/card/shaparak/otp", shaparakSendSms)
+	ec.POST("/card/shaparak/verify", shaparakAddCard)
 	ec.POST("/t", doTransaction)
 
 	// sapc

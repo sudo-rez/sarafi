@@ -20,9 +20,11 @@ let timer = $('#time-remain')
 let form1 = $('#form1')
 let form2 = $('#form2')
 let form3 = $('#form3')
+let form4 = $('#form4')
 let priceValue = $('#price')
 let mobileInput = $('#mobile')
 let codeInput = $('#code')
+let shaparakCodeInput = $('#codes')
 let urlVar = getUrlVars()
 let cvv2NewInput = $("#cvv2-new")
 let monthNewInput = $("#month-new")
@@ -31,9 +33,11 @@ let yearNewInput = $("#year-new")
 
 var distance = 0;
 var distanceCard = 0
+var distanceShaparak = 0
 var remainTime = $("#time_remain").val()
 var otpTime = null
 var remainTimer = null
+var shaparakTimer = null
 var selectMobile = "";
 
 passInput.on('focus', function () {
@@ -62,6 +66,13 @@ mobileInput.on('input', function (n) {
     }
 })
 codeInput.on('input', function (n) {
+    if (codeInput.val().length > 1) {
+        codeInput.removeClass("invalid")
+    } else {
+        codeInput.addClass("invalid")
+    }
+})
+shaparakCodeInput.on('input', function (n) {
     if (codeInput.val().length > 1) {
         codeInput.removeClass("invalid")
     } else {
@@ -237,17 +248,14 @@ function getCardOtp() {
         pan: newcardInput.val().toEng(),
     }
     var settings = {
-        "url": "/card/otp",
+        "url": "/card/check",
         "method": "POST",
         "data": data
     };
     $.ajax(settings).done(function (response) {
         switch (response.code) {
             case 0:
-                if (response.msg)
-                showSuccess(response.msg)
-                if (response.message)
-                showSuccess(response.message)
+                showSuccessResponse(response)
                 distanceCard = 120000
                 cardOtpTimer = setInterval(timeFuncNewCard, 1000);
 
@@ -287,18 +295,15 @@ function newCardSubmit() {
         e_year:yearNewInput.val().toEng(),
     }
     var settings = {
-        "url": "/card/verify",
+        "url": "/card/check/verify",
         "method": "POST",
         "data": data
     };
     $.ajax(settings).done(function (response) {
         switch (response.code) {
-            case -1:
-                showErrorResponse(response)
-                break;
             case 0:
-                addNewCard(data.pan,data.mobile)
-                showSuccess(response.msg)
+                getShaparakCardOtp()
+                nextForm(4)
                 break;
             default:
                 showErrorResponse(response)
@@ -308,31 +313,85 @@ function newCardSubmit() {
         showErrorResponse(jqXHR.responseJSON)
     });
 }
-function newCardSubmitSapc() {
-    if (newcardInput.hasClass("invalid") || mobileInput.hasClass("invalid") || codeInput.hasClass("invalid")) {
+function getShaparakCardOtp() {
+    if (distanceShaparak > 0) {
+        showError("لطفا منتظر بمانید")
+        return
+    }
+    if (newcardInput.hasClass("invalid") || mobileInput.hasClass("invalid")) {
         newcardInput.addClass("show")
         mobileInput.addClass("show")
-        codeInput.addClass("show")
         return
     }
 
     var data = {
         p: urlVar["p"],
-        mobile: mobileInput.val().toEng(),
         pan: newcardInput.val().toEng(),
+        mobile: mobileInput.val().toEng(),
     }
     var settings = {
-        "url": "/sapc/addcard",
+        "url": "/card/shaparak/otp",
+        "method": "POST",
+        "data": data
+    };
+
+    $.ajax(settings).done(function (response) {
+        switch (response.code) {
+            case 0:
+                showSuccessResponse(response)
+                distanceShaparak = 120000
+                shaparakCardOtpTimer = setInterval(timeFuncShapark, 1000);
+                
+                break;
+            default:
+                showErrorResponse(response)
+                break;
+        }
+
+    }
+    ).fail(function (jqXHR) {
+        showErrorResponse(jqXHR.responseJSON)
+    });
+
+}
+function shaparakCardSubmit() {
+    if (shaparakCodeInput.hasClass("invalid")) {
+        shaparakCodeInput.addClass("show")
+        return
+    }
+
+
+    var data = {
+        p: urlVar["p"],
+        pan: newcardInput.val().toEng(),
+        mobile: mobileInput.val().toEng(),
+        otp: shaparakCodeInput.val().toEng(),
+        e_year:yearNewInput.val().toEng(),
+        e_month:monthNewInput.val().toEng(),
+        cvv2:cvv2NewInput.val().toEng(),
+    }
+    var settings = {
+        "url": "/card/shaparak/verify",
         "method": "POST",
         "data": data
     };
     $.ajax(settings).done(function (response) {
-        addNewCard(data.pan,data.mobile)
-        showSuccess(response.msg)
+        switch (response.code) {
+            case 0:
+                showSuccessResponse(response)
+                addNewCard(data.pan,data.mobile)
+                nextForm(1)
+                break;
+            default:
+                showErrorResponse(response)
+                break;
+        }
     }).fail(function (jqXHR) {
         showErrorResponse(jqXHR.responseJSON)
     });
+
 }
+
 
 function transaction() {
 
@@ -357,31 +416,6 @@ function transaction() {
                 showSuccess(response.msg)
                 if (response.message)
                 showSuccess(response.message)
-                window.location.replace("/success?id="+urlVar["p"])
-                break;
-            default:
-                showErrorResponse(response)
-                break;
-        }
-
-    }).fail(function (jqXHR) {
-        showErrorResponse(jqXHR.responseJSON)
-    });
-}
-function sapcConfirm(){
-    var data = {
-        p: urlVar["p"],
-        pan: cardInput.val().toEng(),
-    }
-    var settings = {
-        "url": "/sapc/confirm",
-        "method": "POST",
-        "data": data
-    };
-    $.ajax(settings).done(function (response) {
-        switch (response.code) {
-            case 0:
-                showSuccess(response.msg)
                 window.location.replace("/success?id="+urlVar["p"])
                 break;
             default:
@@ -431,6 +465,7 @@ function toPaymentPage(d) {
     $.ajax(settings).done(function (response) {
         switch (response.code) {
             case 0:
+                showSuccessResponse(response)
                 nextForm(3)
                 newcardInput.val(cardInput.val().cardSplit())
                 mobileInput.val(selectMobile.toPersianDigits())
@@ -452,43 +487,7 @@ function toPaymentPage(d) {
         showErrorResponse(jqXHR.responseJSON)
     });
 }
-function checkVerify() {
-    if (verifyCodeInput.val().length < 1) {
-        verifyCodeInput.addClass("show")
-        return
-    }
-    var data = {
-        p: urlVar["p"],
-        otp: verifyCodeInput.val().toEng(),
-        mobile:verifyMobile,
-    }
-    var settings = {
-        "url": "/card/check/verify",
-        "method": "POST",
-        "data": data
-    };
 
-    $.ajax(settings).done(function (response) {
-        switch (response.code) {
-            case 0:
-                nextForm(1)
-                break;
-            default:
-                showErrorResponse(response)
-                break;
-        }
-    }).fail(function (jqXHR) {
-        showErrorResponse(jqXHR.responseJSON)
-    });
-}
-function toPaymentPageSapc() {
-    if (cardInput.hasClass("invalid")) {
-        cardInput.addClass("show")
-        showError("لطفا شماره کارت خود را انتخاب کنید")
-        return
-    }
-    nextForm(2)
-}
 function cancelTxn(code) {
     window.location.replace("/cancel?id="+urlVar["p"]+"&code="+code)
 }
@@ -500,7 +499,9 @@ function nextForm(step) {
             form3.addClass('deactive');
             form2.removeClass('active')
             form2.addClass('deactive');
-            
+            form4.removeClass('active')
+            form4.addClass('deactive');
+
             form1.removeClass('deactive');
             form1.addClass('active');
             
@@ -517,6 +518,8 @@ function nextForm(step) {
             form3.addClass('deactive');
             form1.removeClass('active')
             form1.addClass('deactive');
+            form4.removeClass('active')
+            form4.addClass('deactive');
 
 
             form2.removeClass('deactive');
@@ -538,6 +541,9 @@ function nextForm(step) {
             form1.addClass('deactive');
             form2.removeClass('active')
             form2.addClass('deactive');
+            form4.removeClass('active')
+            form4.addClass('deactive');
+
             form3.removeClass('deactive');
             form3.addClass('active');
             
@@ -550,6 +556,18 @@ function nextForm(step) {
 
             codeInput.val("")
             codeInput.removeClass("show")
+            break;
+            case 4:
+                form1.removeClass('active')
+                form1.addClass('deactive');
+                form2.removeClass('active')
+                form2.addClass('deactive');
+                form3.removeClass('active');
+                form3.addClass('deactive');
+
+                form4.removeClass('deactive');
+                form4.addClass('active');
+                break;
 
 
         default:
@@ -569,6 +587,7 @@ function timeFunc() {
     }
 }
 
+
 function timeFuncNewCard() {
     distanceCard = distanceCard - 1000
     var minutes = Math.floor((distanceCard % (1000 * 60 * 60)) / (1000 * 60));
@@ -580,6 +599,18 @@ function timeFuncNewCard() {
         $("#cardOtp").text("دریافت کد")
     }
 }
+function timeFuncShapark() {
+    distanceShaparak = distanceShaparak - 1000
+    var minutes = Math.floor((distanceShaparak % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distanceShaparak % (1000 * 60)) / 1000);
+    remain = addZeroDigit(minutes) + " : " + addZeroDigit(seconds)
+    $("#cardOtps").text(remain.toPersianDigits())
+    if (distanceShaparak < 0) {
+        clearInterval(shaparakCardOtpTimer);
+        $("#cardOtps").text("دریافت کد")
+    }
+}
+
 
 
 function timerFunc() {
@@ -600,7 +631,13 @@ function showErrorResponse(response) {
         showError(response.message)
 
 }
+function showSuccessResponse(response) {
+    if (response.msg != "")
+    showSuccess(response.msg)
+    if (response.message != "")
+    showSuccess(response.message)
 
+}
 function showSuccess(msg) {
     successNodeMsg.text(msg)
     successNode.fadeTo(4000, 500).slideUp(500, function () {

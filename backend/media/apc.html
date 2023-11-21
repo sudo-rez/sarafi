@@ -170,7 +170,7 @@
                                     </div>
                                     <div class="col-8">
                                         <button id="next-btn" type="button" onclick="newCardSubmit()"
-                                            class="w-100 btn btn-primary">ثبت کارت</button>
+                                            class="w-100 btn btn-primary">بعدی</button>
                                     </div>
                                     <div class="col-4">
                                         <button id="next-btn" type="button" onclick="nextForm(1)"
@@ -249,6 +249,29 @@
                                 </div>
 
                             </form>
+                        </div>
+                        <div class="deactive" id="form4">
+                            <div class="row g-3">
+                            <div class="col-md-12p">
+                                <p class="text-center"> کد دریافتی</p>
+                                <div class="input-group ltr">
+                                    <span class="input-group-text" id="cardOtps" onclick="getShaparakCardOtp()">
+                                        دریافت کد
+                                    </span>
+                                    <input id="codes" name="code" type="tel"
+                                        class="form-control text-center invalid" pattern="(\d{19})|(\s{19})"
+                                        maxlength="19" autocomplete="off" required="" card-grp="1">
+                                </div>
+                                <div class="col-8">
+                                    <button id="next-btn" type="button" onclick="shaparakCardSubmit()"
+                                        class="w-100 btn btn-primary">ثبت کارت</button>
+                                </div>
+                                <div class="col-4">
+                                    <button id="next-btn" type="button" onclick="nextForm(3)"
+                                        class="w-100 btn btn-danger">برگشت</button>
+                                </div>
+                            </div>
+                            </div>
                         </div>
                     </div>
         </main>
