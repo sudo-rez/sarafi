@@ -341,7 +341,7 @@ function getShaparakCardOtp() {
                 showSuccessResponse(response)
                 distanceShaparak = 120000
                 shaparakCardOtpTimer = setInterval(timeFuncShapark, 1000);
-                
+
                 break;
             default:
                 showErrorResponse(response)
@@ -625,16 +625,16 @@ function timerFunc() {
     }
 }
 function showErrorResponse(response) {
-    if (response.msg != "")
+    if (response.msg)
         showError(response.msg)
-    if (response.message != "")
+    if (response.message)
         showError(response.message)
 
 }
 function showSuccessResponse(response) {
-    if (response.msg != "")
+    if (response.msg)
     showSuccess(response.msg)
-    if (response.message != "")
+    if (response.message)
     showSuccess(response.message)
 
 }

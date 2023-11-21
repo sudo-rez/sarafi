@@ -71,6 +71,10 @@ type (
 		Mobile        string `json:"mobile"`
 		TransactionID string `json:"transaction_id"`
 	}
+	PayOTPRequestResponse struct {
+		Code    int    `json:"code"`
+		Message string `json:"message"`
+	}
 	DirectPayForm struct {
 		SrcCard       string `json:"src_card"`
 		DesCard       string `json:"des_card"`

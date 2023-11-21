@@ -133,8 +133,9 @@ func (t ThirdParty) ShaparakAddCard(form ShaparakAddCardForm) ([]byte, error) {
 	return body, err
 }
 
-func (t ThirdParty) PayOTPRequest(form PayOTPRequestForm) ([]byte, error) {
-	_, body, err := request.HTTPRequest{
+func (t ThirdParty) PayOTPRequest(form PayOTPRequestForm) (PayOTPRequestResponse, error) {
+	var payOTPRequestResponse PayOTPRequestResponse
+	_, err := request.HTTPRequest{
 		Name:   "Sapc-PayOTPRequest",
 		Method: "POST",
 		URL:    t.URL + "/middleApi/payOTPRequest",
@@ -142,8 +143,8 @@ func (t ThirdParty) PayOTPRequest(form PayOTPRequestForm) ([]byte, error) {
 		Headers: map[string]string{
 			"Content-Type": "application/json",
 		},
-	}.Send()
-	return body, err
+	}.SendAndDecode(&payOTPRequestResponse)
+	return payOTPRequestResponse, err
 }
 
 func (t ThirdParty) DirectPay(form DirectPayForm) (DirectPayResponse, error) {

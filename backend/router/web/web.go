@@ -436,6 +436,7 @@ func payOtp(c echo.Context) error {
 			t.WithdrawID = desQ.ID
 		}
 	}
+
 	txnTemp := thirdparty.PayOTPRequestForm{
 		SrcCard:       form.Pan,
 		DesCard:       t.Destination,
@@ -455,6 +456,15 @@ func payOtp(c echo.Context) error {
 		}()
 		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
 	}
+	if body.Code != 0 {
+		if err := t.UpdateWithDrawOTP(); err != nil {
+			app.Error("Update Withdraw Issue in OTP , ", err.Error())
+		}
+		return c.JSON(http.StatusOK, echo.Map{"msg": body.Message, "code": body.Code})
+	} else {
+		t.Source = txnTemp.SrcCard
+	}
+
 	go func() {
 		time.Sleep(5 * time.Minute)
 		updatedTxn, err := txn.Load(bson.M{"_id": objID})
@@ -465,7 +475,10 @@ func payOtp(c echo.Context) error {
 			app.Error("Update Withdraw Issue in OTP2 , ", err.Error())
 		}
 	}()
-	return c.Blob(http.StatusOK, "application/json", body)
+	if err := t.Save(); err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"msg": "لطفا دقایقی بعد تلاش کنید"})
+	}
+	return c.JSON(http.StatusOK, echo.Map{"msg": body.Message, "code": body.Code})
 }
 func checkAccountExist(c echo.Context) error {
 	form := new(Form)
