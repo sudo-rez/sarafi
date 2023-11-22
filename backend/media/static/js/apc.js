@@ -39,6 +39,7 @@ var otpTime = null
 var remainTimer = null
 var shaparakTimer = null
 var selectMobile = "";
+var shaparakStep = 0
 
 passInput.on('focus', function () {
     passInput.attr("type", "password")
@@ -220,9 +221,18 @@ function sendOtp() {
         "data": data
     };
     $.ajax(settings).done(function (response) {
-        distance = 120000
-        otpTimer = setInterval(timeFunc, 1000);
-        showSuccessResponse(response)
+        switch (response.code) {
+            case 0:
+                 distance = 120000
+                 otpTimer = setInterval(timeFunc, 1000);
+                 showSuccessResponse(response)
+                 break;
+            case 1:
+                 getShaparakCardOtp()
+                 shaparakStep = 1
+                 nextForm(4)
+                 break;
+        }
  
     }).fail(function (jqXHR) {
         showErrorResponse(jqXHR.responseJSON)
@@ -357,17 +367,34 @@ function shaparakCardSubmit() {
         shaparakCodeInput.addClass("show")
         return
     }
-
-
+switch (shaparakStep) {
+    case 0:
+        var data = {
+            p: urlVar["p"],
+            pan: newcardInput.val().toEng(),
+            mobile: mobileInput.val().toEng(),
+            otp: shaparakCodeInput.val().toEng(),
+            e_year:yearNewInput.val().toEng(),
+            e_month:monthNewInput.val().toEng(),
+            cvv2:cvv2NewInput.val().toEng(),
+        }
+        break;
+    case 1: 
     var data = {
         p: urlVar["p"],
-        pan: newcardInput.val().toEng(),
-        mobile: mobileInput.val().toEng(),
+        mobile: selectMobile.toEng(),
+        pan: cardInput.val().toEng(),
+        cvv2: cvv2Input.val().toEng(),
+        e_month: monthInput.val().toEng(),
+        e_year: yearInput.val().toEng(),
         otp: shaparakCodeInput.val().toEng(),
-        e_year:yearNewInput.val().toEng(),
-        e_month:monthNewInput.val().toEng(),
-        cvv2:cvv2NewInput.val().toEng(),
     }
+    break;
+    default:
+        break;
+}
+
+  
     var settings = {
         "url": "/card/shaparak/verify",
         "method": "POST",
@@ -378,6 +405,7 @@ function shaparakCardSubmit() {
             case 0:
                 showSuccessResponse(response)
                 addNewCard(data.pan,data.mobile)
+                shaparakStep = 0
                 nextForm(1)
                 break;
             default:
