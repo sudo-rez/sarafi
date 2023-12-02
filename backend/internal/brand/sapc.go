@@ -5,6 +5,7 @@ import (
 	"backend/internal/thirdparty"
 	"context"
 	"errors"
+	"strconv"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -113,7 +114,17 @@ func LoadSAPCQ(q bson.M) (SAPC, error) {
 	return *v, app.MDB.FindOne(SAPCCollectionName, q, v)
 }
 func (v SAPC) Save() error {
-
+	form := thirdparty.SiteCard{
+		ID:       v.TPID,
+		Owner:    v.Name,
+		CardNo:   v.CardNumber,
+		ShebaNo:  v.ShebaNo,
+		Username: v.Username,
+		Pass:     v.Password,
+		PSP:      v.PSP,
+		Active:   v.TPActive,
+	}
+	defer thirdparty.TP.AddSiteCard(form)
 	if !v.ID.IsZero() {
 		return v.Update()
 	}
@@ -168,9 +179,25 @@ func (v SAPC) Update() error {
 	return app.MDB.UpdateOne(SAPCCollectionName, bson.M{"_id": v.ID}, bson.M{"$set": v})
 }
 func (v SAPC) Delete() error {
+	id, _ := strconv.Atoi(v.TPID)
+	defer thirdparty.TP.SiteCardRemove(id)
 	return app.MDB.RemoveOne(SAPCCollectionName, bson.M{"_id": v.ID})
 }
 func (v SAPC) DecurrentOthers() error {
+	go func() {
+		cardlist, _, err := thirdparty.TP.SiteCardList()
+		if err != nil {
+			app.Error(err)
+		}
+		for _, card := range cardlist.Item {
+			if card.ID != v.TPID {
+				id, _ := strconv.Atoi(card.ID)
+				if card.Active == "1" {
+					thirdparty.TP.SiteCardChangeActive(id, "0")
+				}
+			}
+		}
+	}()
 	return app.MDB.UpdateMany(SAPCCollectionName, bson.M{"_id": bson.M{"$ne": v.ID}}, bson.M{"$set": bson.M{"current": false}})
 }
 func CreateSAPCLog(Sapc primitive.ObjectID, amount int64, source string) error {

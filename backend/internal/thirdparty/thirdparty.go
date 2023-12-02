@@ -25,7 +25,6 @@ func (s ThirdParty) SiteCardList() (SiteCardReponse, int, error) {
 		Method: "GET",
 		URL:    s.URL + "/api/siteCardList",
 		Headers: map[string]string{
-			"Cookie":       "PHPSESSID=vht2k01d2c1ifeid6noh5ta9pe",
 			"Content-Type": "application/json",
 		},
 	}.SendAndDecode(&siteCards)
@@ -66,7 +65,7 @@ func (t ThirdParty) SiteCardRemove(ID int) (int, []byte, error) {
 	}.Send()
 }
 
-func (t ThirdParty) SiteCardChangeActive(ID int) (int, []byte, error) {
+func (t ThirdParty) SiteCardChangeActive(ID int, active string) (int, []byte, error) {
 	return request.HTTPRequest{
 		Name:   "Sapc-SiteCardChangeActive",
 		Method: "POST",
@@ -74,7 +73,7 @@ func (t ThirdParty) SiteCardChangeActive(ID int) (int, []byte, error) {
 		Headers: map[string]string{
 			"Content-Type": "application/json",
 		},
-		Body: map[string]int{"id": ID},
+		Body: map[string]any{"id": ID, "active": active},
 	}.Send()
 }
 

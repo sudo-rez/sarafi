@@ -331,12 +331,26 @@ function getShaparakCardOtp() {
         mobileInput.addClass("show")
         return
     }
-
-    var data = {
-        p: urlVar["p"],
-        pan: newcardInput.val().toEng(),
-        mobile: mobileInput.val().toEng(),
+    switch (shaparakStep) {
+        case 0:
+            var data = {
+                p: urlVar["p"],
+                pan: newcardInput.val().toEng(),
+                mobile: mobileInput.val().toEng(),
+            }
+            break;
+        case 1:
+            var data = {
+                p: urlVar["p"],
+                mobile: selectMobile.toEng(),
+                pan: cardInput.val().toEng(),
+            }
+            break;
+    
+        default:
+            break;
     }
+  
     var settings = {
         "url": "/card/shaparak/otp",
         "method": "POST",
@@ -346,7 +360,7 @@ function getShaparakCardOtp() {
     $.ajax(settings).done(function (response) {
         switch (response.code) {
             case 0:
-                // showSuccessResponse(response)
+                showSuccessResponse("کد شاپرک ارسال شد")
                 distanceShaparak = 120000
                 shaparakCardOtpTimer = setInterval(timeFuncShapark, 1000);
 
@@ -400,6 +414,7 @@ switch (shaparakStep) {
         "method": "POST",
         "data": data
     };
+    
     $.ajax(settings).done(function (response) {
         switch (response.code) {
             case 0:
@@ -546,7 +561,7 @@ function nextForm(step) {
             form1.addClass('deactive');
             form4.removeClass('active')
             form4.addClass('deactive');
-
+            shaparakStep = 1
 
             form2.removeClass('deactive');
             form2.addClass('active');
@@ -572,7 +587,7 @@ function nextForm(step) {
 
             form3.removeClass('deactive');
             form3.addClass('active');
-            
+            shaparakStep=0
 
             newcardInput.val("")
             newcardInput.removeClass("show")
@@ -666,14 +681,14 @@ function showSuccessResponse(response) {
 }
 function showSuccess(msg) {
     successNodeMsg.text(msg)
-    successNode.fadeTo(4000, 500).slideUp(500, function () {
+    successNode.fadeTo(10000, 500).slideUp(500, function () {
         successNode.slideUp(500);
     });
 }
 
 function showError(msg) {
     errorNodeMsg.text(msg)
-    errorNode.fadeTo(4000, 500).slideUp(500, function () {
+    errorNode.fadeTo(10000, 500).slideUp(500, function () {
         errorNode.slideUp(500);
     });
 }

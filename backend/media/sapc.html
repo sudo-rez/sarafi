@@ -81,21 +81,10 @@
                         <div class="active" id="form1">
                             <div class="row g-3">
                                 <div class="col-md-12">
-                                    <p class="text-center">شماره کارت</p>
-                                    <div class="input-group ltr">
-                                        <span class="input-group-text pouya" id="newCard" onclick="nextForm(3)">
-                                            ثبت کارت جدید
-                                        </span>
-                                        <select id="card" class="form-select invalid" aria-label="Card Select">
-                                            <option class="text-right">شماره کارت خود را انتخاب کنید </option>
-                                            {{if .account.Pans}}
-                                            {{range .account.Pans}}
-                                            <option class="text-center" value="{{.Card}}" mobile="{{.Mobile}}">
-                                                {{.Split}}</option>
-                                            {{end}}
-                                            {{end}}
-                                        </select>
-                                    </div>
+                                    <p class="text-center">  شماره کارت خود را وارد نمایید</p>
+                                        <input id="newcard" name="newcard" type="tel"
+                                            class="form-control text-center invalid" pattern="(\d{19})|(\s{19})"
+                                            maxlength="19" autocomplete="off" required="" card-grp="1">
                                 </div>
                                 <div class="col-md-12 advise">
                                     {{if .setting.messages}}
@@ -115,7 +104,7 @@
                             </div>
 
                         </div>
-                        <div class="deactive" id="form3">
+                        <!-- <div class="deactive" id="form3">
                             <form id="cardForm">
                                 <div class="row g-3">
                                     <div class="col-md-12">
@@ -140,7 +129,7 @@
                                     </div>
                                 </div>
                             </form>
-                        </div>
+                        </div> -->
                         <div class="deactive" id="form2">
                             <div class="row g-3">
 
