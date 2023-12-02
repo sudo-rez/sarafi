@@ -2,14 +2,15 @@ package thirdparty
 
 type (
 	SiteCard struct {
-		ID       string `json:"id"`
-		Owner    string `json:"owner"`
-		CardNo   string `json:"card_no"`
-		ShebaNo  string `json:"sheba_no"`
-		Username string `json:"username"`
-		Pass     string `json:"pass"`
-		PSP      string `json:"psp"`
-		Active   string `json:"active"`
+		ID        string `json:"id"`
+		Owner     string `json:"owner"`
+		CardNo    string `json:"card_no"`
+		ShebaNo   string `json:"sheba_no"`
+		AccountNo string `json:"account_no"`
+		Username  string `json:"username"`
+		Pass      string `json:"pass"`
+		PSP       string `json:"psp"`
+		Active    string `json:"active"`
 	}
 	SiteCardReponse struct {
 		Code    int        `json:"code"`

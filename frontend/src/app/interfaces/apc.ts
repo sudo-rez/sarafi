@@ -20,4 +20,8 @@ export interface SAPC {
     amount_day:number
     username:string
     password:string
+    id:string
+    account_no:string
+    sheba_no:string
+    psp:string
 }

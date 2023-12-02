@@ -64,6 +64,7 @@ func RegisterV1(ec *echo.Echo) {
 	brandG.POST("/sapc/u", BrandEc.SAPCSave, LoginRequired)
 	brandG.DELETE("/sapc/d", BrandEc.SAPCDelete, LoginRequired)
 	brandG.GET("/sapc/t", BrandEc.SAPCToggle, LoginRequired)
+	brandG.GET("/sapc/psps", BrandEc.SAPCPSPList, LoginRequired)
 
 	// TXN
 	TxnEc := txn.Echo{

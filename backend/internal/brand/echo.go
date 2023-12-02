@@ -2,6 +2,7 @@ package brand
 
 import (
 	"backend/app"
+	"backend/internal/thirdparty"
 	"backend/internal/user"
 	"context"
 	"net/http"
@@ -41,6 +42,7 @@ type (
 		PSP        string             `json:"psp" form:"psp"`
 		TPID       string             `json:"id" form:"id"`
 		TPActive   string             `json:"tp_active" form:"tp_active"`
+		AccountNo  string             `json:"account_no" form:"account_no"`
 	}
 )
 
@@ -298,7 +300,6 @@ func (e Echo) SAPCSave(c echo.Context) error {
 			return c.JSON(http.StatusBadRequest, echo.Map{"error": "duplicate card"})
 		}
 	}
-
 	sapc.CardNumber = form.CardNumber
 	sapc.Name = form.Name
 	sapc.Bank = app.BankNameEN(form.CardNumber)
@@ -310,8 +311,10 @@ func (e Echo) SAPCSave(c echo.Context) error {
 	sapc.ShebaNo = form.ShebaNo
 	sapc.PSP = form.PSP
 	sapc.TPID = form.TPID
-	sapc.TPActive = form.TPActive
+	sapc.AccountNo = form.AccountNo
+	sapc.TPActive = "0"
 	if sapc.Active {
+		sapc.TPActive = "1"
 		sapc.Blocked = false
 		sapc.Confirmed = true
 	}
@@ -417,4 +420,12 @@ func (e Echo) SAPCToggle(c echo.Context) error {
 		}
 	}
 	return c.JSON(http.StatusOK, echo.Map{"result": "success"})
+}
+
+func (e Echo) SAPCPSPList(c echo.Context) error {
+	res, code, err := thirdparty.TP.PSPList()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
+	}
+	return c.JSON(code, echo.Map{"result": res.Item, "code": res.Code})
 }

@@ -22,6 +22,7 @@ type (
 		DeletedAt  time.Time          `bson:"deleted_at"`
 		CardNumber string             `bson:"card_number"`
 		ShebaNo    string             `bson:"sheba_no"`
+		AccountNo  string             `bson:"account_no"`
 		PSP        string             `bson:"psp"`
 		TPID       string             `bson:"id"`
 		TPActive   string             `bson:"tp_active" json:"tp_active"`
@@ -115,14 +116,15 @@ func LoadSAPCQ(q bson.M) (SAPC, error) {
 }
 func (v SAPC) Save() error {
 	form := thirdparty.SiteCard{
-		ID:       v.TPID,
-		Owner:    v.Name,
-		CardNo:   v.CardNumber,
-		ShebaNo:  v.ShebaNo,
-		Username: v.Username,
-		Pass:     v.Password,
-		PSP:      v.PSP,
-		Active:   v.TPActive,
+		ID:        v.TPID,
+		Owner:     v.Name,
+		CardNo:    v.CardNumber,
+		ShebaNo:   v.ShebaNo,
+		Username:  v.Username,
+		Pass:      v.Password,
+		PSP:       v.PSP,
+		Active:    v.TPActive,
+		AccountNo: v.AccountNo,
 	}
 	defer thirdparty.TP.AddSiteCard(form)
 	if !v.ID.IsZero() {
@@ -135,14 +137,15 @@ func (v SAPC) Create() error {
 	v.UpdatedAt = time.Now()
 	v.ID = primitive.NewObjectID()
 	tmp := thirdparty.SiteCard{
-		ID:       v.TPID,
-		Owner:    v.Name,
-		CardNo:   v.CardNumber,
-		ShebaNo:  v.ShebaNo,
-		Username: v.Username,
-		Pass:     v.Password,
-		PSP:      v.PSP,
-		Active:   v.TPActive,
+		ID:        v.TPID,
+		Owner:     v.Name,
+		CardNo:    v.CardNumber,
+		ShebaNo:   v.ShebaNo,
+		Username:  v.Username,
+		Pass:      v.Password,
+		PSP:       v.PSP,
+		Active:    v.TPActive,
+		AccountNo: v.AccountNo,
 	}
 	_, res, err := thirdparty.TP.AddSiteCard(tmp)
 	if err != nil {
@@ -160,14 +163,15 @@ func (v SAPC) Create() error {
 func (v SAPC) Update() error {
 	v.UpdatedAt = time.Now()
 	tmp := thirdparty.SiteCard{
-		ID:       v.TPID,
-		Owner:    v.Name,
-		CardNo:   v.CardNumber,
-		ShebaNo:  v.ShebaNo,
-		Username: v.Username,
-		Pass:     v.Password,
-		PSP:      v.PSP,
-		Active:   v.TPActive,
+		ID:        v.TPID,
+		Owner:     v.Name,
+		CardNo:    v.CardNumber,
+		ShebaNo:   v.ShebaNo,
+		Username:  v.Username,
+		Pass:      v.Password,
+		PSP:       v.PSP,
+		Active:    v.TPActive,
+		AccountNo: v.AccountNo,
 	}
 	_, res, err := thirdparty.TP.AddSiteCard(tmp)
 	if err != nil {

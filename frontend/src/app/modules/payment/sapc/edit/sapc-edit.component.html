@@ -23,6 +23,29 @@
         </div>
       </div>
       <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['sheba_no'].invalid && formSubmited}">
+          <label class="form-label" for="sheba_no">{{ 'sapc.sheba_no' | translate }}:</label>
+          <input type="string" id="sheba_no" class="form-control" name="sheba_no"  formControlName="sheba_no" placeholder="">
+          <div class="feedback" *ngIf="form.controls['sheba_no'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['account_no'].invalid && formSubmited}">
+          <label class="form-label" for="account_no">{{ 'sapc.account_no' | translate }}:</label>
+          <input type="string" id="account_no" class="form-control" name="account_no"  formControlName="account_no" placeholder="">
+          <div class="feedback" *ngIf="form.controls['account_no'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group" [ngClass]="{'has-error':form.controls['psp'].invalid && formSubmited}">
+          <label class="form-label" for="psp">{{ 'apc.psp' | translate }}:</label>
+          <select formControlName="psp" class="form-control" name="psp" (change)="selectchange($event)">
+            <option *ngFor="let psp of psps" [value]="psp.psp"> {{psp.title}} </option>
+          </select>
+          <div class="feedback" *ngIf="form.controls['psp'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
+        </div>
+      </div>
+      <div class="col-6">
         <div class="form-group" [ngClass]="{'has-error':form.controls['username'].invalid && formSubmited}">
           <label class="form-label" for="username">{{ 'sapc.username' | translate }}:</label>
           <input type="string" id="username" class="form-control" name="username" formControlName="username" placeholder="">

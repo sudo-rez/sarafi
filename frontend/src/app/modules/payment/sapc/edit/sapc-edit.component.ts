@@ -60,11 +60,16 @@ export class SAPCEditComponent implements OnInit {
       "active": [this.sapcEdit?.active],
       "current": [this.sapcEdit?.current],
       "card_number": [this.sapcEdit?.card_number, Validators.compose([Validators.required, Validators.minLength(16), Validators.maxLength(16), this.isValidCard()])],
+      "id":[this.sapcEdit?.id, Validators.compose([Validators.required])],
+      "account_no":[this.sapcEdit?.account_no, Validators.compose([Validators.required])],
+      "sheba_no":[this.sapcEdit?.sheba_no, Validators.compose([Validators.required])],
+      "psp":[this.sapcEdit?.psp, Validators.compose([Validators.required])],
     });
   }
 
   ngOnInit() {
     this._migrateForm()
+    this.getPsps()
   }
 
   public modalState: 'invisible' | 'visible' = 'invisible';
@@ -115,6 +120,13 @@ export class SAPCEditComponent implements OnInit {
       
       return res%10==0?null:{"wrongCard":true}
     }
+  }
+
+  public psps: Array<any> = [];
+  public getPsps() {    
+    this._api.set("brand/sapc/psp", "GET", {}, (res: any): void => {
+      this.psps = res.result || [];
+    });
   }
 
   ngOnDestroy() {

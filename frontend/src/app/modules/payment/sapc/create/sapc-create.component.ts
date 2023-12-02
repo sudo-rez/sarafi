@@ -83,11 +83,16 @@ export class SAPCCreateComponent implements OnInit {
       "active": [false],
       "current": [false],
       "card_number": ["", Validators.compose([Validators.required, Validators.minLength(16), Validators.maxLength(16), this.isValidCard()])],
+      "sheba_no": ["", Validators.compose([Validators.required, Validators.minLength(24), Validators.maxLength(24)])],
+      "psp": ["", Validators.compose([Validators.required])],
+      "id": [""],
+      "account_no":["", Validators.compose([Validators.required])],
     });
   }
 
   ngOnInit() {
     this._migrateForm()
+    this.getPsps()
   }
 
   public modalState: 'invisible' | 'visible' = 'invisible';
@@ -137,7 +142,12 @@ export class SAPCCreateComponent implements OnInit {
       return res%10==0?null:{"wrongCard":true}
     }
   }
-
+  public psps: Array<any> = [];
+  public getPsps() {    
+    this._api.set("brand/sapc/psp", "GET", {}, (res: any): void => {
+      this.psps = res.result || [];
+    });
+  }
   ngOnDestroy() {
     this._api.remove('createSAPC');
   }
