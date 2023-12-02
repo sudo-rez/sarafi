@@ -4,7 +4,7 @@
     
     <form class="row" [formGroup]="form" (ngSubmit)="submit(form)" novalidate>
       <div class="col-12">
-        <h4 class="txt-center">{{ 'apc.create' | translate }}</h4>
+        <h4 class="txt-center">{{ 'sapc.create' | translate }}</h4>
         <br><br>
       </div>
       <div class="col-6">
@@ -24,7 +24,7 @@
       </div>
       <div class="col-6">
         <div class="form-group" [ngClass]="{'has-error':form.controls['sheba_no'].invalid && formSubmited}">
-          <label class="form-label" for="sheba_no">{{ 'apc.sheba_no' | translate }}:</label>
+          <label class="form-label" for="sheba_no">{{ 'sapc.sheba_no' | translate }}:</label>
           <input type="string" id="sheba_no" class="form-control" name="sheba_no"  formControlName="sheba_no" placeholder="">
           <div class="feedback" *ngIf="form.controls['sheba_no'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
           <div class="feedback" *ngIf="form.controls['sheba_no'].hasError('wrongCard') && formSubmited">{{ 'forms.feedback.wrong-card' | translate }}</div>
@@ -32,7 +32,7 @@
       </div>
       <div class="col-6">
         <div class="form-group" [ngClass]="{'has-error':form.controls['account_no'].invalid && formSubmited}">
-          <label class="form-label" for="account_no">{{ 'apc.account_no' | translate }}:</label>
+          <label class="form-label" for="account_no">{{ 'sapc.account_no' | translate }}:</label>
           <input type="string" id="account_no" class="form-control" name="account_no"  formControlName="account_no" placeholder="">
           <div class="feedback" *ngIf="form.controls['account_no'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
           <div class="feedback" *ngIf="form.controls['account_no'].hasError('wrongCard') && formSubmited">{{ 'forms.feedback.wrong-card' | translate }}</div>
@@ -40,8 +40,8 @@
       </div>
       <div class="col-6">
         <div class="form-group" [ngClass]="{'has-error':form.controls['psp'].invalid && formSubmited}">
-          <label class="form-label" for="psp">{{ 'apc.psp' | translate }}:</label>
-          <select formControlName="psp" class="form-control" name="psp" (change)="selectchange($event)">
+          <label class="form-label" for="psp">{{ 'sapc.psp' | translate }}:</label>
+          <select formControlName="psp" class="form-control" name="psp" formControlName="psp">
             <option *ngFor="let psp of psps" [value]="psp.psp"> {{psp.title}} </option>
           </select>
           <div class="feedback" *ngIf="form.controls['psp'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
@@ -62,14 +62,14 @@
           <div class="feedback" *ngIf="form.controls['password'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-3">
         <div class="form-group" [ngClass]="{'has-error':form.controls['active'].invalid && formSubmited}">
           <label class="form-label" for="active">{{ 'sapc.active' | translate }}:</label>
           <input id="field-toggle1" class="field-toggle" type="checkbox" [checked]="form.controls['active']" formControlName="active"  >          
           <div class="feedback" *ngIf="form.controls['active'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-3">
         <div class="form-group" [ngClass]="{'has-error':form.controls['current'].invalid && formSubmited}">
           <label class="form-label" for="current">{{ 'sapc.current' | translate }}:</label>
           <input id="field-toggle2" class="field-toggle" type="checkbox" [checked]="form.controls['current']" formControlName="current"  >          

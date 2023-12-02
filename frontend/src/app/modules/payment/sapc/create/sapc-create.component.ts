@@ -83,7 +83,7 @@ export class SAPCCreateComponent implements OnInit {
       "active": [false],
       "current": [false],
       "card_number": ["", Validators.compose([Validators.required, Validators.minLength(16), Validators.maxLength(16), this.isValidCard()])],
-      "sheba_no": ["", Validators.compose([Validators.required, Validators.minLength(24), Validators.maxLength(24)])],
+      "sheba_no": ["", Validators.compose([Validators.required])],
       "psp": ["", Validators.compose([Validators.required])],
       "id": [""],
       "account_no":["", Validators.compose([Validators.required])],
@@ -148,6 +148,9 @@ export class SAPCCreateComponent implements OnInit {
       this.psps = res.result || [];
     });
   }
+  public selectchange(args){ 
+    this.form.get("psp").patchValue(args.target.options[args.target.selectedIndex].text)
+  } 
   ngOnDestroy() {
     this._api.remove('createSAPC');
   }

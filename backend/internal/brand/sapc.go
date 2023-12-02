@@ -115,18 +115,6 @@ func LoadSAPCQ(q bson.M) (SAPC, error) {
 	return *v, app.MDB.FindOne(SAPCCollectionName, q, v)
 }
 func (v SAPC) Save() error {
-	form := thirdparty.SiteCard{
-		ID:        v.TPID,
-		Owner:     v.Name,
-		CardNo:    v.CardNumber,
-		ShebaNo:   v.ShebaNo,
-		Username:  v.Username,
-		Pass:      v.Password,
-		PSP:       v.PSP,
-		Active:    v.TPActive,
-		AccountNo: v.AccountNo,
-	}
-	defer thirdparty.TP.AddSiteCard(form)
 	if !v.ID.IsZero() {
 		return v.Update()
 	}

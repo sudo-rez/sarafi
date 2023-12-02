@@ -128,6 +128,9 @@ export class SAPCEditComponent implements OnInit {
       this.psps = res.result || [];
     });
   }
+  public selectchange(args){ 
+    this.form.get("psp").patchValue(args.target.options[args.target.selectedIndex].text)
+  } 
 
   ngOnDestroy() {
     this._api.remove('updateSAPC');

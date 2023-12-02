@@ -112,7 +112,10 @@
     "confirmed":"تاییده شده",
     "not_confirmed":"در انتظار تایید",
     "username":"نام کاربری",
-    "password":"رمز عبور"
+    "password":"رمز عبور",
+    "sheba_no":"شماره شبا",
+    "account_no":"شماره حساب",
+    "psp":"پی اس پی"
   },
   "account":{
     "username":"نام کاربری",

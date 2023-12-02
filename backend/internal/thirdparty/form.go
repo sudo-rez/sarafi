@@ -22,9 +22,9 @@ type (
 		Item []PSP `json:"item"`
 	}
 	PSP struct {
-		ID   int    `json:"id"`
-		PSP  string `json:"psp"`
-		Bank string `json:"bank"`
+		ID    string `json:"id"`
+		PSP   string `json:"psp"`
+		Title string `json:"title"`
 	}
 	CheckAccountExistForm struct {
 		SrcCard string `json:"src_card"`

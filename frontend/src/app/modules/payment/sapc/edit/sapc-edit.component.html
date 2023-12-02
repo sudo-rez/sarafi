@@ -59,14 +59,14 @@
           <div class="feedback" *ngIf="form.controls['password'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-3">
         <div class="form-group" [ngClass]="{'has-error':form.controls['active'].invalid && formSubmited}">
           <label class="form-label" for="active">{{ 'sapc.active' | translate }}:</label>
           <input id="field-toggle1" class="field-toggle" type="checkbox" formControlName="active"  >          
           <div class="feedback" *ngIf="form.controls['active'].hasError('required') && formSubmited">{{ 'forms.feedback.required' | translate }}</div>
         </div>
       </div>
-      <div class="col-6">
+      <div class="col-3">
         <div class="form-group" [ngClass]="{'has-error':form.controls['current'].invalid && formSubmited}">
           <label class="form-label" for="current">{{ 'sapc.current' | translate }}:</label>
           <input id="field-toggle2" class="field-toggle" type="checkbox"  formControlName="current"  >          

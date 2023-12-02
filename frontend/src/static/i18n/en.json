@@ -115,8 +115,10 @@
     "confirmed":"Confirmed",
     "not_confirmed":"Waiting For Confirmation",
     "username":"Username",
-    "password":"Password"
-
+    "password":"Password",
+    "sheba_no":"Sheba Number",
+    "account_no":"Account Number",
+    "psp":"PSP"
   },
   "account":{
     "username":"Username",

@@ -26,11 +26,15 @@ func getToken() string {
 		Jwt string `json:"jwt"`
 	}
 	_, _ = request.HTTPRequest{
-		Name:   "Sapc-GetToken",
+		Name:   "Sapc-Login",
 		Method: "GET",
-		URL:    "https://pvaq.xyz/middleApi/getToken",
+		URL:    "https://pvaq.xyz/middleApi/login",
 		Headers: map[string]string{
 			"Content-Type": "application/json",
+		},
+		Body: map[string]string{
+			"username": "frontend",
+			"password": "3iF2L4toACIZuc8j5yhOqf",
 		},
 	}.SendAndDecode(&token)
 	return token.Jwt
