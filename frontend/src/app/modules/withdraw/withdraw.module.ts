@@ -5,12 +5,15 @@ import { DpDatePickerModule } from "ng2-jalali-date-picker";
 import { WithdrawRoutingModule } from './withdraw-routing.module';
 import { WithdrawComponent } from './withdraw.component';
 import { ConfirmModule } from '../confirm/confirm.module';
+import { WithdrawManual } from './manual/withdraw-manual';
 
 
 
 @NgModule({
   declarations: [
-    WithdrawComponent  ],
+    WithdrawComponent,
+    WithdrawManual
+  ],
   imports: [
     CommonModule,
     WithdrawRoutingModule,

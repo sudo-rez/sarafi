@@ -1,9 +1,9 @@
 package txn
 
 import (
-	"net/http"
 	"backend/app"
 	"backend/internal/user"
+	"net/http"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -215,6 +215,21 @@ func (e Echo) WDReject(c echo.Context) error {
 	wd.Remaining = 0
 
 	if err := wd.Save(); err != nil {
+		return c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
+	}
+	return c.JSON(http.StatusOK, echo.Map{"result": "success"})
+}
+
+func (e Echo) WDManual(c echo.Context) error {
+	user := c.Get("user").(user.User)
+	form := new(Withdraw)
+	if err := c.Bind(form); err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{"error": err.Error()})
+	}
+	if !user.IsAdmin && form.Brand != user.Brand {
+		return c.JSON(http.StatusForbidden, echo.Map{"error": "you don't have permission"})
+	}
+	if err := form.CreateManual(); err != nil {
 		return c.JSON(http.StatusInternalServerError, echo.Map{"error": err.Error()})
 	}
 	return c.JSON(http.StatusOK, echo.Map{"result": "success"})

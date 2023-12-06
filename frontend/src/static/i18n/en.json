@@ -270,6 +270,13 @@
     "sapc":"Semi-Automatic",
     "withdraw":"Withdraws"
   },
+  "withdraw":{
+    "manual":"Manual Payment",
+    "amount":"Amount",
+    "account":"Account",
+    "card":"Card",
+    "name":"Name"
+  },
   "admin": {
     "wallet-list":"Wallet",
     "brand-list": "Brands",
@@ -355,6 +362,9 @@
   "notify": {
     "setting":{
       "save":{"title":"Setting Save","message":"Setting Saved Successfully"}
+    },
+    "withdraw":{
+      "manual":{"title":"Manual Withdraw","message":"Manual Withdraw Successfully"}
     },
     "txn":{
       "filter":{"title":"Transaction Filter","message":"Transaction Filter Successfully"}

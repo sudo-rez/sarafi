@@ -1,11 +1,11 @@
 package txn
 
 import (
-	"context"
-	"fmt"
 	"backend/app"
 	"backend/internal/brand"
 	"backend/pkg/jwtpayload"
+	"context"
+	"fmt"
 	"time"
 
 	"github.com/labstack/echo/v4"
@@ -32,6 +32,7 @@ type (
 		Txns             TxnSlice           `bson:"txns" json:"txns"`
 		Info             jwtpayload.Info    `bson:"info" json:"info"`
 		Callback         Callback           `bson:"callback" json:"callback"`
+		Name             string             `bson:"name" json:"name"`
 	}
 	WithdrawSlice []Withdraw
 )
@@ -98,6 +99,18 @@ func (v *Withdraw) Create() error {
 	v.InProgressAmount = 0
 	v.Done = false
 	v.InProgress = false
+	_, err := app.MDB.DB.Collection(WDCollectionName).InsertOne(context.Background(), v)
+	return err
+}
+func (v *Withdraw) CreateManual() error {
+	v.CreatedAt = time.Now()
+	v.UpdatedAt = time.Now()
+	v.ID = primitive.NewObjectID()
+	v.Remaining = 0
+	v.InProgressAmount = 0
+	v.Done = true
+	v.InProgress = false
+	v.Manual = true
 	_, err := app.MDB.DB.Collection(WDCollectionName).InsertOne(context.Background(), v)
 	return err
 }

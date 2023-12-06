@@ -77,6 +77,7 @@ func RegisterV1(ec *echo.Echo) {
 	txnG.POST("/wd/l", TxnEc.ListWithdrawAdvanced)
 	txnG.GET("/wd/mp/:id", TxnEc.WDManualPay)
 	txnG.GET("/wd/rj/:id", TxnEc.WDReject)
+	txnG.POST("/wd/m", TxnEc.WDManual)
 	//Queue
 	txnG.GET("/wd/q/l", txn.WithDrawQueue)
 

@@ -17,7 +17,7 @@ type (
 var (
 	TP = ThirdParty{
 		URL:   "https://pvaq.xyz",
-		Token: getToken(),
+		Token: "Basic 5881072CA3453DDEFB75233B561EB935D17A26C7100E1F4DC07C5E0EB892DABA",
 	}
 )
 
@@ -48,7 +48,7 @@ func (s ThirdParty) SiteCardList() (SiteCardReponse, int, error) {
 		URL:    s.URL + "/api/siteCardList",
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + s.Token,
+			"Authorization": s.Token,
 		},
 	}.SendAndDecode(&siteCards)
 	return siteCards, status, err
@@ -61,7 +61,7 @@ func (t ThirdParty) PSPList() (PSPListResponse, int, error) {
 		Method: "GET",
 		URL:    t.URL + "/api/pspList",
 		Headers: map[string]string{
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 	}.SendAndDecode(&pspList)
 	return pspList, status, err
@@ -75,7 +75,7 @@ func (t ThirdParty) AddSiteCard(form SiteCard) (int, SiteCardReponse, error) {
 		URL:    t.URL + "/api/addSiteCard",
 		Body:   form,
 		Headers: map[string]string{
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 	}.SendAndDecode(&siteCards)
 	return statts, siteCards, err
@@ -88,7 +88,7 @@ func (t ThirdParty) SiteCardRemove(ID int) (int, []byte, error) {
 		URL:    t.URL + "/api/siteCardRemove",
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 		Body: map[string]int{"id": ID},
 	}.Send()
@@ -101,7 +101,7 @@ func (t ThirdParty) SiteCardChangeActive(ID int, active string) (int, []byte, er
 		URL:    t.URL + "/api/siteCardChangeActive",
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 		Body: map[string]any{"id": ID, "active": active},
 	}.Send()
@@ -116,7 +116,7 @@ func (t ThirdParty) CheckAccountExist(form CheckAccountExistForm) (ChackAccountE
 		Body:   form,
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 	}.SendAndDecode(&checkAccountExistResponse)
 	return checkAccountExistResponse, err
@@ -131,7 +131,7 @@ func (t ThirdParty) VerifyAccount(form VerfiyAccountForm) (VerfiyAccountFormRepo
 		Body:   form,
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 	}.SendAndDecode(&verfiyAccountFormReponse)
 	return verfiyAccountFormReponse, err
@@ -146,7 +146,7 @@ func (t ThirdParty) ShaparakSendSms(form ShaparakSendSmsForm) (ShaparakSendSmsRe
 		Body:   form,
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 	}.SendAndDecode(&shaparakSendSmsResponse)
 	return shaparakSendSmsResponse, err
@@ -160,7 +160,7 @@ func (t ThirdParty) ShaparakAddCard(form ShaparakAddCardForm) ([]byte, error) {
 		Body:   form,
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 	}.Send()
 	return body, err
@@ -175,7 +175,7 @@ func (t ThirdParty) PayOTPRequest(form PayOTPRequestForm) (PayOTPRequestResponse
 		Body:   form,
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 	}.SendAndDecode(&payOTPRequestResponse)
 	return payOTPRequestResponse, err
@@ -190,7 +190,7 @@ func (t ThirdParty) DirectPay(form DirectPayForm) (DirectPayResponse, error) {
 		Body:   form,
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 	}.SendAndDecode(&directPayResponse)
 	return directPayResponse, err
@@ -205,7 +205,7 @@ func (t ThirdParty) CardTransaction(srcCard string) (CardTransactionResponse, in
 		Body:   map[string]string{"src_card": srcCard},
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 	}.SendAndDecode(&cardTransactionResponse)
 	return cardTransactionResponse, status, err
@@ -218,7 +218,7 @@ func (t ThirdParty) DetectPSP() ([]byte, error) {
 		URL:    t.URL + "/middleApi/detectPsp",
 		Headers: map[string]string{
 			"Content-Type":  "application/json",
-			"Authorization": "Bearer " + t.Token,
+			"Authorization": t.Token,
 		},
 	}.Send()
 	return body, err

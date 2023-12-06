@@ -164,6 +164,13 @@ export class WithdrawComponent implements OnInit {
     this.openConfirm = false
     this.manualPayID = ""
   }
+  manualOpen = false
+  public createManual(flag:boolean): void {
+    if (!flag) {
+      this.getWD(this.form);
+    }
+    this.manualOpen = flag;
+  }
   ngOnInit() { }
 
   ngOnDestroy() {

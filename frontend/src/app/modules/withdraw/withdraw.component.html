@@ -10,6 +10,9 @@
     <div class="col-md-auto">
       <button type="button" class="btn btn-sm" (click)="toggleAdvanceSearch()"><span class="advance-search">
           {{openAdvanceSearch == false ?"+":"-"}}</span> {{ 'advance-search' | translate }} </button>
+      <button type="button" class="btn btn-sm" (click)="createManual(true)"><div class="icon icon-upload"></div><span class="advance-search">
+        
+      </span> {{ 'withdraw.manual' | translate }} </button>
     </div>
   </div>
   <div *ngIf="openAdvanceSearch" class="row wall mb">
@@ -159,3 +162,4 @@
 
 </section>
 <app-confirm [open]="openConfirm" (flag)="confirmResult($event)"></app-confirm>
+<withdraw-manual [open]="manualOpen" (flag)="createManual($event)"></withdraw-manual>
