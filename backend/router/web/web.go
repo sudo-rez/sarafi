@@ -87,6 +87,7 @@ func gatewayWithToken(c echo.Context) error {
 		BrandName:  b.Name,
 		ClientIP:   info.ClientIP,
 		PaymentID:  info.PaymentID,
+		RequestID:  info.RequestID,
 		CancelCode: random.String(6),
 		CallBack: txn.Callback{
 			URL:         info.CallBackUrl,

@@ -37,6 +37,7 @@ type (
 		CallBack      Callback           `bson:"callback"`
 		CancelCode    string             `bson:"cancel_code"`
 		TransactionID string             `bson:"transaction_id"`
+		RequestID     string             `bson:"request_id"`
 	}
 	TxnSlice []Txn
 	Echo     struct {
@@ -71,6 +72,7 @@ func (v Txn) Rest() echo.Map {
 		"client_ip":    v.ClientIP,
 		"brand_name":   v.BrandName,
 		"successful":   v.Successful,
+		"request_id":   v.RequestID,
 	}
 }
 func (v Txn) RestGateWay() echo.Map {

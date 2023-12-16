@@ -30,6 +30,7 @@ type Info struct {
 	ClientIP       string `json:"client_ip"`
 	Pan            string `json:"pan"`
 	ID             string `json:"id"`
+	RequestID      string `json:"request_id"`
 }
 
 func (v Info) Rest() echo.Map {
